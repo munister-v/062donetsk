@@ -2022,6 +2022,20 @@
   transition: color 0.2s, border-color 0.2s;
   white-space: nowrap;
 }
+.wuf-nav-state {
+  min-height: 2rem;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 .7rem;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: .48rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.52);
+  white-space: nowrap;
+}
 
 /* ── Mobile dropdown menu ── */
 .wuf-mobile-menu {
@@ -2127,13 +2141,17 @@
   position: relative;
   z-index: 1;
   width: min(760px, 100%);
+  padding: clamp(1.25rem, 2vw, 2rem);
+  border: 1px solid rgba(255,255,255,.1);
+  background: linear-gradient(180deg, rgba(7,9,12,.62), rgba(7,9,12,.4));
+  backdrop-filter: blur(6px);
 }
 .heritage-soon-index {
-  margin-bottom: clamp(2rem, 7vh, 5rem);
+  margin-bottom: clamp(1.5rem, 5vh, 3rem);
   font-family: var(--mono);
-  font-size: clamp(2.5rem, 7vw, 7rem);
+  font-size: clamp(1.75rem, 5vw, 4rem);
   line-height: 1;
-  color: rgba(255,255,255,.1);
+  color: rgba(255,255,255,.12);
 }
 .heritage-soon-kicker {
   display: block;
@@ -2145,15 +2163,15 @@
 }
 .heritage-soon h1 {
   margin: 0 0 1.25rem;
-  max-width: 11ch;
+  max-width: 12ch;
   font-family: var(--display);
-  font-size: clamp(3rem, 8vw, 7rem);
+  font-size: clamp(2.6rem, 7vw, 5.2rem);
   font-weight: 400;
-  line-height: .92;
+  line-height: .96;
   color: #fff;
 }
 .heritage-soon-lead {
-  max-width: 62ch;
+  max-width: 56ch;
   margin: 0;
   font-size: clamp(1rem, 1.5vw, 1.25rem);
   line-height: 1.65;
@@ -2182,7 +2200,7 @@
 }
 .heritage-soon-actions button {
   min-height: 46px;
-  padding: 0 1.1rem;
+  padding: 0 1.2rem;
   border: 1px solid rgba(255,255,255,.32);
   background: rgba(0,0,0,.18);
   color: #fff;
@@ -2205,6 +2223,10 @@
   display: grid;
   gap: .5rem;
   justify-items: end;
+  padding: 1rem 1.1rem;
+  border: 1px solid rgba(255,255,255,.08);
+  background: rgba(7,9,12,.4);
+  backdrop-filter: blur(6px);
 }
 .heritage-soon-available span,
 .heritage-soon-available button {
@@ -2224,8 +2246,15 @@
 .heritage-soon-available button:hover { color: var(--amber); }
 @media (max-width: 768px) {
   .heritage-parent-link { display: none; }
+  .wuf-nav-state { display: none; }
   .heritage-soon { align-items: center; padding-top: 5rem; padding-bottom: 8rem; }
-  .heritage-soon-available { left: 1.25rem; right: auto; justify-items: start; }
+  .heritage-soon-content { padding: 1.15rem; }
+  .heritage-soon-available {
+    left: 1.25rem;
+    right: 1.25rem;
+    bottom: 1.25rem;
+    justify-items: start;
+  }
 }
 @media (prefers-reduced-motion: reduce) {
   .heritage-soon-bg { transform: none; }

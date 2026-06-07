@@ -22,7 +22,7 @@ const PAGES = [
 ];
 
 /* WUF13-style top navbar — logo · nav links · CTA */
-const TopBar = ({ cur, nav, copyLink, copied }) => {
+const TopBar = ({ cur, nav }) => {
   const NAV_LINKS = [
     { id:'overview',  ua:'Огляд' },
     { id:'panneau',   ua:'Панно' },
@@ -76,18 +76,9 @@ const TopBar = ({ cur, nav, copyLink, copied }) => {
       {/* CTA */}
       <div className="wuf-nav-cta">
         <a className="heritage-parent-link" href="../">062.DN.UA</a>
-        {/* Anchor copy button */}
-        {cur && cur !== 'cert' && copyLink && (
-          <button
-            className="wuf-nav-copy"
-            onClick={() => copyLink(cur)}
-            title={'Скопіювати посилання: #' + cur}
-          >
-            <span>{copied ? '✓' : '⎘'}</span>
-            <span style={{color: copied ? 'var(--sage)' : 'var(--amber)', opacity: copied ? 1 : 0.8}}>#</span>
-            <span>{cur}</span>
-          </button>
-        )}
+        <span className="wuf-nav-state">
+          {cur === 'panneau' ? 'Інтерактивне панно' : 'Огляд проєкту'}
+        </span>
         <button className="btn btn-g wuf-nav-btn" onClick={() => handleNav('panneau')}>
           ВІДКРИТИ ПАННО →
         </button>

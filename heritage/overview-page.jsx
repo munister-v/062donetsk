@@ -206,6 +206,7 @@ const readContent = () => {
 /* ── OverviewPage ─────────────────────────────────────────────── */
 const OverviewPage = ({ onNavigate }) => {
   const [ct, setCt] = React.useState(readContent);
+  const [isCompact, setIsCompact] = React.useState(() => window.innerWidth <= 900);
 
   React.useEffect(() => {
     const h = () => setCt(readContent());
@@ -215,6 +216,12 @@ const OverviewPage = ({ onNavigate }) => {
       window.removeEventListener('donntu-content-updated', h);
       window.removeEventListener('storage', h);
     };
+  }, []);
+
+  React.useEffect(() => {
+    const onResize = () => setIsCompact(window.innerWidth <= 900);
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
   }, []);
 
   /* accessor: content store value with fallback to default */
@@ -317,10 +324,14 @@ const OverviewPage = ({ onNavigate }) => {
       <section style={{background:'#0d0f14'}}>
 
         {/* Row 1: heading + Donetsk photo */}
-        <div style={{display:'grid', gridTemplateColumns:'2fr 1fr', minHeight:440}}>
+        <div style={{
+          display:'grid',
+          gridTemplateColumns:isCompact ? '1fr' : '2fr 1fr',
+          minHeight:isCompact ? 'auto' : 440
+        }}>
 
           {/* Dark title tile */}
-          <div style={{background:'#0d0f14', color:'#f0ede6', padding:'3rem',
+          <div style={{background:'#0d0f14', color:'#f0ede6', padding:isCompact ? '2rem 1.25rem' : '3rem',
             display:'flex', flexDirection:'column', justifyContent:'center', gap:'1.5rem',
             borderRight:'1px solid rgba(255,255,255,0.07)', borderBottom:'1px solid rgba(255,255,255,0.07)'}}>
             <div style={{fontFamily:'var(--mono)', fontSize:'0.6rem', letterSpacing:'0.16em',
@@ -328,12 +339,13 @@ const OverviewPage = ({ onNavigate }) => {
               ЦИФРОВА ПЛАТФОРМА · DONNTU
             </div>
             <h2 style={{fontFamily:'var(--display)', fontWeight:400, margin:0,
-              fontSize:'2rem', lineHeight:'2.5rem', color:'#f0ede6'}}>
+              fontSize:isCompact ? '1.6rem' : '2rem', lineHeight:isCompact ? '2rem' : '2.5rem', color:'#f0ede6'}}>
               DONNTU{' '}
               <em style={{fontStyle:'italic', color:'#f26522'}}>Heritage</em>{' '}OS
             </h2>
             <p style={{fontFamily:'var(--display)', fontSize:'1.5rem', lineHeight:'2rem',
-              fontWeight:400, color:'rgba(240,237,230,0.75)', margin:0}}>
+              fontWeight:400, color:'rgba(240,237,230,0.75)', margin:0,
+              fontSize:isCompact ? '1.15rem' : '1.5rem', lineHeight:isCompact ? '1.6rem' : '2rem'}}>
               Цифровий двійник університету — архів, симуляції, сертифікаційна платформа
               та часова капсула. Університет, що існує незалежно від адреси.
             </p>
@@ -349,7 +361,8 @@ const OverviewPage = ({ onNavigate }) => {
 
           {/* Donetsk city photo from Wikimedia */}
           <div style={{position:'relative', overflow:'hidden',
-            borderBottom:'1px solid rgba(255,255,255,0.07)'}}>
+            borderBottom:'1px solid rgba(255,255,255,0.07)',
+            minHeight:isCompact ? 240 : 'auto'}}>
             <img
               src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Donetsk_city_panorama.jpg/1280px-Donetsk_city_panorama.jpg"
               onError={function(e){ e.target.src='assets/donetsk-main.jpg'; }}
@@ -368,23 +381,28 @@ const OverviewPage = ({ onNavigate }) => {
         </div>
 
         {/* Row 2: three centers */}
-        <div style={{display:'grid', gridTemplateColumns:'1fr 1fr 1fr'}}>
+        <div style={{
+          display:'grid',
+          gridTemplateColumns:isCompact ? '1fr' : '1fr 1fr 1fr'
+        }}>
 
           {/* Центр сертифікації — blue */}
-          <div style={{background:'#005ab8', color:'#fff', padding:'3rem',
+          <div style={{background:'#005ab8', color:'#fff', padding:isCompact ? '2rem 1.25rem' : '3rem',
             borderRight:'1px solid rgba(255,255,255,0.1)',
-            display:'flex', flexDirection:'column', justifyContent:'space-between', minHeight:320}}>
+            display:'flex', flexDirection:'column', justifyContent:'space-between', minHeight:isCompact ? 0 : 320}}>
             <div>
               <div style={{fontFamily:'var(--mono)', fontSize:'0.6rem', letterSpacing:'0.14em',
                 textTransform:'uppercase', color:'rgba(255,255,255,0.5)', marginBottom:'1.25rem'}}>
                 01 · ЦЕНТР СЕРТИФІКАЦІЇ
               </div>
               <h3 style={{fontFamily:'var(--display)', fontWeight:400, fontSize:'2rem',
-                lineHeight:'2.5rem', color:'#fff', margin:'0 0 1rem'}}>
+                lineHeight:isCompact ? '1.9rem' : '2.5rem', color:'#fff', margin:'0 0 1rem',
+                fontSize:isCompact ? '1.55rem' : '2rem'}}>
                 Цифрові сертифікати
               </h3>
               <p style={{fontFamily:'var(--display)', fontSize:'1.5rem', lineHeight:'2rem',
-                fontWeight:400, color:'rgba(255,255,255,0.75)', margin:0}}>
+                fontWeight:400, color:'rgba(255,255,255,0.75)', margin:0,
+                fontSize:isCompact ? '1.05rem' : '1.5rem', lineHeight:isCompact ? '1.55rem' : '2rem'}}>
                 Верифіковані цифрові документи для студентів та випускників ДонНТУ.
                 Підтвердження ідентичності та освіти — незалежно від того, де ви зараз.
               </p>
@@ -397,20 +415,22 @@ const OverviewPage = ({ onNavigate }) => {
           </div>
 
           {/* Центр симуляції — teal/dark */}
-          <div style={{background:'#0d7f72', color:'#fff', padding:'3rem',
+          <div style={{background:'#0d7f72', color:'#fff', padding:isCompact ? '2rem 1.25rem' : '3rem',
             borderRight:'1px solid rgba(255,255,255,0.1)',
-            display:'flex', flexDirection:'column', justifyContent:'space-between', minHeight:320}}>
+            display:'flex', flexDirection:'column', justifyContent:'space-between', minHeight:isCompact ? 0 : 320}}>
             <div>
               <div style={{fontFamily:'var(--mono)', fontSize:'0.6rem', letterSpacing:'0.14em',
                 textTransform:'uppercase', color:'rgba(255,255,255,0.5)', marginBottom:'1.25rem'}}>
                 02 · ЦЕНТР ЕМУЛЯЦІЇ
               </div>
               <h3 style={{fontFamily:'var(--display)', fontWeight:400, fontSize:'2rem',
-                lineHeight:'2.5rem', color:'#fff', margin:'0 0 1rem'}}>
+                lineHeight:isCompact ? '1.9rem' : '2.5rem', color:'#fff', margin:'0 0 1rem',
+                fontSize:isCompact ? '1.55rem' : '2rem'}}>
                 Симуляція кампусу
               </h3>
               <p style={{fontFamily:'var(--display)', fontSize:'1.5rem', lineHeight:'2rem',
-                fontWeight:400, color:'rgba(255,255,255,0.75)', margin:0}}>
+                fontWeight:400, color:'rgba(255,255,255,0.75)', margin:0,
+                fontSize:isCompact ? '1.05rem' : '1.5rem', lineHeight:isCompact ? '1.55rem' : '2rem'}}>
                 Інтерактивні лабораторії, симульований кампус ДонНТУ та навчальні
                 модулі — доступні з будь-якої точки світу.
               </p>
@@ -423,7 +443,7 @@ const OverviewPage = ({ onNavigate }) => {
           </div>
 
           {/* Часова капсула — orange */}
-          <div style={{background:'#f26522', color:'#fff', padding:'3rem',
+          <div style={{background:'#f26522', color:'#fff', padding:isCompact ? '2rem 1.25rem' : '3rem',
             display:'flex', flexDirection:'column', justifyContent:'space-between', minHeight:320}}>
             <div>
               <div style={{fontFamily:'var(--mono)', fontSize:'0.6rem', letterSpacing:'0.14em',
@@ -431,11 +451,13 @@ const OverviewPage = ({ onNavigate }) => {
                 03 · ЧАСОВА КАПСУЛА
               </div>
               <h3 style={{fontFamily:'var(--display)', fontWeight:400, fontSize:'2rem',
-                lineHeight:'2.5rem', color:'#fff', margin:'0 0 1rem'}}>
+                lineHeight:isCompact ? '1.9rem' : '2.5rem', color:'#fff', margin:'0 0 1rem',
+                fontSize:isCompact ? '1.55rem' : '2rem'}}>
                 Послання майбутньому
               </h3>
               <p style={{fontFamily:'var(--display)', fontSize:'1.5rem', lineHeight:'2rem',
-                fontWeight:400, color:'rgba(255,255,255,0.85)', margin:0}}>
+                fontWeight:400, color:'rgba(255,255,255,0.85)', margin:0,
+                fontSize:isCompact ? '1.05rem' : '1.5rem', lineHeight:isCompact ? '1.55rem' : '2rem'}}>
                 Залиште своє послання для майбутніх поколінь ДонНТУ. Відкриється,
                 коли університет повернеться до Донецька.
               </p>
@@ -449,7 +471,7 @@ const OverviewPage = ({ onNavigate }) => {
         </div>
 
         {/* Row 3: additional features strip */}
-        <div style={{display:'grid', gridTemplateColumns:'repeat(3,1fr)',
+        <div style={{display:'grid', gridTemplateColumns:isCompact ? '1fr' : 'repeat(3,1fr)',
           borderTop:'1px solid rgba(255,255,255,0.07)'}}>
           {[
             { n:'01', title:'Цифровий архів', desc:'Документи, фото та відео з понад 100-річної історії.', page:'archive' },
@@ -457,8 +479,9 @@ const OverviewPage = ({ onNavigate }) => {
             { n:'03', title:'Наука та досягнення', desc:'Патенти, наукові школи, лауреати — задокументовано.', page:'achievements' },
           ].map((f, i) => (
             <div key={i} onClick={() => onNavigate(f.page)}
-              style={{padding:'2rem 2.5rem', cursor:'pointer',
+              style={{padding:isCompact ? '1.5rem 1.25rem' : '2rem 2.5rem', cursor:'pointer',
                 borderRight: i < 2 ? '1px solid rgba(255,255,255,0.07)' : 'none',
+                borderBottom: isCompact && i < 2 ? '1px solid rgba(255,255,255,0.07)' : 'none',
                 background:'#111318', transition:'background 0.2s'}}
               onMouseEnter={e => e.currentTarget.style.background='#161b24'}
               onMouseLeave={e => e.currentTarget.style.background='#111318'}>
