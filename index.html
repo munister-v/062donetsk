@@ -2996,6 +2996,26 @@
       font-style: italic; color: rgba(255,255,255,0.82); line-height: 1.65;
     }
     .heroes-note em { color: #f9a440; font-style: normal; }
+    .heroes-order-note {
+      margin-top: 18px;
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 14px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.03);
+      color: rgba(255,255,255,0.68);
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      line-height: 1.6;
+    }
+    .heroes-order-note strong {
+      color: #f9a440;
+      font-weight: 600;
+    }
     .heroes-feature {
       position: relative;
       width: 100%;
@@ -5888,6 +5908,10 @@
             <p class="ua">Повний відеоархів каналу: <em>портрети людей Донбасу</em>, громадянський спротив, документальні фільми та ранні випуски про тих, хто зберіг власний голос.</p>
             <p class="en">The channel's complete video archive: <em>portraits of Donbas people</em>, civic resistance, documentaries, and early episodes about those who kept their own voice.</p>
           </div>
+          <div class="heroes-order-note">
+            <span class="ua"><strong>Порядок:</strong> спершу люди, чия історія прямо пов'язана з Донецьком; далі — ширший контекст Донбасу.</span>
+            <span class="en"><strong>Order:</strong> first come the people whose story is directly tied to Donetsk; then the wider Donbas context.</span>
+          </div>
         </div>
 
         <button type="button" class="heroes-feature" data-yt-id="vcTuMIsXpwo" aria-label="Відкрити відео: Ігор Козловський. Частина 1">
@@ -7750,6 +7774,7 @@
       if (!btn) return;
       const open = cluster.dataset.open === 'true';
       btn.textContent = clusterLabel(config, open);
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
     }
 
     function setClusterState(cluster, config, open) {
@@ -7782,6 +7807,7 @@
       const btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'photo-cluster-btn';
+      btn.setAttribute('aria-controls', config.id + '-viewport');
       btn.addEventListener('click', () => {
         const open = cluster.dataset.open !== 'true';
         setClusterState(cluster, config, open);
@@ -7789,6 +7815,7 @@
       actions.appendChild(btn);
       cluster.appendChild(actions);
 
+      viewport.id = config.id + '-viewport';
       grid.dataset.clusterReady = '1';
       setClusterState(cluster, config, false);
     }
