@@ -5058,6 +5058,166 @@
       .footer-meta { display: none; }
     }
 
+    /* Heritage subproject preview */
+    .heritage-preview {
+      position: relative;
+      overflow: hidden;
+      background: #0b0d10;
+      color: #fff;
+      border-top: 1px solid rgba(255,255,255,.1);
+      border-bottom: 1px solid rgba(255,255,255,.1);
+    }
+    .heritage-preview-grid {
+      min-height: 680px;
+      display: grid;
+      grid-template-columns: minmax(360px, .82fr) minmax(0, 1.18fr);
+    }
+    .heritage-preview-copy {
+      padding: clamp(64px, 8vw, 118px) clamp(28px, 6vw, 92px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-right: 1px solid rgba(255,255,255,.12);
+    }
+    .heritage-preview-kicker,
+    .heritage-preview-status,
+    .heritage-preview-meta {
+      font-family: var(--mono);
+      font-size: .62rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+    .heritage-preview-kicker { color: #f9a440; }
+    .heritage-preview-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 34px;
+      color: rgba(255,255,255,.58);
+    }
+    .heritage-preview-status::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      background: var(--rust);
+      box-shadow: 0 0 0 5px rgba(242,101,34,.13);
+    }
+    .heritage-preview h2 {
+      margin: 14px 0 24px;
+      max-width: 10ch;
+      font-family: var(--sans);
+      font-size: clamp(3rem, 6.6vw, 6.4rem);
+      font-weight: 720;
+      line-height: .92;
+      color: #fff;
+    }
+    .heritage-preview-lead {
+      max-width: 52ch;
+      margin: 0;
+      font-family: var(--serif);
+      font-size: clamp(1.1rem, 1.8vw, 1.48rem);
+      font-style: italic;
+      line-height: 1.6;
+      color: rgba(255,255,255,.72);
+    }
+    .heritage-preview-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 42px;
+    }
+    .heritage-preview-link {
+      min-height: 48px;
+      padding: 0 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(255,255,255,.28);
+      font-family: var(--mono);
+      font-size: .62rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #fff;
+      transition: border-color .2s, background .2s, color .2s;
+    }
+    .heritage-preview-link:hover { border-color: #fff; }
+    .heritage-preview-link.is-primary {
+      border-color: var(--rust);
+      background: var(--rust);
+      color: #fff;
+    }
+    .heritage-preview-link.is-primary:hover {
+      border-color: #f9a440;
+      background: #f9a440;
+      color: #111214;
+    }
+    .heritage-preview-meta {
+      margin-top: 28px;
+      color: rgba(255,255,255,.35);
+    }
+    .heritage-preview-visual {
+      min-width: 0;
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 3px;
+      background: #262a30;
+    }
+    .heritage-preview-photo {
+      position: relative;
+      overflow: hidden;
+      min-height: 0;
+      background: #171a1e;
+    }
+    .heritage-preview-photo:first-child { grid-row: 1 / 3; }
+    .heritage-preview-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(25%) brightness(.75) contrast(1.06);
+      transition: filter .5s var(--ease), transform .7s var(--ease);
+    }
+    .heritage-preview-photo:hover img {
+      filter: grayscale(0%) brightness(.9) contrast(1.03);
+      transform: scale(1.025);
+    }
+    .heritage-preview-photo::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(4,6,8,.78), transparent 56%);
+    }
+    .heritage-preview-caption {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      bottom: 16px;
+      z-index: 1;
+      font-family: var(--mono);
+      font-size: .57rem;
+      letter-spacing: .11em;
+      line-height: 1.5;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.75);
+    }
+    @media (max-width: 960px) {
+      .heritage-preview-grid { min-height: 0; grid-template-columns: 1fr; }
+      .heritage-preview-copy { min-height: 560px; border-right: 0; }
+      .heritage-preview-visual { min-height: 560px; }
+    }
+    @media (max-width: 620px) {
+      .heritage-preview-copy { min-height: 0; padding: 56px 20px; }
+      .heritage-preview h2 { font-size: clamp(2.8rem, 15vw, 4.4rem); }
+      .heritage-preview-actions { flex-direction: column; }
+      .heritage-preview-link { width: 100%; }
+      .heritage-preview-visual {
+        min-height: 760px;
+        grid-template-columns: 1fr;
+        grid-template-rows: 1.3fr 1fr 1fr;
+      }
+      .heritage-preview-photo:first-child { grid-row: auto; }
+    }
+
   </style>
 </head>
 
@@ -5261,6 +5421,60 @@
         <div class="wuf-host-quote-role en">Author of the project · Donetsk</div>
         <blockquote class="wuf-host-quote-text ua">«Я хотів запам'ятати Донецьк на піку — з усім найкращим, що в ньому було. Це не про політику. Це про момент.»</blockquote>
         <blockquote class="wuf-host-quote-text en">"I wanted to remember Donetsk at its peak — with all the best it had. This isn't about politics. It's about the moment."</blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════
+       HERITAGE — DonNTU digital memory subproject
+  ════════════════════════ -->
+  <section id="heritage-project" class="heritage-preview">
+    <div class="heritage-preview-grid">
+      <div class="heritage-preview-copy">
+        <div>
+          <div class="heritage-preview-status">
+            <span class="ua">Субпроєкт у розробці</span>
+            <span class="en">Subproject in development</span>
+          </div>
+          <span class="heritage-preview-kicker">DONNTU · DIGITAL HERITAGE</span>
+          <h2 class="ua">Цифрова<br>спадщина</h2>
+          <h2 class="en">Digital<br>heritage</h2>
+          <p class="heritage-preview-lead ua">Окремий простір про Донецький національний технічний університет: корпуси, люди, наукові школи й пам'ять інституції, яка продовжує жити між Донецьком і Дрогобичем.</p>
+          <p class="heritage-preview-lead en">A dedicated space for Donetsk National Technical University: its buildings, people, schools of thought, and an institution whose memory continues between Donetsk and Drohobych.</p>
+        </div>
+
+        <div>
+          <div class="heritage-preview-actions">
+            <a class="heritage-preview-link is-primary" href="heritage/">
+              <span class="ua">Відкрити огляд</span>
+              <span class="en">Open overview</span>
+            </a>
+            <a class="heritage-preview-link" href="heritage/?p=panneau">
+              <span class="ua">Дослідити панно</span>
+              <span class="en">Explore the tableau</span>
+            </a>
+          </div>
+          <div class="heritage-preview-meta ua">Відкрито зараз: огляд + інтерактивне панно · інші розділи готуються</div>
+          <div class="heritage-preview-meta en">Open now: overview + interactive tableau · other sections are being prepared</div>
+        </div>
+      </div>
+
+      <div class="heritage-preview-visual">
+        <figure class="heritage-preview-photo">
+          <img src="heritage/assets/donetsk-main.jpg" alt="Головний корпус ДонНТУ у Донецьку" loading="lazy">
+          <figcaption class="heritage-preview-caption ua">Донецьк · головний корпус · вул. Артема, 58</figcaption>
+          <figcaption class="heritage-preview-caption en">Donetsk · main building · 58 Artema Street</figcaption>
+        </figure>
+        <figure class="heritage-preview-photo">
+          <img src="heritage/assets/drohobych-campus.jpg" alt="Кампус ДонНТУ у Дрогобичі" loading="lazy">
+          <figcaption class="heritage-preview-caption ua">Дрогобич · університет сьогодні</figcaption>
+          <figcaption class="heritage-preview-caption en">Drohobych · the university today</figcaption>
+        </figure>
+        <figure class="heritage-preview-photo">
+          <img src="heritage/assets/donetsk-library.jpg" alt="Науково-технічна бібліотека ДонНТУ" loading="lazy">
+          <figcaption class="heritage-preview-caption ua">Архів · бібліотека · знання, що не зникає</figcaption>
+          <figcaption class="heritage-preview-caption en">Archive · library · knowledge that endures</figcaption>
+        </figure>
       </div>
     </div>
   </section>
