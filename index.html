@@ -1315,6 +1315,84 @@
       transition: opacity .3s, transform .3s;
     }
     .occ-item:hover .occ-item-cap { opacity: 1; transform: none; }
+    .photo-cluster {
+      position: relative;
+      margin-top: 6px;
+    }
+    .photo-cluster-viewport {
+      position: relative;
+      overflow: hidden;
+      transition: max-height .7s var(--ease);
+    }
+    .photo-cluster[data-open="false"] .photo-cluster-viewport::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 180px;
+      pointer-events: none;
+      background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0.92) 58%, rgba(255,255,255,0.98));
+    }
+    .section-dark .photo-cluster[data-open="false"] .photo-cluster-viewport::after,
+    #atlante-city .photo-cluster[data-open="false"] .photo-cluster-viewport::after,
+    #kolory .photo-cluster[data-open="false"] .photo-cluster-viewport::after {
+      background: linear-gradient(to bottom, rgba(11,12,14,0), rgba(11,12,14,0.9) 58%, rgba(11,12,14,0.98));
+    }
+    .photo-cluster-actions {
+      display: flex;
+      justify-content: center;
+      margin-top: 18px;
+    }
+    .photo-cluster-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 18px;
+      border: 1px solid rgba(17,18,20,0.12);
+      background: rgba(255,255,255,0.86);
+      color: var(--coal);
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      transition: transform .25s var(--ease), border-color .25s var(--ease), background .25s var(--ease), color .25s var(--ease);
+    }
+    .photo-cluster-btn:hover {
+      transform: translateY(-1px);
+      border-color: rgba(242,101,34,0.45);
+      color: var(--rust);
+    }
+    .photo-cluster-btn::after {
+      content: "↓";
+      font-size: 0.86rem;
+      letter-spacing: 0;
+      transition: transform .25s var(--ease);
+    }
+    .photo-cluster[data-open="true"] .photo-cluster-btn::after {
+      transform: rotate(180deg);
+    }
+    #atlante-city .photo-cluster-btn,
+    #kolory .photo-cluster-btn {
+      background: rgba(17,18,20,0.84);
+      border-color: rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.86);
+    }
+    #atlante-city .photo-cluster-btn:hover,
+    #kolory .photo-cluster-btn:hover {
+      border-color: rgba(242,101,34,0.45);
+      color: #f9a440;
+    }
+    @media (max-width: 640px) {
+      .photo-cluster-actions { margin-top: 14px; }
+      .photo-cluster-btn {
+        width: 100%;
+        justify-content: center;
+      }
+      .photo-cluster[data-open="false"] .photo-cluster-viewport::after {
+        height: 128px;
+      }
+    }
     .oi-1  { grid-column: span 2; grid-row: span 2; }
     .oi-2  { grid-column: span 1; }
     .oi-3  { grid-column: span 1; }
@@ -1423,6 +1501,14 @@
       filter: saturate(1.18) contrast(1.05) brightness(1.03);
       transform: scale(1.04);
     }
+    #atlante-city .occ-item:first-child img { object-position: center 42%; }
+    #atlante-city .occ-item:nth-child(12) img { object-position: center 38%; }
+    #atlante-city .occ-item:nth-child(24) img { object-position: center 46%; }
+    #botsad > .occ-grid.oc-vivid .occ-item:nth-child(7) img { object-position: center 44%; }
+    #botsad > .occ-grid.oc-vivid .occ-item:nth-child(21) img { object-position: center 36%; }
+    #kolory > .occ-grid.oc-vivid .occ-item:nth-child(2) img { object-position: center 42%; }
+    #kolory > .occ-grid.oc-vivid .occ-item:nth-child(16) img { object-position: center 56%; }
+    #kolory > .occ-grid.oc-vivid .occ-item:nth-child(25) img { object-position: center 40%; }
     /* span-утиліти для мозаїки */
     .occ-item.g2   { grid-column: span 2; }
     .occ-item.g2x2 { grid-column: span 2; grid-row: span 2; }
@@ -6795,6 +6881,10 @@
       if (cached && Number.isFinite(cached.total) && Number.isFinite(cached.unique)) {
         renderVisitCounter(cached.total, cached.unique);
       }
+      photoClusterConfigs.forEach(config => {
+        const cluster = document.getElementById(config.id);
+        if (cluster) updateClusterButton(cluster, config);
+      });
     }
 
     /* ── Copy bank details ── */
@@ -7560,6 +7650,117 @@
     }
 
     hydrateVisitCounter();
+
+    /* ── Dense photo clusters: reveal only where needed ── */
+    const photoClusterConfigs = [
+      {
+        selector: '#atlante-city > .occ-grid',
+        id: 'cluster-panorama',
+        collapsedHeight: { desktop: 1240, mobile: 760 },
+        labels: {
+          openUa: 'Відкрити весь архів панорам',
+          closeUa: 'Закрити архів панорам',
+          openEn: 'Open full panorama archive',
+          closeEn: 'Close panorama archive'
+        }
+      },
+      {
+        selector: '#botsad > .occ-grid.oc-vivid',
+        id: 'cluster-oasis-more',
+        collapsedHeight: { desktop: 1320, mobile: 820 },
+        labels: {
+          openUa: 'Відкрити галерею міста-саду',
+          closeUa: 'Закрити галерею міста-саду',
+          openEn: 'Open the garden city gallery',
+          closeEn: 'Close the garden city gallery'
+        }
+      },
+      {
+        selector: '#kolory > .occ-grid.oc-vivid',
+        id: 'cluster-kolory',
+        collapsedHeight: { desktop: 1240, mobile: 780 },
+        labels: {
+          openUa: 'Відкрити палітру міста',
+          closeUa: 'Закрити палітру міста',
+          openEn: 'Open the city palette',
+          closeEn: 'Close the city palette'
+        }
+      }
+    ];
+
+    function currentClusterHeight(config) {
+      return window.innerWidth <= 768 ? config.collapsedHeight.mobile : config.collapsedHeight.desktop;
+    }
+
+    function clusterLabel(config, open) {
+      const isEn = document.body.classList.contains('lang-en');
+      if (isEn) return open ? config.labels.closeEn : config.labels.openEn;
+      return open ? config.labels.closeUa : config.labels.openUa;
+    }
+
+    function updateClusterButton(cluster, config) {
+      const btn = cluster.querySelector('.photo-cluster-btn');
+      if (!btn) return;
+      const open = cluster.dataset.open === 'true';
+      btn.textContent = clusterLabel(config, open);
+    }
+
+    function setClusterState(cluster, config, open) {
+      const viewport = cluster.querySelector('.photo-cluster-viewport');
+      if (!viewport) return;
+      cluster.dataset.open = open ? 'true' : 'false';
+      viewport.style.maxHeight = open ? `${viewport.scrollHeight}px` : `${currentClusterHeight(config)}px`;
+      updateClusterButton(cluster, config);
+    }
+
+    function ensurePhotoCluster(config) {
+      const grid = document.querySelector(config.selector);
+      if (!grid || grid.dataset.clusterReady === '1') return;
+      const items = grid.querySelectorAll('.occ-item, .gallery-item, .botsad-item');
+      if (items.length < 14) return;
+
+      const cluster = document.createElement('div');
+      cluster.className = 'photo-cluster';
+      cluster.id = config.id;
+      cluster.dataset.open = 'false';
+
+      const viewport = document.createElement('div');
+      viewport.className = 'photo-cluster-viewport';
+      grid.parentNode.insertBefore(cluster, grid);
+      cluster.appendChild(viewport);
+      viewport.appendChild(grid);
+
+      const actions = document.createElement('div');
+      actions.className = 'photo-cluster-actions';
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'photo-cluster-btn';
+      btn.addEventListener('click', () => {
+        const open = cluster.dataset.open !== 'true';
+        setClusterState(cluster, config, open);
+      });
+      actions.appendChild(btn);
+      cluster.appendChild(actions);
+
+      grid.dataset.clusterReady = '1';
+      setClusterState(cluster, config, false);
+    }
+
+    function setupPhotoClusters() {
+      photoClusterConfigs.forEach(ensurePhotoCluster);
+      photoClusterConfigs.forEach(config => {
+        const cluster = document.getElementById(config.id);
+        if (cluster) setClusterState(cluster, config, cluster.dataset.open === 'true');
+      });
+    }
+
+    setupPhotoClusters();
+    window.addEventListener('resize', () => {
+      photoClusterConfigs.forEach(config => {
+        const cluster = document.getElementById(config.id);
+        if (cluster) setClusterState(cluster, config, cluster.dataset.open === 'true');
+      });
+    }, { passive: true });
 
     /* ── Mobile menu ── */
     function toggleMobileMenu() {
