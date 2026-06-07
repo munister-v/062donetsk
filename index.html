@@ -7722,6 +7722,64 @@
 
     hydrateVisitCounter();
 
+    /* ── Editorial caption tone pass ── */
+    function applyCaptionTonePass() {
+      document.querySelectorAll('#atlante-city .occ-item-cap.ua').forEach(el => {
+        el.textContent = 'Архів міста · z1uk / railalex · 2012–2014';
+      });
+      document.querySelectorAll('#atlante-city .occ-item-cap.en').forEach(el => {
+        el.textContent = 'City archive · z1uk / railalex · 2012–2014';
+      });
+
+      const captionRewrites = [
+        ['#okupatsia .occ-item-cap.ua', {
+          'Вересень 2024': 'Місто в паузі · вересень 2024',
+          'Листопад 2024': 'Пізня осінь окупації · листопад 2024',
+          '2025': 'Обриси порожнечі · 2025',
+          'Жовтень 2023': 'Осінь без голосу · жовтень 2023',
+          'Грудень 2023': 'Зимова порожнеча · грудень 2023',
+          'Нові кадри · 2025': 'Нові кадри тиші · 2025',
+          'Вертикальний кадр · 2025': 'Вертикаль тиші · 2025'
+        }],
+        ['#okupatsia .occ-item-cap.en', {
+          'September 2024': 'A city on pause · September 2024',
+          'November 2024': 'Late autumn under occupation · November 2024',
+          '2025': 'Contours of absence · 2025',
+          'October 2023': 'Autumn without a voice · October 2023',
+          'December 2023': 'Winter emptiness · December 2023',
+          'New frames · 2025': 'New frames of silence · 2025',
+          'Vertical frame · 2025': 'Vertical silence · 2025'
+        }],
+        ['#botsad .botsad-cap.ua', {
+          '8 000 видів': 'Вісім тисяч видів',
+          '52 гектари · НАН України': '52 гектари життя'
+        }],
+        ['#botsad .botsad-cap.en', {
+          '8,000 species': 'Eight thousand species',
+          '52 hectares · NAS of Ukraine': '52 hectares of life'
+        }],
+        ['#botsad .occ-item-cap.ua[hidden]', {
+          '8 000 видів рослин · ботсад': 'Вісім тисяч видів · ботсад',
+          '52 гектари · НАН України': '52 гектари життя · ботсад',
+          'Доказ краси Донецька': 'Доказ краси · ботсад'
+        }],
+        ['#botsad .occ-item-cap.en[hidden]', {
+          '8,000 plant species · botanical garden': 'Eight thousand species · botanical garden',
+          '52 hectares · NAS of Ukraine': '52 hectares of life · botanical garden',
+          'Proof of Donetsk\'s beauty': 'Proof of beauty · botanical garden'
+        }]
+      ];
+
+      captionRewrites.forEach(([selector, mapping]) => {
+        document.querySelectorAll(selector).forEach(el => {
+          const value = (el.textContent || '').trim();
+          if (mapping[value]) el.textContent = mapping[value];
+        });
+      });
+    }
+
+    applyCaptionTonePass();
+
     /* ── Dense photo clusters: reveal only where needed ── */
     const photoClusterConfigs = [
       {
