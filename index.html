@@ -5890,14 +5890,14 @@
           </div>
         </div>
 
-        <button type="button" class="heroes-feature" data-yt-id="kk3cwZ3esMg" aria-label="Відкрити відео: Маріуполь. Український форпост">
-          <img src="video-thumbs/kk3cwZ3esMg.jpg" alt="Маріуполь. Український форпост" loading="lazy" decoding="async" width="1280" height="720">
-          <span class="heroes-feature-duration">54:16</span>
+        <button type="button" class="heroes-feature" data-yt-id="vcTuMIsXpwo" aria-label="Відкрити відео: Ігор Козловський. Частина 1">
+          <img src="video-thumbs/vcTuMIsXpwo.jpg" alt="Ігор Козловський. Частина 1" loading="lazy" decoding="async" width="1280" height="720">
+          <span class="heroes-feature-duration">16:13</span>
           <span class="video-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
           <span class="heroes-feature-copy">
-            <span class="heroes-feature-kicker ua">Головний документальний фільм</span>
-            <span class="heroes-feature-kicker en">Featured documentary</span>
-            <span class="heroes-feature-title">Маріуполь. Український форпост</span>
+            <span class="heroes-feature-kicker ua">Донецький голос</span>
+            <span class="heroes-feature-kicker en">A voice from Donetsk</span>
+            <span class="heroes-feature-title">Ігор Козловський. Частина 1</span>
           </span>
         </button>
       </div>
@@ -6995,6 +6995,34 @@
       const initialLimit = 12;
       let activeFilter = 'all';
       let expanded = false;
+      const DONETSK_PRIORITY = {
+        KOMvYraNzcY: 120,
+        '1m35fFGjk6c': 119,
+        fJW1MXdKFc8: 118,
+        SSCJWS_b720: 117,
+        puGt5IOyGrs: 116,
+        vcTuMIsXpwo: 115,
+        kMZxz6jmXbQ: 114,
+        '6lmOqZBruvc': 113,
+        wNrV4KAmVaY: 112,
+        RaPSk1aGhd0: 111,
+        cMpbOVc0go4: 110,
+        ieeNudBiMBI: 109,
+        'u-guYWXUIz0': 108
+      };
+      const DONETSK_NAMES = [
+        'Ігор Козловський',
+        'Леонид Краснопольский',
+        'Леонід Краснопольський',
+        'Сергей Захаров',
+        'Сергій Захаров',
+        'Мария Варфоломеева',
+        'Марія Варфоломєєва',
+        'Константин Реуцкий',
+        'Костянтин Реуцький',
+        'Дмитро Чернявський'
+      ];
+      const originalOrder = new Map(videos.map((video, index) => [video.id, index]));
 
       function categoryFor(title) {
         if (title.startsWith('ГЕРОЇ УКРАЇНСЬКОГО ДОНБАСУ')) return 'new';
@@ -7014,6 +7042,25 @@
           .replace(/^Новые Герои Донбасса,\s*/i, '')
           .replace(/\.$/, '');
       }
+
+      function donetskRelevance(video) {
+        if (DONETSK_PRIORITY[video.id]) return DONETSK_PRIORITY[video.id];
+        if (/^ДОНЕЦЬК\s*#\d+/i.test(video.title)) return 105;
+        if (DONETSK_NAMES.some(name => video.title.includes(name))) return 95;
+        if (/ДОНЕЦЬК/i.test(video.title)) return 90;
+        if (/Маріуполь|МАРІУПОЛЬ/i.test(video.title)) return 55;
+        if (/Донбас|ДОНБАС/i.test(video.title)) return 40;
+        return 20;
+      }
+
+      const orderedVideos = [...videos].sort((a, b) => {
+        const relevanceDiff = donetskRelevance(b) - donetskRelevance(a);
+        if (relevanceDiff) return relevanceDiff;
+        const categoryRank = { new: 3, archive: 2, docs: 1 };
+        const categoryDiff = categoryRank[categoryFor(b.title)] - categoryRank[categoryFor(a.title)];
+        if (categoryDiff) return categoryDiff;
+        return (originalOrder.get(a.id) || 0) - (originalOrder.get(b.id) || 0);
+      });
 
       function formatDuration(seconds) {
         const minutes = Math.floor(seconds / 60);
@@ -7046,7 +7093,7 @@
       }
 
       function applyFilter() {
-        const matching = videos.filter(video => activeFilter === 'all' || categoryFor(video.title) === activeFilter);
+        const matching = orderedVideos.filter(video => activeFilter === 'all' || categoryFor(video.title) === activeFilter);
         let shown = 0;
         grid.querySelectorAll('.video-card').forEach(card => {
           const matches = activeFilter === 'all' || card.dataset.videoCategory === activeFilter;
@@ -7059,7 +7106,7 @@
       }
 
       if (grid) {
-        grid.innerHTML = videos.map(cardMarkup).join('');
+        grid.innerHTML = orderedVideos.map(cardMarkup).join('');
         grid.addEventListener('click', event => {
           const card = event.target.closest('.video-card[data-yt-id]');
           if (card) openYT(card.dataset.ytId);
