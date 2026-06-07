@@ -1,7 +1,7 @@
 {
   "__meta": {
     "editorVersion": 3,
-    "updatedAt": "2026-06-04T18:48:11.469Z"
+    "updatedAt": "2026-06-07T12:18:00.000Z"
   },
   "section#home>div:nth-of-type(2)>span:nth-of-type(1)": {
     "kind": "text",
@@ -18,7 +18,7 @@
   },
   "section#home>div:nth-of-type(4)>span:nth-of-type(3)": {
     "kind": "text",
-    "html": "моїми (нашими) очима"
+    "html": "місто, яким воно було"
   },
   "section#rytm>div>div:nth-of-type(1)>p:nth-of-type(1)": {
     "kind": "text",

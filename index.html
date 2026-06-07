@@ -4,11 +4,49 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#1E2228">
-  <meta name="description" content="Донецьк нашими очима — наративний атлас міста, 2006–2026. Ми втомилися від війни й хочемо згадати Донецьк таким, яким він був красивим. Понад 360 фотографій, 13 розділів, двомовний архів.">
+  <meta name="description" content="062.dn.ua — наративний атлас Донецька 2006–2026: візуальний архів міста до війни, понад 360 фотографій, 13 розділів, двомовна структура, панорами, Євро-2012, пам'ять і міський ритм.">
+  <meta name="keywords" content="062.dn.ua, Донецьк, Donetsk, фотоархів, візуальний архів, Євро-2012, Донбас, панорами, міська пам'ять">
+  <meta name="author" content="Viacheslav Munister">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Донецьк нашими очима">
-  <title>Донецьк нашими очима · наративний атлас 2006–2026</title>
+  <meta name="apple-mobile-web-app-title" content="062.dn.ua">
+  <title>062.dn.ua · Донецьк — наративний атлас 2006–2026</title>
+  <link rel="canonical" href="https://062.dn.ua/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="062.dn.ua">
+  <meta property="og:locale" content="uk_UA">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:url" content="https://062.dn.ua/">
+  <meta property="og:title" content="062.dn.ua · Донецьк — наративний атлас 2006–2026">
+  <meta property="og:description" content="Візуальний архів Донецька до війни: понад 360 фотографій, 13 розділів, двомовний наративний атлас міста, його ритму, матеріалів, Євро-2012 та пам'яті.">
+  <meta property="og:image" content="https://062.dn.ua/panorama/photo_2026-06-02_20-38-22.jpg">
+  <meta property="og:image:alt" content="Панорама Донецька для проєкту 062.dn.ua">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="062.dn.ua · Донецьк — наративний атлас 2006–2026">
+  <meta name="twitter:description" content="Візуальний архів Донецька до війни: фото, панорами, Євро-2012, матеріали міста, пам'ять та двомовна дослідницька структура.">
+  <meta name="twitter:image" content="https://062.dn.ua/panorama/photo_2026-06-02_20-38-22.jpg">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "062.dn.ua — Донецьк 2006–2026",
+    "headline": "Донецьк — наративний атлас 2006–2026",
+    "description": "Візуальний архів Донецька до війни: понад 360 фотографій, 13 розділів, двомовний наративний атлас міста, його ритму, матеріалів, Євро-2012 та пам'яті.",
+    "url": "https://062.dn.ua/",
+    "inLanguage": ["uk", "en"],
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "062.dn.ua",
+      "url": "https://062.dn.ua/"
+    },
+    "creator": {
+      "@type": "Person",
+      "name": "Viacheslav Munister"
+    },
+    "image": "https://062.dn.ua/panorama/photo_2026-06-02_20-38-22.jpg"
+  }
+  </script>
   <link rel="icon" href="favicon.ico" sizes="32x32">
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
@@ -3350,13 +3388,55 @@
 
     /* Footer: readable sizing + tidy mobile stack */
     .footer-logo { font-size: 18px; letter-spacing: 0.04em; }
-    .footer-meta { font-size: 0.7rem; }
+    .footer-meta, .footer-back { font-size: 0.7rem; }
+    .footer-stats {
+      display: flex;
+      align-items: stretch;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-left: auto;
+    }
+    .footer-stat {
+      min-width: 124px;
+      padding: 10px 12px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.03);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .footer-stat strong {
+      font-family: var(--mono);
+      font-size: 0.94rem;
+      color: rgba(255,255,255,0.94);
+      letter-spacing: 0.04em;
+      font-weight: 600;
+    }
+    .footer-stat span {
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.45;
+    }
+    .footer-counter-note {
+      flex-basis: 100%;
+      font-family: var(--mono);
+      font-size: 0.54rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.38);
+    }
     @media (max-width: 640px) {
       .site-footer { padding: 28px 0; }
       .footer-inner { gap: 10px; }
+      .footer-stats { width: 100%; margin-left: 0; }
+      .footer-stat { flex: 1 1 calc(50% - 6px); min-width: 0; }
     }
     @media (max-width: 440px) {
       .footer-meta { display: none; }
+      .footer-stat { flex-basis: 100%; }
     }
 
     /* Heritage subproject preview */
@@ -3805,8 +3885,8 @@
       <p class="hero-eyebrow en">A Narrative Atlas of Donetsk · 2006–2026</p>
       <h1 class="ht-city">ДОНЕЦЬК</h1>
       <span class="ht-rule"></span>
-      <span class="ht-through ua">нашими очима · місто, яким воно було</span>
-      <span class="ht-through en">through our eyes · the city as it was</span>
+      <span class="ht-through ua">місто, яким воно було</span>
+      <span class="ht-through en">the city as it was</span>
       <span class="ht-author">MUNISTER</span>
       <p class="hero-credo ua">Ми втомилися від війни. Ми хочемо згадати Донецьк таким, яким він був красивим.</p>
       <p class="hero-credo en">We are tired of war. We want to remember Donetsk the way it was — beautiful.</p>
@@ -3822,8 +3902,8 @@
     <div class="wuf-host-grid">
       <!-- ① Dark — welcome text -->
       <div class="wuf-host-blue">
-        <h2 class="wuf-host-blue-h ua">Донецьк<br>нашими очима</h2>
-        <h2 class="wuf-host-blue-h en">Donetsk<br>through my eyes</h2>
+        <h2 class="wuf-host-blue-h ua">Візуальний<br>архів Донецька</h2>
+        <h2 class="wuf-host-blue-h en">A Visual<br>Archive of Donetsk</h2>
         <p class="wuf-host-blue-p ua">Авторський фотопроєкт про Донецьк — спроба запам'ятати місто на піку його розвитку, з усім найкращим, що в ньому було. Без політики й без гасел — лише місто та момент.</p>
         <p class="wuf-host-blue-p en">An author's photo project about Donetsk — an attempt to remember the city at the peak of its development, with all the best it had. No politics, no slogans — just the city and the moment.</p>
         <p class="wuf-host-blue-p ua">Понад 360 фотографій у 13 розділах: панорами, вулиці, парки, ботанічний сад, Євро-2012. Двомовний архів — українською та англійською.</p>
@@ -6647,9 +6727,27 @@
   <footer class="site-footer">
     <div class="wrap">
       <div class="footer-inner">
-        <span class="footer-logo">Донецьк <em>нашими очима</em></span>
+        <span class="footer-logo">062.dn.ua <em>візуальний архів</em></span>
         <span class="footer-meta ua">Авторський портал · 2026</span>
         <span class="footer-meta en">Personal portal · 2026</span>
+        <div class="footer-stats" aria-live="polite">
+          <div class="footer-stat">
+            <strong id="visit-total">...</strong>
+            <span class="ua">відвідувань атласу</span>
+            <span class="en">atlas visits</span>
+          </div>
+          <div class="footer-stat">
+            <strong id="visit-unique">...</strong>
+            <span class="ua">унікальних читачів</span>
+            <span class="en">unique readers</span>
+          </div>
+          <span class="footer-counter-note" id="visit-counter-note">
+            <span class="ua">живий лічильник · кеш на випадок збою мережі</span>
+            <span class="en">live counter · cached if the network fails</span>
+          </span>
+        </div>
+        <a href="/" class="footer-back ua">← Повернутись на munister.com.ua</a>
+        <a href="/" class="footer-back en">← Back to munister.com.ua</a>
       </div>
     </div>
   </footer>
@@ -6693,6 +6791,10 @@
       document.body.classList.toggle('lang-en', lang === 'en');
       document.getElementById('btn-ua').classList.toggle('active', lang === 'ua');
       document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+      const cached = JSON.parse(localStorage.getItem('062-dn-ua-counter-cache-v1') || 'null');
+      if (cached && Number.isFinite(cached.total) && Number.isFinite(cached.unique)) {
+        renderVisitCounter(cached.total, cached.unique);
+      }
     }
 
     /* ── Copy bank details ── */
@@ -7383,6 +7485,81 @@
       document.body.style.overflow = '';
     }
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox({}); });
+
+    /* ── Footer visit counter ── */
+    const visitCounterConfig = {
+      namespace: '062-dn-ua',
+      totalKey: 'homepage-total',
+      uniqueKey: 'homepage-unique',
+      cacheKey: '062-dn-ua-counter-cache-v1',
+      uniqueSentKey: '062-dn-ua-counter-unique-sent-v1',
+      fallbackTotalKey: '062-dn-ua-counter-fallback-total',
+      fallbackUniqueKey: '062-dn-ua-counter-fallback-unique',
+      fallbackUniqueSeenKey: '062-dn-ua-counter-fallback-unique-seen-v1'
+    };
+
+    function counterLang() {
+      return document.body.classList.contains('lang-en') ? 'en-US' : 'uk-UA';
+    }
+
+    function formatCounterValue(value) {
+      const safe = Number.isFinite(Number(value)) ? Number(value) : 0;
+      return new Intl.NumberFormat(counterLang()).format(safe);
+    }
+
+    function renderVisitCounter(total, unique) {
+      const totalEl = document.getElementById('visit-total');
+      const uniqueEl = document.getElementById('visit-unique');
+      if (totalEl) totalEl.textContent = formatCounterValue(total);
+      if (uniqueEl) uniqueEl.textContent = formatCounterValue(unique);
+    }
+
+    async function requestCounter(endpoint) {
+      const response = await fetch(endpoint, { cache: 'no-store' });
+      if (!response.ok) throw new Error(`Counter request failed: ${response.status}`);
+      return response.json();
+    }
+
+    async function hydrateVisitCounter() {
+      const cached = JSON.parse(localStorage.getItem(visitCounterConfig.cacheKey) || 'null');
+      if (cached && Number.isFinite(cached.total) && Number.isFinite(cached.unique)) {
+        renderVisitCounter(cached.total, cached.unique);
+      }
+
+      const totalUrl = `https://api.countapi.xyz/hit/${visitCounterConfig.namespace}/${visitCounterConfig.totalKey}`;
+      const uniqueReadUrl = `https://api.countapi.xyz/get/${visitCounterConfig.namespace}/${visitCounterConfig.uniqueKey}`;
+      const uniqueHitUrl = `https://api.countapi.xyz/hit/${visitCounterConfig.namespace}/${visitCounterConfig.uniqueKey}`;
+      const hasUniqueFlag = localStorage.getItem(visitCounterConfig.uniqueSentKey) === '1';
+
+      try {
+        const totalPromise = requestCounter(totalUrl);
+        const uniquePromise = hasUniqueFlag ? requestCounter(uniqueReadUrl) : requestCounter(uniqueHitUrl);
+        const [totalRes, uniqueRes] = await Promise.all([totalPromise, uniquePromise]);
+        const payload = {
+          total: Number(totalRes.value) || 0,
+          unique: Number(uniqueRes.value) || 0
+        };
+        localStorage.setItem(visitCounterConfig.cacheKey, JSON.stringify(payload));
+        if (!hasUniqueFlag) localStorage.setItem(visitCounterConfig.uniqueSentKey, '1');
+        renderVisitCounter(payload.total, payload.unique);
+      } catch (error) {
+        const fallbackTotal = Number(localStorage.getItem(visitCounterConfig.fallbackTotalKey) || '0') + 1;
+        localStorage.setItem(visitCounterConfig.fallbackTotalKey, String(fallbackTotal));
+        let fallbackUnique = Number(localStorage.getItem(visitCounterConfig.fallbackUniqueKey) || '0');
+        if (!localStorage.getItem(visitCounterConfig.fallbackUniqueSeenKey)) {
+          fallbackUnique += 1;
+          localStorage.setItem(visitCounterConfig.fallbackUniqueKey, String(fallbackUnique));
+          localStorage.setItem(visitCounterConfig.fallbackUniqueSeenKey, '1');
+        }
+        renderVisitCounter(
+          cached && Number.isFinite(cached.total) ? cached.total : fallbackTotal,
+          cached && Number.isFinite(cached.unique) ? cached.unique : fallbackUnique
+        );
+        console.warn('Visit counter fallback mode:', error);
+      }
+    }
+
+    hydrateVisitCounter();
 
     /* ── Mobile menu ── */
     function toggleMobileMenu() {
