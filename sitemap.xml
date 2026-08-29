@@ -5,6 +5,8 @@
   <url><loc>https://062.dn.ua/portal/</loc></url>
   <url><loc>https://062.dn.ua/halls/stare-misto/</loc></url>
   <url><loc>https://062.dn.ua/halls/vulytsi/</loc></url>
+  <url><loc>https://062.dn.ua/halls/vuhillia/</loc></url>
+  <url><loc>https://062.dn.ua/halls/khramy/</loc></url>
   <url><loc>https://062.dn.ua/halls/panoramy/</loc></url>
   <url><loc>https://062.dn.ua/halls/sad-i-voda/</loc></url>
   <url><loc>https://062.dn.ua/halls/arena/</loc></url>
@@ -13,52 +15,38 @@
   <url><loc>https://062.dn.ua/exhibitions/voda-i-sad/</loc></url>
   <url><loc>https://062.dn.ua/exhibitions/doroha/</loc></url>
   <url><loc>https://062.dn.ua/works/commons-12-l-houillere-de-mr-karpof-8ed62e-jpg/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-13-l-hospital-a-l-houillere-de-rykofka-62fb01-jpg/</loc></url>
   <url><loc>https://062.dn.ua/works/commons-14-yousofka-maisons-de-mineurs-a-la-mine-semenofsk-1237b6-jpg/</loc></url>
   <url><loc>https://062.dn.ua/works/commons-17-yousofka-la-salle-pour-deshabiller-au-bain-1170d3-jpg/</loc></url>
   <url><loc>https://062.dn.ua/works/commons-1872-iuzovka-652ac6-jpg/</loc></url>
-  <url><loc>https://062.dn.ua/works/commons-1905-iuzovka-yhra-v-holf-68f818-jpg/</loc></url>
-  <url><loc>https://062.dn.ua/works/commons-1905-panorama-iuzovky-so-storony-bazara-41f6dc-jpg/</loc></url>
-  <url><loc>https://062.dn.ua/works/commons-1906-iuzovka-preobrazhenskyi-sobor-6c2217-jpg/</loc></url>
-  <url><loc>https://062.dn.ua/works/commons-1906-iuzovka-vyd-na-dom-iuzov-sprava-0bcb6a-jpg/</loc></url>
-  <url><loc>https://062.dn.ua/works/commons-1906-na-puty-k-iuzovke-75d241-jpg/</loc></url>
-  <url><loc>https://062.dn.ua/works/commons-1906-razlyv-v-okrestnostiakh-iuzovky-751706-jpg/</loc></url>
-  <url><loc>https://062.dn.ua/works/commons-1909-krechmer-narodnoe-uchylyshche-zavoda-novorossyiskoh-3d319/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-1872-obshchyi-vyd-zavoda-a6a529-jpg/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-1878-stroytelstvo-vtoroi-domennoi-pechy-na-dmz-5560ef-jpg/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-1878-stroytelstvo-vtoroi-domennoi-pechy-na-iuzovskom-met-092e4/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-1886-domennyi-tsekh-398e70-jpg/</loc></url>
   <url><loc>https://062.dn.ua/works/commons-1909-krechmer-narodnoe-uchylyshche-zavoda-novorossyiskoh-ad26d/</loc></url>
   <url><loc>https://062.dn.ua/works/commons-1909-panorama-iuzovky-1-a1064b-jpg/</loc></url>
-  <url><loc>https://062.dn.ua/works/commons-1924-mekhanycheskaia-masterskaia-82d2a8-jpg/</loc></url>
-  <url><loc>https://062.dn.ua/works/commons-1928-vzryv-na-rutchenkovskom-rudnyke-yzvestyia-37-bd5c3b-jpg/</loc></url>
-  <url><loc>https://062.dn.ua/works/commons-1932-iuzovskoe-otdelenye-peterburhskoho-mezhdunarodnoho-38f2ee/</loc></url>
-  <url><loc>https://062.dn.ua/works/commons-1934-stalyno-zavod-ymeny-stalyna-0f41f2-jpg/</loc></url>
-  <url><loc>https://062.dn.ua/works/commons-1934-tsentralnyi-vkhod-v-tspkyo-ym-postysheva-2-148a4f-jpg/</loc></url>
-  <url><loc>https://062.dn.ua/works/commons-1944-novyi-dom-uholshchykov-v-stalyno-70992a-jpg/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-1909-zavodskaia-shakhta-f24517-jpg/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-1910-zaboi-shakhty-8-vetka-975d61-jpg/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-1911-fasonno-lyteinyi-tsekh-ac739f-jpg/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-1912-stroytelstvo-novomartenovskoho-tsekha-e33b73-jpg/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-1914-horn-domennoi-pechy-6-2ede89-jpg/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-1915-hazovshchyk-domennoi-pechy-0345a9-jpg/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-1915-hazovshchyk-domennoi-pechy-1-84c6c2-jpg/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-1915-lystoprokatnyi-stan-lauta-6ff2f6-jpg/</loc></url>
   <url><loc>https://062.dn.ua/works/commons-22-societe-anonyme-des-houilleres-de-prokhorofka-l-ascen-2935f/</loc></url>
   <url><loc>https://062.dn.ua/works/commons-23-societe-anonyme-des-houilleres-de-prokhorofka-l-eglis-83928/</loc></url>
   <url><loc>https://062.dn.ua/works/commons-24-transporteur-aux-chaines-de-la-societe-anonyme-des-ho-fd088/</loc></url>
-  <url><loc>https://062.dn.ua/works/commons-anonymnoe-obshchestvo-prokhorovskykh-kamennouholnykh-kop-815d3/</loc></url>
-  <url><loc>https://062.dn.ua/works/commons-anonymnoe-obshchestvo-prokhorovskykh-kamennouholnykh-kop-97bd0/</loc></url>
   <url><loc>https://062.dn.ua/works/commons-apteka-lache-d5435b-jpg/</loc></url>
-  <url><loc>https://062.dn.ua/works/commons-donetsk-zhd-02-9af74c-jpg/</loc></url>
-  <url><loc>https://062.dn.ua/works/commons-evreiskyi-pohrom-v-iuzovke-5a1d02-jpg/</loc></url>
-  <url><loc>https://062.dn.ua/works/commons-fotostudyia-m-ytskovycha-01-ff7149-jpg/</loc></url>
-  <url><loc>https://062.dn.ua/works/commons-iuzovka-bania-razdevalnaia-491724-jpg/</loc></url>
-  <url><loc>https://062.dn.ua/works/commons-iuzovka-doma-hornorabochykh-na-semenovskom-rudnyke-9ccea6-jpg/</loc></url>
-  <url><loc>https://062.dn.ua/works/commons-kamenno-uholnyi-rudnyk-h-karpova-79bd52-jpg/</loc></url>
-  <url><loc>https://062.dn.ua/works/commons-krechmer-rutchenkovskoe-hornopromyshlennoe-obshchestvo-s-70336/</loc></url>
-  <url><loc>https://062.dn.ua/works/commons-krechmer-tsentralnaia-ulytsa-2-b00f70-jpg/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-dorevoliutsyonnaia-iuzovka-108-f9fd85-jpg/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-iuzovka-rudnyk-vetka-novorossyiskoho-obshchestva-shakhta-b5474/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-obshchyi-vyd-zavoda-novorossyiskoho-obshchestva-28b413-jpg/</loc></url>
   <url><loc>https://062.dn.ua/works/commons-panorama-tsentralnoi-chasty-iuzovky-e4764a-jpg/</loc></url>
   <url><loc>https://062.dn.ua/works/commons-pochtovo-telehrafnaia-kontora-541882-jpg/</loc></url>
   <url><loc>https://062.dn.ua/works/commons-preobrazhenskaia-tserkov-v-iuzovke-yzdanye-ia-z-perekha-86c807/</loc></url>
-  <url><loc>https://062.dn.ua/works/commons-preobrazhenskyi-khram-v-iuzovke-2d3391-jpg/</loc></url>
-  <url><loc>https://062.dn.ua/works/commons-skver-pavshykh-kommunarov-vyd-sverkhu-stalyno-1934-a34ca9-jpg/</loc></url>
-  <url><loc>https://062.dn.ua/works/commons-sobor-v-iuzovke-02-a57ea3-jpg/</loc></url>
-  <url><loc>https://062.dn.ua/works/commons-sviato-preobrazhenskyi-sobor-v-iuzovke-3-2-c56534-jpg/</loc></url>
-  <url><loc>https://062.dn.ua/works/commons-sviato-preobrazhenskyi-sobor-v-iuzovke-3-630bc9-jpg/</loc></url>
-  <url><loc>https://062.dn.ua/works/commons-the-second-synagogue-of-yuzovka-b6ecbc-jpg/</loc></url>
-  <url><loc>https://062.dn.ua/works/commons-tsepnaia-doroha-anonymnoho-obshchestva-prokhorovskykh-ka-a9bbb/</loc></url>
-  <url><loc>https://062.dn.ua/works/commons-work-condition-of-miners-and-workers-in-the-donets-basin-1d04a/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-pryem-sekretariamy-donetskoho-obkoma-kpu-ac6f29-jpg/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-smolianynovskaia-prokhodka-novorossyiskoho-obshchestva-5cb5d4-/</loc></url>
   <url><loc>https://062.dn.ua/works/commons-yuzovka-4-58acd8-jpg/</loc></url>
-  <url><loc>https://062.dn.ua/works/commons-zhenskaia-hymnazyia-levytskoi-y-horodskoe-uchylyshche-5075e7-j/</loc></url>
-  <url><loc>https://062.dn.ua/works/commons-zhytely-horoda-stalyno-donetska-chytaiut-okna-tass-62964c-jpg/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-zavod-novorossyiskoho-obshchestva-tsentralnaia-shakhta-y-9f79b/</loc></url>
   <url><loc>https://062.dn.ua/works/before2014-photo-2026-02-09-14-52-34-jpg/</loc></url>
   <url><loc>https://062.dn.ua/works/before2014-photo-2026-02-09-15-40-03-jpg/</loc></url>
   <url><loc>https://062.dn.ua/works/before2014-photo-2026-02-09-15-51-01-jpg/</loc></url>
@@ -90,16 +78,13 @@
   <url><loc>https://062.dn.ua/works/commons-2012-0612-09-donetsk-7980418479-2c9ab4-jpg/</loc></url>
   <url><loc>https://062.dn.ua/works/commons-2012-0612-10-donetsk-7980416284-5cbb8a-jpg/</loc></url>
   <url><loc>https://062.dn.ua/works/commons-2012-0612-11-donetsk-7980414513-4bb91e-jpg/</loc></url>
-  <url><loc>https://062.dn.ua/works/commons-2014-donetsk-13983340816-ff087f-jpg/</loc></url>
   <url><loc>https://062.dn.ua/works/commons-2014-donetsk-14001038112-0a4440-jpg/</loc></url>
-  <url><loc>https://062.dn.ua/works/commons-2014-donetsk-14003245362-055a74-jpg/</loc></url>
   <url><loc>https://062.dn.ua/works/commons-2014-donetsk-14004675414-fd0beb-jpg/</loc></url>
-  <url><loc>https://062.dn.ua/works/commons-2014-donetsk-14006898404-a51f70-jpg/</loc></url>
   <url><loc>https://062.dn.ua/works/commons-2014-donetsk-14027668032-483837-jpg/</loc></url>
   <url><loc>https://062.dn.ua/works/commons-2014-donetsk-14027699011-0842e9-jpg/</loc></url>
   <url><loc>https://062.dn.ua/works/commons-2014-donetsk-14029192716-e38146-jpg/</loc></url>
-  <url><loc>https://062.dn.ua/works/commons-339-348-e-6eca34-jpg/</loc></url>
-  <url><loc>https://062.dn.ua/works/commons-360-panoramio-1-bd6602-jpg/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-2014-donetsk-14040958116-8eaaac-jpg/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-2014-donetsk-14041014046-b29e66-jpg/</loc></url>
   <url><loc>https://062.dn.ua/works/commons-ab-trolleybus-01-ba1c62-jpg/</loc></url>
   <url><loc>https://062.dn.ua/works/commons-abrykosy-tsvetut-panoramio-993b8c-jpg/</loc></url>
   <url><loc>https://062.dn.ua/works/commons-apteka-panoramio-1-cd5525-jpg/</loc></url>
@@ -124,7 +109,6 @@
   <url><loc>https://062.dn.ua/works/commons-donetsk-metro-001-a08c70-jpg/</loc></url>
   <url><loc>https://062.dn.ua/works/commons-donetsk-ulytsa-artema-2025-8ad074-jpg/</loc></url>
   <url><loc>https://062.dn.ua/works/commons-donetsk8-025733-jpg/</loc></url>
-  <url><loc>https://062.dn.ua/works/commons-donetskyi-peizazh-panoramio-9d5861-jpg/</loc></url>
   <url><loc>https://062.dn.ua/works/commons-donezk-ffentliche-verkehrsmittel-afe1d7-jpg/</loc></url>
   <url><loc>https://062.dn.ua/works/commons-doroha-panoramio-20-c5d317-jpg/</loc></url>
   <url><loc>https://062.dn.ua/works/commons-ekonomfak-donnu-55b146-jpg/</loc></url>
@@ -144,20 +128,15 @@
   <url><loc>https://062.dn.ua/works/commons-kartodrom-donbass-kart-643c4d-jpg/</loc></url>
   <url><loc>https://062.dn.ua/works/commons-keep-on-mooving-fbdd78-jpg/</loc></url>
   <url><loc>https://062.dn.ua/works/commons-kges-panoramio-367ac3-jpg/</loc></url>
-  <url><loc>https://062.dn.ua/works/commons-krechmer-sobor-c804b7-jpg/</loc></url>
   <url><loc>https://062.dn.ua/works/commons-maloi-624649234-69c18a-jpg/</loc></url>
   <url><loc>https://062.dn.ua/works/commons-moi-podezd-502443808-a863b2-jpg/</loc></url>
-  <url><loc>https://062.dn.ua/works/commons-ohny-donetska-36ed15-jpg/</loc></url>
   <url><loc>https://062.dn.ua/works/commons-otkrytye-donetskoi-detskoi-zheleznoi-dorohy-9d3864-jpg/</loc></url>
   <url><loc>https://062.dn.ua/works/commons-panorama-2011-05-18-panoramio-6695ca-jpg/</loc></url>
   <url><loc>https://062.dn.ua/works/commons-panorama-360-panoramio-1-e7c106-jpg/</loc></url>
   <url><loc>https://062.dn.ua/works/commons-panorama-360-panoramio-ec6258-jpg/</loc></url>
-  <url><loc>https://062.dn.ua/works/commons-panorama-donetska-panoramio-949e1b-jpg/</loc></url>
-  <url><loc>https://062.dn.ua/works/commons-panorama-donetska-y-makeevky-vyd-s-vyktoryy-panoramio-3ab9df-j/</loc></url>
   <url><loc>https://062.dn.ua/works/commons-panorama-panoramio-103-081b59-jpg/</loc></url>
   <url><loc>https://062.dn.ua/works/commons-panorama-s-terrykona-na-severo-zapad-panoramio-5b6d2c-jpg/</loc></url>
   <url><loc>https://062.dn.ua/works/commons-pozytsyia-sputnyka-panoramio-99ce73-jpg/</loc></url>
-  <url><loc>https://062.dn.ua/works/commons-prohulky-u-terrykonov-panoramio-1-34a3c0-jpg/</loc></url>
   <url><loc>https://062.dn.ua/works/commons-pushkin-boulevard-at-night-donetsk-b19d56-jpg/</loc></url>
   <url><loc>https://062.dn.ua/works/commons-pushkin-boulevard-donetsk-a9e082-jpg/</loc></url>
   <url><loc>https://062.dn.ua/works/commons-shevbul1-f9dd86-jpg/</loc></url>
@@ -225,6 +204,59 @@
   <url><loc>https://062.dn.ua/works/panfilova-and-others-dom-s-balkonom-y-zhenskoe-uchylyshche4-jpg/</loc></url>
   <url><loc>https://062.dn.ua/works/panfilova-and-others-zhenskoe-uchylyshche1-jpg/</loc></url>
   <url><loc>https://062.dn.ua/works/transport-786502-jpg/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-1896-domennyi-tsekh-e77ba5-jpg/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-1900-koksovye-pechy-4bc693-jpg/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-1906-domennye-pechy-997ad6-jpg/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-1910-stvol-shakhty-tsentralnaia-7174b2-jpg/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-1911-domennaia-pech-4-0f56be-jpg/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-1911-domennyi-tsekh-2-cb825d-jpg/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-1911-domennyi-tsekh-c7f3ec-jpg/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-1911-horn-domennoi-pechy-4-3bfdd3-jpg/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-1911-koloshnyk-y-zahruzochnaia-ploshchadka-dp-4-b33084-jpg/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-1911-kotelno-mostovoi-tsekh-2-db62d2-jpg/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-1911-kotelno-mostovoi-tsekh-eb8445-jpg/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-1911-zahruzochnaia-ploshchadka-dp-4-2d80a5-jpg/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-62nro-3-785e79-jpg/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-den-shakhteraspetshashdonetskpochtamt29-07-2003-483ea9-jpg/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-den-shakhteraspetshashdonetskpochtamt31-08-2003-71baf6-jpg/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-donetsk-trudovska-mine-stadium-1eaba7-jpg/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-donezk-schwerindustrie-rauchender-schornstein-9899f7-jpg/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-donezkstal-5f5a8f-jpg/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-memorialna-doshka-bilia-mistsia-provedennia-mitynhu-shak-94c10/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-otstoinyk-riadom-s-shakhtoi-17-panoramio-9768e2-jpg/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-plaque-by-the-place-there-was-a-may-day-demonstration-in-39f1b/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-riadom-s-shakhtoi-17-panoramio-b5fb6b-jpg/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-shakhta-17-panoramio-ba7d97-jpg/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-shakhta-17-s-vysoty-terrykona-panoramio-770dd6-jpg/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-terrykony-petrovky-panoramio-8d77ec-jpg/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-yakovlivka-shaft-of-the-zasyadko-coal-mine-1-e08f1f-jpg/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-yakovlivka-shaft-of-the-zasyadko-coal-mine-2-6e013a-jpg/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-zasyadko-055795-jpg/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-zasyadko-coal-mine1-4f2f0a-jpg/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-zasyadko-coal-mine2-ad5b45-jpg/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-2014-sviato-preobrazhenskyi-sobor-v-donetske-14052791074-8471b/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-2016-04-24-otkrytye-khachkara-v-donetske-001-26610437960-59c49/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-donetsk-piously-preobrazhenskiy-cathedral-7ebca6-jpg/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-entrance-to-an-orthodox-church-after-shelling-near-donet-29bf4/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-jesus-christ-sculpture-of-al-porozhnuk-9027ea-jpg/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-kazanskaia-chtymaia-ykona-nykolaevskyi-sobor-donetsk-18a209-jp/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-kyivs-kyi-district-donetsk-donetsk-oblast-ukraine-panora-de8a0/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-lamp-stand-in-the-orthodox-church-26b07f-jpg/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-mozaiky-sobora-lev-iuzh-fasad-7a6035-jpg/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-mozaiky-sobora-lev-vost-fasad-29e80a-jpg/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-mozaiky-sobora-prav-iuzh-fasad-9b0b4f-jpg/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-mozaiky-sobora-prav-vost-fasad-5c7d8c-jpg/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-mytropolyt-yllaryon-f9a464-jpg/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-remains-of-an-eastern-orthodox-church-after-shelling-nea-b99a0/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-rusmarka-3075list-36834f-jpg/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-sobor-panoramio-5-d9c806-jpg/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-spaso-preobrazhenskyi-kafedralnyi-sobor-donetsk-arkhytek-3e9d2/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-spaso-preobrazhenskyi-kafedralnyi-sobor-v-donetske-12-06-92df5/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-sviato-preobrazhenskyi-sobor-panoramio-1-0fe0b2-jpg/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-sviato-preobrazhenskyi-sobor-panoramio-2-54b8c3-jpg/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-sviato-preobrazhenskyi-sobor-panoramio-f7b7f3-jpg/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-tserkov-panoramio-8-c817be-jpg/</loc></url>
+  <url><loc>https://062.dn.ua/works/commons-vyd-na-sobor-so-storony-lyverpulia-panoramio-4b3572-jpg/</loc></url>
   <url><loc>https://062.dn.ua/works/commons-kalmius-donets-k-ukraine-40899c-jpg/</loc></url>
   <url><loc>https://062.dn.ua/works/commons-most-prospekta-ylycha-cherez-kalmyus-fa0304-jpg/</loc></url>
   <url><loc>https://062.dn.ua/works/panorama-img-0628-as-smart-object-1-jpg/</loc></url>
@@ -371,8 +403,6 @@
   <url><loc>https://062.dn.ua/works/commons-donbass-arena-panoramio-9-cea0af-jpg/</loc></url>
   <url><loc>https://062.dn.ua/works/commons-donbass-arena-panoramio-e1aa82-jpg/</loc></url>
   <url><loc>https://062.dn.ua/works/commons-donbass-arena-y-vyktoryia-panoramio-afc862-jpg/</loc></url>
-  <url><loc>https://062.dn.ua/works/commons-donetsk-donbass-arena-16-17676f-jpg/</loc></url>
-  <url><loc>https://062.dn.ua/works/commons-donetsk-donbass-arena-17-51e416-jpg/</loc></url>
   <url><loc>https://062.dn.ua/works/commons-donetsk-donbass-arena-42-71dff4-jpg/</loc></url>
   <url><loc>https://062.dn.ua/works/commons-donetsk-donbass-arena-45-7dcba9-jpg/</loc></url>
   <url><loc>https://062.dn.ua/works/commons-donezk-donbass-arena-12-a4f96f-jpg/</loc></url>

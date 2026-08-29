@@ -27,6 +27,14 @@ HALL_TEXT = {
  "vulytsi": ("Місто щодня: проспекти й площі, бульвар Пушкіна і вулиця Артема, "
              "трамваї й тролейбуси, вечірні вогні. Найбільший зал музею, бо саме "
              "таким місто бачили ті, хто в ньому жив."),
+ "vuhillia": ("Місто виросло навколо вугілля: копальні Юза й Рутченка, шахтні копри, "
+              "терикони посеред кварталів, домни металургійного заводу. Найстаріші "
+              "кадри тут ровесники самої Юзівки, найновіші зняті вже поруч із "
+              "житловими будинками, бо шахта в Донецьку завжди стояла в місті, "
+              "а не за ним."),
+ "khramy": ("Собори, церкви, костел, вірменська церква й Іверський монастир. "
+            "Найстаріші знімки показують Преображенський собор Юзівки, зруйнований "
+            "у 1930-ті; решта зняті між 2006 і 2023 роками."),
  "panoramy": ("Донецьк з висоти, здебільшого 2012–2014 років: забудова, зелень, "
               "стадіон і терикони на горизонті. Місто на піку."),
  "sad-i-voda": ("Ботанічний сад, ставки, фонтани, зелень: оаза посеред вугільного "
@@ -90,9 +98,15 @@ def esc(s):
     return H.escape(s or "", quote=True)
 
 
-def head(title, desc, path, og_id=None, extra_ld=""):
+def head(title, desc, path, og_id=None, extra_ld="", og_card=None):
     url = SITE + path
-    og = f"{SITE}/media/{og_id}-m.webp" if og_id else f"{SITE}/media/og-default.webp"
+    # Готова картка 1200×630 у JPEG (scripts/make_og.py) там, де вона є:
+    # месенджер малює її як прев'ю з назвою, а не голий кадр у webp.
+    og = (f"{SITE}{og_card}" if og_card
+          else (f"{SITE}/media/{og_id}-m.webp" if og_id
+                else f"{SITE}/media/og-default.webp"))
+    og_size = ('\n<meta property="og:image:width" content="1200">'
+               '\n<meta property="og:image:height" content="630">') if og_card else ""
     return f"""<!doctype html>
 <html lang="uk">
 <head>
@@ -109,7 +123,8 @@ def head(title, desc, path, og_id=None, extra_ld=""):
 <meta property="og:description" content="{esc(desc)}">
 <meta property="og:url" content="{url}">
 <meta property="og:type" content="website">
-<meta property="og:image" content="{og}">
+<meta property="og:image" content="{og}">{og_size}
+<meta property="og:image:alt" content="{esc(title)}">
 <meta property="og:site_name" content="062.dn.ua">
 <meta property="og:locale" content="uk_UA">
 <meta name="twitter:card" content="summary_large_image">
@@ -260,6 +275,7 @@ def build_home():
         "isAccessibleForFree": True, "inLanguage": "uk",
     }, ensure_ascii=False) + "</script>\n")
     key = works_by_hall("panoramy")[0]   # обкладинка музею: місто з висоти
+    cover = key
 
     rows = []
     for i, h in enumerate(halls, 1):
@@ -302,20 +318,26 @@ def build_home():
     named = sum(1 for w in CAT["works"] if w["titled_by_author"])
     body = f"""{head("062.dn.ua",
         f"Віртуальний музей: {total} фотографій Донецька у {len(halls)} залах, від міста до 2014 року до окупації.",
-        "/", key["id"], ld)}
+        "/", cover["id"], ld, og_card="/og/home.jpg")}
 <div class="stage">
   <div class="lines" aria-hidden="true"><i></i><i></i><i></i><i></i></div>{header(home=True)}
   <section class="row fold">
     <div class="inA label">2026</div>
     <div class="inB"></div>
     <div class="inC">
-      <h1 class="hero-title">Місто, яке<br>можна обійти<br>лише так</h1>
-      <p class="blurb">{total} фотографій Донецька у {len(halls)} залах: від Юзівки на знімках
+      <h1 class="hero-title">Музей<br>фотографії<br>Донецька</h1>
+      <p class="hero-kicker">Місто, яке можна обійти лише так</p>
+      <p class="blurb">{total} фотографій у {len(halls)} залах: від Юзівки на знімках
       1900 року до кадрів з окупації. Більшість це авторський архів; там, де кадр узятий
       із вільних джерел, під ним стоїть ім'я автора й ліцензія.</p>
       <a class="backlink" href="#halls">увійти до залів ↓</a>
     </div>
   </section>
+  <figure class="fold-shot">
+    <img src="/media/{cover['id']}-m.webp" alt="{esc(cover['title'])}"
+      width="1200" height="{round(cover['h'] * 1200 / cover['w'])}" decoding="async">
+    <figcaption>{esc(cover['title'])}</figcaption>
+  </figure>
   <section class="row sec" id="halls">
     <div class="inA"><h2 class="sec-title">Зали</h2></div>
     <div class="inB sec-note">Кожен зал це окрема розвіска. Оберіть назву, щоб увійти.</div>
@@ -371,7 +393,7 @@ def build_hall(i, h, halls):
     data = json.dumps([{"id": w["id"], "title": w["title"], "year": w["year"]} for w in ws],
                       ensure_ascii=False)
     body = f"""{head(f"{h['title']} · 062.dn.ua", hall_text(h)[:150],
-        f"/halls/{h['slug']}/", key["id"])}
+        f"/halls/{h['slug']}/", key["id"], og_card=f"/og/hall-{h['slug']}.jpg")}
 <div class="stage">
   <div class="lines" aria-hidden="true"><i></i><i></i><i></i><i></i></div>{header()}
   <section class="row hall-hero">

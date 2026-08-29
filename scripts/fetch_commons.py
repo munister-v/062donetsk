@@ -59,9 +59,24 @@ def main():
     hist_quota = int(os.environ.get("HIST_QUOTA", "70"))
     historic = [f for f in items
                 if f.get("year", "").isdigit() and int(f["year"]) < 1961]
-    picked_ids = {id(f) for f in transport[:quota]} | {id(f) for f in historic[:hist_quota]}
+    # Вугілля і храми: те саме, що з транспортом. Шахта й церква програють
+    # за розміром аерознімку, і без квоти нових залів просто не було б.
+    MINE = re.compile(r"(шахт|копальн|терикон|slag heap|coal|mine\b|mines\b|"
+                      r"metallurg|металург|blast furnace|домен|рудник|"
+                      r"копер|winding tower|завод|steel works|hughes|юз[іо]вк)", re.I)
+    CHURCH = re.compile(r"(church|cathedral|собор|церкв|храм|монастир|monaster|"
+                        r"chapel|каплиц|дзвіниц|bell tower|synagogue|синагог|mosque)", re.I)
+    mine_quota = int(os.environ.get("MINE_QUOTA", "48"))
+    church_quota = int(os.environ.get("CHURCH_QUOTA", "44"))
+    mines = [f for f in items if MINE.search(f["title"] + " " + (f.get("desc") or ""))]
+    churches = [f for f in items if CHURCH.search(f["title"] + " " + (f.get("desc") or ""))]
+    head = (historic[:hist_quota] + transport[:quota]
+            + mines[:mine_quota] + churches[:church_quota])
+    picked_ids = {id(f) for f in head}
     rest = [f for f in items if id(f) not in picked_ids]
-    items = historic[:hist_quota] + transport[:quota] + rest
+    items = head + rest
+    print(f"  шахт і заводу {len(mines)} (беремо {min(len(mines), mine_quota)}), "
+          f"храмів {len(churches)} (беремо {min(len(churches), church_quota)})")
     print(f"у пулі: історичних {len(historic)} (беремо {min(len(historic), hist_quota)}), "
           f"транспортних {len(transport)} (беремо {min(len(transport), quota)})")
 
