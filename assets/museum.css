@@ -42,6 +42,14 @@ body{
 a{color:inherit;text-decoration:none}
 button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
 :focus-visible{outline:1px solid var(--ink);outline-offset:4px}
+/* Мобільний браузер малює своє тло під час натискання посилань і кнопок:
+   на заокруглених .pill/.dose/.lock той прямокутник виступає за межі
+   форми і виглядає обрізаним. Прибираємо системний хайлайт всюди й даємо
+   свій — легке затемнення, що поважає border-radius елемента. */
+a,button,.hall-row,.plate,.wk{-webkit-tap-highlight-color:transparent}
+@media (hover:none){
+  a:active,button:active,.hall-row:active,.plate:active{opacity:.7}
+}
 
 /* ── сцена A2 ─────────────────────────────────────────── */
 .stage{position:relative;max-width:1440px;margin:0 auto}
