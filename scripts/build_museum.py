@@ -182,6 +182,7 @@ def header(home=False):
       <a href="/search/">пошук</a>
       <a href="/#exhibitions">виставки</a>
       <a href="{halls}">зали</a>
+      <a href="/submit/">надіслати фото</a>
     </div>
   </header>"""
 
@@ -219,128 +220,23 @@ SUPPORT = """<section class="support" id="support">
 })();
 </script>"""
 
-# ── Приймальня знімків ───────────────────────────────────────────────
-# Музей зібраний з чужих архівів, тож логічно приймати їх далі. Сайт
-# статичний (GitHub Pages), приймати файли нема кому — форма б'є в службу
-# photoform на VPS (api.eprisjournal.com/museum-upload/), яка перезбирає
-# кожен кадр у чистий JPEG і складає заявки в /opt/photoform/incoming.
-SUBMIT = """<section class="support submit" id="submit">
+# ── Запрошення поповнити архів ───────────────────────────────────────
+# Сама форма живе окремою сторінкою /submit/: на головній вона забирала
+# екран і змагалася увагою із залами, заради яких сюди й приходять.
+SUBMIT_CTA = """<section class="support" id="submit">
   <div class="in">
     <div class="sup-left">
       <span class="sup-eyebrow">Поповнити архів</span>
-      <h2 class="sec-title">Надіслати свої знімки</h2>
-      <p>Якщо у вас лежать фотографії Донецька — свої, батьківські, скановані
-      з альбому — надішліть їх сюди. Кожен кадр переглядається руками; те, що
-      підійде музею, стане на стіну з вашим ім'ям у підписі.</p>
-      <p class="submit-rules">До 10 знімків за раз, кожен до 12 МБ.
-      JPEG, PNG, HEIC або TIFF. Підписуйте, що на кадрі й коли знято —
-      без дати знімок важче поставити в потрібний зал.</p>
+      <h2 class="sec-title">У вас є фотографії Донецька?</h2>
+      <p>Свої, батьківські, скановані з альбому — надішліть їх музею.
+      Кожен кадр переглядається руками; те, що підійде, стане на стіну
+      з вашим ім'ям у підписі.</p>
     </div>
     <div class="sup-right">
-      <form class="submit-form" id="submit-form" novalidate>
-        <label class="sf-field">
-          <span>Ваше ім'я</span>
-          <input type="text" name="name" maxlength="120" autocomplete="name">
-        </label>
-        <label class="sf-field">
-          <span>Пошта або телефон <b>*</b></span>
-          <input type="text" name="contact" maxlength="200" required
-                 autocomplete="email" placeholder="щоб було як відповісти">
-        </label>
-        <label class="sf-field">
-          <span>Що на знімках і коли знято</span>
-          <textarea name="note" rows="3" maxlength="2000"
-                    placeholder="напр.: бульвар Пушкіна, літо 2011, знімав батько"></textarea>
-        </label>
-        <label class="sf-field sf-files">
-          <span>Знімки <b>*</b></span>
-          <input type="file" name="photos" id="sf-photos" multiple
-                 accept="image/jpeg,image/png,image/heic,image/heif,image/tiff,image/webp">
-        </label>
-        <p class="sf-picked" id="sf-picked" hidden></p>
-        <!-- Пастка для ботів: людина цього поля не бачить і не заповнює. -->
-        <div class="sf-trap" aria-hidden="true">
-          <label>Website<input type="text" name="website" tabindex="-1" autocomplete="off"></label>
-        </div>
-        <button type="submit" class="pill" id="sf-send">Надіслати знімки</button>
-        <p class="sf-status" id="sf-status" role="status" aria-live="polite"></p>
-      </form>
+      <a class="pill" href="/submit/">Надіслати знімки →</a>
     </div>
   </div>
-</section>
-<script>
-(function(){
-  var form = document.getElementById('submit-form');
-  if (!form) return;
-  var API = 'https://api.eprisjournal.com/museum-upload/submit';
-  var MAX_FILES = 10, MAX_BYTES = 12 * 1024 * 1024;
-  var input = document.getElementById('sf-photos');
-  var picked = document.getElementById('sf-picked');
-  var status = document.getElementById('sf-status');
-  var button = document.getElementById('sf-send');
-
-  function say(text, kind){
-    status.textContent = text;
-    status.className = 'sf-status' + (kind ? ' is-' + kind : '');
-  }
-  function mb(n){ return (n / 1048576).toFixed(1) + ' МБ'; }
-
-  /* Перевіряємо межі одразу при виборі, а не після довгого вивантаження:
-     дізнатися про «завеликий файл» після п'яти хвилин мобільного інтернету
-     це найгірший спосіб дізнатися. */
-  input.addEventListener('change', function(){
-    var files = Array.prototype.slice.call(input.files || []);
-    if (!files.length){ picked.hidden = true; say(''); return; }
-    var tooBig = files.filter(function(f){ return f.size > MAX_BYTES; });
-    var total = files.reduce(function(a, f){ return a + f.size; }, 0);
-    picked.hidden = false;
-    picked.textContent = files.length + ' файл(ів), разом ' + mb(total);
-    if (files.length > MAX_FILES){
-      say('Обрано ' + files.length + ' знімків, а за раз можна до ' + MAX_FILES + '.', 'bad');
-    } else if (tooBig.length){
-      say('Завеликі: ' + tooBig.map(function(f){ return f.name; }).join(', ') + ' (межа 12 МБ).', 'bad');
-    } else {
-      say('');
-    }
-  });
-
-  form.addEventListener('submit', function(e){
-    e.preventDefault();
-    var files = Array.prototype.slice.call(input.files || []);
-    if (!files.length) return say('Додайте хоча б один знімок.', 'bad');
-    if (files.length > MAX_FILES) return say('Не більше ' + MAX_FILES + ' знімків за раз.', 'bad');
-    if (files.some(function(f){ return f.size > MAX_BYTES; }))
-      return say('Один із файлів більший за 12 МБ.', 'bad');
-    if (!form.contact.value.trim()) return say('Лишіть пошту або телефон.', 'bad');
-
-    var data = new FormData();
-    data.append('name', form.name.value);
-    data.append('contact', form.contact.value);
-    data.append('note', form.note.value);
-    data.append('website', form.website.value);
-    files.forEach(function(f){ data.append('photos', f, f.name); });
-
-    button.disabled = true;
-    say('Надсилаємо… великі файли можуть іти кілька хвилин.');
-    fetch(API, { method: 'POST', body: data })
-      .then(function(r){ return r.json().then(function(j){ return { ok: r.ok, body: j }; }); })
-      .then(function(res){
-        button.disabled = false;
-        if (!res.ok) return say(res.body.error || 'Не вдалося надіслати.', 'bad');
-        var extra = (res.body.rejected && res.body.rejected.length)
-          ? ' Не прийнято: ' + res.body.rejected.map(function(x){ return x.file; }).join(', ') + '.'
-          : '';
-        say('Дякуємо, отримали ' + res.body.saved + ' знімк(ів).' + extra +
-            ' Передивимось і напишемо.', 'good');
-        form.reset(); picked.hidden = true;
-      })
-      .catch(function(){
-        button.disabled = false;
-        say('Зв’язок обірвався. Спробуйте ще раз або напишіть на пошту.', 'bad');
-      });
-  });
-})();
-</script>"""
+</section>"""
 
 
 # Той самий автор написав роман-репортаж про літо 2014-го: логічне продовження
@@ -601,7 +497,7 @@ def build_home():
 </div>
 {CREDIT}
 {LEGACY_ANCHORS}
-{SUBMIT}
+{SUBMIT_CTA}
 {SUPPORT}
 {BOOK}
 {FOOT}"""
@@ -788,6 +684,223 @@ def build_search():
     write("/search/", body)
 
 
+def build_submit():
+    """Окрема сторінка приймальні.
+
+    Форма б'є в службу photoform на VPS (api.eprisjournal.com), бо сам сайт
+    статичний. Межі продубльовані в браузері й на сервері: дізнатися про
+    завеликий файл після п'яти хвилин мобільного вивантаження — найгірший
+    зі способів це дізнатися.
+    """
+    body = f"""{head("Надіслати знімки · Музей фотографії Донецька",
+        "Надішліть свої фотографії Донецька до музею: до 10 знімків за раз.",
+        "/submit/")}
+<div class="stage">
+  <div class="lines" aria-hidden="true"><i></i><i></i><i></i><i></i></div>{header()}
+  <section class="row hall-hero">
+    <div class="inA num">поповнити архів</div>
+    <div class="inB"></div>
+    <div class="inC">
+      <h1>Надіслати знімки</h1>
+      <p class="pair">архів росте з чужих альбомів</p>
+      <p class="blurb">Музей майже цілком зібраний із приватних архівів — те, що
+      висить у залах, колись лежало в чиїхось коробках і на чиїхось дисках.
+      Якщо у вас є фотографії Донецька, надішліть їх сюди.</p>
+      <a class="backlink" href="/#halls">← усі зали</a>
+    </div>
+  </section>
+</div>
+
+<div class="submit-page" id="main">
+  <div class="sp-in">
+    <form class="submit-form" id="submit-form" novalidate>
+
+      <div class="sf-drop" id="sf-drop">
+        <input type="file" name="photos" id="sf-photos" multiple
+               accept="image/jpeg,image/png,image/heic,image/heif,image/tiff,image/webp">
+        <p class="sf-drop-main">Перетягніть знімки сюди<br>або <b>оберіть на пристрої</b></p>
+        <p class="sf-drop-sub">до 10 знімків за раз · кожен до 12 МБ · JPEG, PNG, HEIC, TIFF</p>
+      </div>
+
+      <ul class="sf-list" id="sf-list"></ul>
+
+      <div class="sf-fields">
+        <label class="sf-field">
+          <span>Ваше ім'я</span>
+          <input type="text" name="name" maxlength="120" autocomplete="name"
+                 placeholder="як підписати знімок у музеї">
+        </label>
+        <label class="sf-field">
+          <span>Пошта або телефон <b>*</b></span>
+          <input type="text" name="contact" maxlength="200" required
+                 autocomplete="email" placeholder="щоб було як відповісти">
+        </label>
+      </div>
+
+      <label class="sf-field">
+        <span>Що на знімках і коли знято</span>
+        <textarea name="note" rows="4" maxlength="2000"
+                  placeholder="напр.: бульвар Пушкіна, літо 2011, знімав батько на плівку"></textarea>
+      </label>
+
+      <!-- Пастка для ботів: людина цього поля не бачить і не заповнює. -->
+      <div class="sf-trap" aria-hidden="true">
+        <label>Website<input type="text" name="website" tabindex="-1" autocomplete="off"></label>
+      </div>
+
+      <div class="sf-send">
+        <button type="submit" class="pill" id="sf-go">Надіслати знімки</button>
+        <div class="sf-bar" id="sf-bar" hidden><i></i></div>
+        <p class="sf-status" id="sf-status" role="status" aria-live="polite"></p>
+      </div>
+
+      <p class="sf-fine">Надсилаючи знімки, ви дозволяєте музею їх показати
+      з вашим підписом. Права лишаються вашими; попросите зняти — знімемо.
+      Контакт потрібен лише для відповіді й нікуди не передається.</p>
+    </form>
+  </div>
+</div>
+
+<script>
+(function(){{
+  var form = document.getElementById('submit-form');
+  if (!form) return;
+  var API = 'https://api.eprisjournal.com/museum-upload/submit';
+  var MAX_FILES = 10, MAX_BYTES = 12 * 1024 * 1024;
+  var input = document.getElementById('sf-photos');
+  var drop  = document.getElementById('sf-drop');
+  var list  = document.getElementById('sf-list');
+  var status= document.getElementById('sf-status');
+  var bar   = document.getElementById('sf-bar');
+  var go    = document.getElementById('sf-go');
+
+  /* Власний список замість штатного input.files: із нього можна прибрати
+     окремий кадр, а FileList доступний лише для читання. */
+  var chosen = [];
+
+  function mb(n){{ return (n / 1048576).toFixed(1) + ' МБ'; }}
+  function say(text, kind){{
+    status.textContent = text || '';
+    status.className = 'sf-status' + (kind ? ' is-' + kind : '');
+  }}
+
+  function render(){{
+    list.innerHTML = '';
+    chosen.forEach(function(f, i){{
+      var li = document.createElement('li');
+      li.className = 'sf-item' + (f.size > MAX_BYTES ? ' is-bad' : '');
+      var img = document.createElement('img');
+      img.alt = '';
+      /* Прев'ю робить сам браузер із локального файлу: нічого нікуди
+         не йде, поки людина не натисне «надіслати». */
+      var url = URL.createObjectURL(f);
+      img.src = url;
+      img.onload = function(){{ URL.revokeObjectURL(url); }};
+      img.onerror = function(){{ img.remove(); }};
+      var cap = document.createElement('div');
+      cap.className = 'sf-cap';
+      cap.innerHTML = '<b>' + f.name.replace(/[<>&]/g, '') + '</b><span>' + mb(f.size) +
+        (f.size > MAX_BYTES ? ' — завеликий' : '') + '</span>';
+      var del = document.createElement('button');
+      del.type = 'button'; del.className = 'sf-del';
+      del.setAttribute('aria-label', 'Прибрати ' + f.name);
+      del.textContent = '×';
+      del.onclick = function(){{ chosen.splice(i, 1); render(); }};
+      li.appendChild(img); li.appendChild(cap); li.appendChild(del);
+      list.appendChild(li);
+    }});
+    check();
+  }}
+
+  function check(){{
+    if (!chosen.length) return say('');
+    var big = chosen.filter(function(f){{ return f.size > MAX_BYTES; }});
+    var total = chosen.reduce(function(a, f){{ return a + f.size; }}, 0);
+    if (chosen.length > MAX_FILES)
+      return say('Обрано ' + chosen.length + ', а за раз можна до ' + MAX_FILES + '. Приберіть зайві.', 'bad');
+    if (big.length)
+      return say(big.length + ' знімк(ів) більші за 12 МБ. Приберіть або стисніть їх.', 'bad');
+    say(chosen.length + ' знімк(ів), разом ' + mb(total) + '.');
+  }}
+
+  function add(files){{
+    Array.prototype.forEach.call(files, function(f){{
+      if (!/^image\//.test(f.type) && !/\.(jpe?g|png|heic|heif|tiff?|webp)$/i.test(f.name)) return;
+      var dup = chosen.some(function(c){{ return c.name === f.name && c.size === f.size; }});
+      if (!dup) chosen.push(f);
+    }});
+    render();
+  }}
+
+  input.addEventListener('change', function(){{ add(input.files); input.value = ''; }});
+
+  ['dragenter','dragover'].forEach(function(ev){{
+    drop.addEventListener(ev, function(e){{ e.preventDefault(); drop.classList.add('is-over'); }});
+  }});
+  ['dragleave','drop'].forEach(function(ev){{
+    drop.addEventListener(ev, function(e){{ e.preventDefault(); drop.classList.remove('is-over'); }});
+  }});
+  drop.addEventListener('drop', function(e){{
+    if (e.dataTransfer && e.dataTransfer.files) add(e.dataTransfer.files);
+  }});
+
+  form.addEventListener('submit', function(e){{
+    e.preventDefault();
+    if (!chosen.length) return say('Додайте хоча б один знімок.', 'bad');
+    if (chosen.length > MAX_FILES) return say('Не більше ' + MAX_FILES + ' знімків за раз.', 'bad');
+    if (chosen.some(function(f){{ return f.size > MAX_BYTES; }}))
+      return say('Один із файлів більший за 12 МБ.', 'bad');
+    if (!form.contact.value.trim()) return say('Лишіть пошту або телефон.', 'bad');
+
+    var data = new FormData();
+    data.append('name', form.name.value);
+    data.append('contact', form.contact.value);
+    data.append('note', form.note.value);
+    data.append('website', form.website.value);
+    chosen.forEach(function(f){{ data.append('photos', f, f.name); }});
+
+    /* XHR, а не fetch: лише він показує поступ вивантаження, а на
+       мобільному інтернеті десять кадрів ідуть довго і мовчазна кнопка
+       виглядає як зламана. */
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', API, true);
+    go.disabled = true; bar.hidden = false;
+    bar.firstElementChild.style.width = '0%';
+    say('Надсилаємо…');
+
+    xhr.upload.onprogress = function(ev){{
+      if (!ev.lengthComputable) return;
+      var pct = Math.round(ev.loaded / ev.total * 100);
+      bar.firstElementChild.style.width = pct + '%';
+      say('Надсилаємо… ' + pct + '%');
+    }};
+    xhr.onload = function(){{
+      go.disabled = false; bar.hidden = true;
+      var res = {{}};
+      try {{ res = JSON.parse(xhr.responseText || '{{}}'); }} catch (err) {{}}
+      if (xhr.status !== 200) return say(res.error || 'Не вдалося надіслати.', 'bad');
+      var extra = (res.rejected && res.rejected.length)
+        ? ' Не прийнято: ' + res.rejected.map(function(x){{ return x.file; }}).join(', ') + '.'
+        : '';
+      say('Дякуємо, отримали ' + res.saved + ' знімк(ів).' + extra +
+          ' Передивимось і напишемо на ' + form.contact.value.trim() + '.', 'good');
+      chosen = []; render(); form.reset();
+      say('Дякуємо, знімки надіслані. Передивимось і напишемо.', 'good');
+    }};
+    xhr.onerror = function(){{
+      go.disabled = false; bar.hidden = true;
+      say('Мережа недоступна. Спробуйте ще раз.', 'bad');
+    }};
+    xhr.send(data);
+  }});
+}})();
+</script>
+{CREDIT}
+{SUPPORT}
+{FOOT}"""
+    write("/submit/", body)
+
+
 def clean_orphans():
     """Удаляет сгенерированное, чего больше нет в каталоге.
 
@@ -867,6 +980,7 @@ def main():
     for w in CAT["works"]:
         build_work(w, by_slug[w["hall"]], works_by_hall(w["hall"]))
     build_search()
+    build_submit()
     build_meta()
     build_redirects()
     clean_orphans()

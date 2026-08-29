@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Надіслати знімки · Музей фотографії Донецька</title>
+<link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="description" content="Надішліть свої фотографії Донецька до музею: до 10 знімків за раз.">
+<meta property="og:title" content="Надіслати знімки · Музей фотографії Донецька">
+<meta property="og:description" content="Надішліть свої фотографії Донецька до музею: до 10 знімків за раз.">
+<meta property="og:url" content="https://062.dn.ua/submit/">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://062.dn.ua/media/og-default.webp">
+<meta property="og:image:alt" content="Надіслати знімки · Музей фотографії Донецька">
+<meta property="og:site_name" content="062.dn.ua">
+<meta property="og:locale" content="uk_UA">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://062.dn.ua/submit/">
+<link rel="stylesheet" href="/assets/museum.css?v=1788038002">
+</head>
+<body>
+<a class="skip" href="#main">До знімків</a>
+<script>
+/* Гасимо контекстне меню й перетягування саме на знімках: «зберегти
+   картинку як» і drag-to-desktop — найпоширеніші побутові способи взяти
+   фото з сайту. Це не захист від когось, хто відкриє вкладку «Мережа»
+   чи вихідний код, лише від випадкового кліку правою кнопкою. */
+(function(){
+  document.addEventListener('contextmenu', function(e){
+    if (e.target.tagName === 'IMG') e.preventDefault();
+  });
+  document.addEventListener('dragstart', function(e){
+    if (e.target.tagName === 'IMG') e.preventDefault();
+  });
+})();
+</script>
+<div class="stage">
+  <div class="lines" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+  <header class="row header">
+    <div class="inA">
+      <div class="brandbox"><a class="brand" href="/"><img class="mark" src="/assets/gerb.png" alt="" width="192" height="192" decoding="async"><span class="wordmark">Музей фотографії Донецька</span></a></div>
+      <div class="micro brandstack"><div class="est">062.dn.ua</div></div>
+    </div>
+    <div class="inC micro topnav">
+      <a href="/search/">пошук</a>
+      <a href="/#exhibitions">виставки</a>
+      <a href="/#halls">зали</a>
+      <a href="/submit/">надіслати фото</a>
+    </div>
+  </header>
+  <section class="row hall-hero">
+    <div class="inA num">поповнити архів</div>
+    <div class="inB"></div>
+    <div class="inC">
+      <h1>Надіслати знімки</h1>
+      <p class="pair">архів росте з чужих альбомів</p>
+      <p class="blurb">Музей майже цілком зібраний із приватних архівів — те, що
+      висить у залах, колись лежало в чиїхось коробках і на чиїхось дисках.
+      Якщо у вас є фотографії Донецька, надішліть їх сюди.</p>
+      <a class="backlink" href="/#halls">← усі зали</a>
+    </div>
+  </section>
+</div>
+
+<div class="submit-page" id="main">
+  <div class="sp-in">
+    <form class="submit-form" id="submit-form" novalidate>
+
+      <div class="sf-drop" id="sf-drop">
+        <input type="file" name="photos" id="sf-photos" multiple
+               accept="image/jpeg,image/png,image/heic,image/heif,image/tiff,image/webp">
+        <p class="sf-drop-main">Перетягніть знімки сюди<br>або <b>оберіть на пристрої</b></p>
+        <p class="sf-drop-sub">до 10 знімків за раз · кожен до 12 МБ · JPEG, PNG, HEIC, TIFF</p>
+      </div>
+
+      <ul class="sf-list" id="sf-list"></ul>
+
+      <div class="sf-fields">
+        <label class="sf-field">
+          <span>Ваше ім'я</span>
+          <input type="text" name="name" maxlength="120" autocomplete="name"
+                 placeholder="як підписати знімок у музеї">
+        </label>
+        <label class="sf-field">
+          <span>Пошта або телефон <b>*</b></span>
+          <input type="text" name="contact" maxlength="200" required
+                 autocomplete="email" placeholder="щоб було як відповісти">
+        </label>
+      </div>
+
+      <label class="sf-field">
+        <span>Що на знімках і коли знято</span>
+        <textarea name="note" rows="4" maxlength="2000"
+                  placeholder="напр.: бульвар Пушкіна, літо 2011, знімав батько на плівку"></textarea>
+      </label>
+
+      <!-- Пастка для ботів: людина цього поля не бачить і не заповнює. -->
+      <div class="sf-trap" aria-hidden="true">
+        <label>Website<input type="text" name="website" tabindex="-1" autocomplete="off"></label>
+      </div>
+
+      <div class="sf-send">
+        <button type="submit" class="pill" id="sf-go">Надіслати знімки</button>
+        <div class="sf-bar" id="sf-bar" hidden><i></i></div>
+        <p class="sf-status" id="sf-status" role="status" aria-live="polite"></p>
+      </div>
+
+      <p class="sf-fine">Надсилаючи знімки, ви дозволяєте музею їх показати
+      з вашим підписом. Права лишаються вашими; попросите зняти — знімемо.
+      Контакт потрібен лише для відповіді й нікуди не передається.</p>
+    </form>
+  </div>
+</div>
+
+<script>
+(function(){
+  var form = document.getElementById('submit-form');
+  if (!form) return;
+  var API = 'https://api.eprisjournal.com/museum-upload/submit';
+  var MAX_FILES = 10, MAX_BYTES = 12 * 1024 * 1024;
+  var input = document.getElementById('sf-photos');
+  var drop  = document.getElementById('sf-drop');
+  var list  = document.getElementById('sf-list');
+  var status= document.getElementById('sf-status');
+  var bar   = document.getElementById('sf-bar');
+  var go    = document.getElementById('sf-go');
+
+  /* Власний список замість штатного input.files: із нього можна прибрати
+     окремий кадр, а FileList доступний лише для читання. */
+  var chosen = [];
+
+  function mb(n){ return (n / 1048576).toFixed(1) + ' МБ'; }
+  function say(text, kind){
+    status.textContent = text || '';
+    status.className = 'sf-status' + (kind ? ' is-' + kind : '');
+  }
+
+  function render(){
+    list.innerHTML = '';
+    chosen.forEach(function(f, i){
+      var li = document.createElement('li');
+      li.className = 'sf-item' + (f.size > MAX_BYTES ? ' is-bad' : '');
+      var img = document.createElement('img');
+      img.alt = '';
+      /* Прев'ю робить сам браузер із локального файлу: нічого нікуди
+         не йде, поки людина не натисне «надіслати». */
+      var url = URL.createObjectURL(f);
+      img.src = url;
+      img.onload = function(){ URL.revokeObjectURL(url); };
+      img.onerror = function(){ img.remove(); };
+      var cap = document.createElement('div');
+      cap.className = 'sf-cap';
+      cap.innerHTML = '<b>' + f.name.replace(/[<>&]/g, '') + '</b><span>' + mb(f.size) +
+        (f.size > MAX_BYTES ? ' — завеликий' : '') + '</span>';
+      var del = document.createElement('button');
+      del.type = 'button'; del.className = 'sf-del';
+      del.setAttribute('aria-label', 'Прибрати ' + f.name);
+      del.textContent = '×';
+      del.onclick = function(){ chosen.splice(i, 1); render(); };
+      li.appendChild(img); li.appendChild(cap); li.appendChild(del);
+      list.appendChild(li);
+    });
+    check();
+  }
+
+  function check(){
+    if (!chosen.length) return say('');
+    var big = chosen.filter(function(f){ return f.size > MAX_BYTES; });
+    var total = chosen.reduce(function(a, f){ return a + f.size; }, 0);
+    if (chosen.length > MAX_FILES)
+      return say('Обрано ' + chosen.length + ', а за раз можна до ' + MAX_FILES + '. Приберіть зайві.', 'bad');
+    if (big.length)
+      return say(big.length + ' знімк(ів) більші за 12 МБ. Приберіть або стисніть їх.', 'bad');
+    say(chosen.length + ' знімк(ів), разом ' + mb(total) + '.');
+  }
+
+  function add(files){
+    Array.prototype.forEach.call(files, function(f){
+      if (!/^image\//.test(f.type) && !/\.(jpe?g|png|heic|heif|tiff?|webp)$/i.test(f.name)) return;
+      var dup = chosen.some(function(c){ return c.name === f.name && c.size === f.size; });
+      if (!dup) chosen.push(f);
+    });
+    render();
+  }
+
+  input.addEventListener('change', function(){ add(input.files); input.value = ''; });
+
+  ['dragenter','dragover'].forEach(function(ev){
+    drop.addEventListener(ev, function(e){ e.preventDefault(); drop.classList.add('is-over'); });
+  });
+  ['dragleave','drop'].forEach(function(ev){
+    drop.addEventListener(ev, function(e){ e.preventDefault(); drop.classList.remove('is-over'); });
+  });
+  drop.addEventListener('drop', function(e){
+    if (e.dataTransfer && e.dataTransfer.files) add(e.dataTransfer.files);
+  });
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    if (!chosen.length) return say('Додайте хоча б один знімок.', 'bad');
+    if (chosen.length > MAX_FILES) return say('Не більше ' + MAX_FILES + ' знімків за раз.', 'bad');
+    if (chosen.some(function(f){ return f.size > MAX_BYTES; }))
+      return say('Один із файлів більший за 12 МБ.', 'bad');
+    if (!form.contact.value.trim()) return say('Лишіть пошту або телефон.', 'bad');
+
+    var data = new FormData();
+    data.append('name', form.name.value);
+    data.append('contact', form.contact.value);
+    data.append('note', form.note.value);
+    data.append('website', form.website.value);
+    chosen.forEach(function(f){ data.append('photos', f, f.name); });
+
+    /* XHR, а не fetch: лише він показує поступ вивантаження, а на
+       мобільному інтернеті десять кадрів ідуть довго і мовчазна кнопка
+       виглядає як зламана. */
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', API, true);
+    go.disabled = true; bar.hidden = false;
+    bar.firstElementChild.style.width = '0%';
+    say('Надсилаємо…');
+
+    xhr.upload.onprogress = function(ev){
+      if (!ev.lengthComputable) return;
+      var pct = Math.round(ev.loaded / ev.total * 100);
+      bar.firstElementChild.style.width = pct + '%';
+      say('Надсилаємо… ' + pct + '%');
+    };
+    xhr.onload = function(){
+      go.disabled = false; bar.hidden = true;
+      var res = {};
+      try { res = JSON.parse(xhr.responseText || '{}'); } catch (err) {}
+      if (xhr.status !== 200) return say(res.error || 'Не вдалося надіслати.', 'bad');
+      var extra = (res.rejected && res.rejected.length)
+        ? ' Не прийнято: ' + res.rejected.map(function(x){ return x.file; }).join(', ') + '.'
+        : '';
+      say('Дякуємо, отримали ' + res.saved + ' знімк(ів).' + extra +
+          ' Передивимось і напишемо на ' + form.contact.value.trim() + '.', 'good');
+      chosen = []; render(); form.reset();
+      say('Дякуємо, знімки надіслані. Передивимось і напишемо.', 'good');
+    };
+    xhr.onerror = function(){
+      go.disabled = false; bar.hidden = true;
+      say('Мережа недоступна. Спробуйте ще раз.', 'bad');
+    };
+    xhr.send(data);
+  });
+})();
+</script>
+
+<section class="support" id="support">
+  <div class="in">
+    <div class="sup-left">
+      <h2 class="sec-title">Підтримати автора сайту</h2>
+    </div>
+    <div class="sup-right">
+      <a class="pill" href="https://send.monobank.ua/jar/5w5VyzR26W" rel="noopener" target="_blank">
+        Банка на monobank
+      </a>
+      <div class="sup-card">
+        <span class="sup-eyebrow">Номер картки банки</span>
+        <b>4874 1000 3947 0946</b>
+        <button type="button" class="pill pill-ghost sup-copy" data-copy="4874100039470946">скопіювати</button>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+/* Копіювання номера: якщо буфер недоступний (старий браузер, http),
+   номер лишається на екрані й виділяється руками. */
+(function(){
+  var b=document.querySelector('.sup-copy'); if(!b) return;
+  b.addEventListener('click',function(){
+    var t=b.dataset.copy;
+    var done=function(){ b.textContent='скопійовано'; setTimeout(function(){b.textContent='скопіювати';},2000); };
+    if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(t).then(done,function(){}); }
+    else { var el=document.createElement('textarea'); el.value=t; document.body.appendChild(el);
+           el.select(); try{document.execCommand('copy'); done();}catch(e){} el.remove(); }
+  });
+})();
+</script>
+<footer class="site-foot">
+  <div class="in">
+    <div>
+      <span class="foot-mark">062.DN.UA</span>
+      <h2>Музей<br>фотографії<br>Донецька</h2>
+    </div>
+    <div class="right">
+      <p>© 2026 062.dn.ua</p>
+      <p>Донецьк, 2006–2026</p>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

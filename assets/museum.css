@@ -896,49 +896,80 @@ mark{background:var(--tint);color:var(--ink);box-shadow:0 1px 0 var(--ink)}
 }
 
 
-/* ── Приймальня знімків ──────────────────────────────────────────────
-   Блок стоїть на тій самій сітці, що «Підтримати автора»: та сама
-   двоколонкова .support, ті самі .pill і .sup-eyebrow. Форма — єдине
-   місце на сайті з полями вводу, тож вони описані тут повністю. */
-.submit .sup-left p{margin:var(--s3) 0 0}
-.submit-rules{font-size:var(--t-sm);color:var(--secondary)}
-.submit-form{display:grid;gap:var(--s4);max-width:34rem}
+/* ── Приймальня знімків (сторінка /submit/) ──────────────────────────
+   Єдине місце на сайті з полями вводу, тож форма описана тут повністю.
+   Ширина колонки та сама, що в тексті залу: читати умови й заповнювати
+   поля зручніше в одну вузьку колонку, а не на всю сцену. */
+.submit-page{border-top:1px solid var(--hair)}
+.sp-in{max-width:var(--maxw,1400px);margin:0 auto;
+  padding:clamp(40px,6vw,64px) calc(var(--edge) + var(--gutter)) clamp(56px,8vw,96px)}
+.submit-form{display:grid;gap:var(--s5);max-width:44rem}
+
+/* Зона перетягування. Сам input лежить поверх неї прозорим шаром —
+   так клік у будь-яку точку відкриває вибір файлів без зайвого JS. */
+.sf-drop{position:relative;border:1px dashed var(--hair);border-radius:4px;
+  padding:clamp(28px,5vw,44px) var(--s5);text-align:center;background:var(--tint);
+  transition:border-color .16s var(--ease),background .16s var(--ease)}
+.sf-drop:hover,.sf-drop.is-over{border-color:var(--ink);background:var(--paper)}
+.sf-drop input[type=file]{position:absolute;inset:0;width:100%;height:100%;
+  opacity:0;cursor:pointer}
+.sf-drop-main{margin:0;font-size:var(--t-md);line-height:1.5}
+.sf-drop-main b{font-weight:400;border-bottom:1px solid var(--ink)}
+.sf-drop-sub{margin:var(--s2) 0 0;font-size:var(--t-xs);color:var(--secondary)}
+
+/* Обрані кадри: прев'ю робить браузер із локального файлу, нічого
+   нікуди не йде до натискання кнопки. */
+.sf-list{list-style:none;margin:0;padding:0;display:grid;gap:var(--s2)}
+.sf-list:empty{display:none}
+.sf-item{position:relative;display:flex;align-items:center;gap:var(--s3);
+  border:1px solid var(--hair);border-radius:3px;padding:var(--s2);background:var(--paper)}
+.sf-item.is-bad{border-color:var(--accent);background:var(--accent-soft)}
+.sf-item img{width:64px;height:48px;object-fit:cover;border-radius:2px;
+  background:var(--tint);flex:none}
+.sf-cap{min-width:0;font-size:var(--t-sm);line-height:1.35}
+.sf-cap b{display:block;font-weight:400;overflow:hidden;text-overflow:ellipsis;
+  white-space:nowrap}
+.sf-cap span{color:var(--secondary);font-size:var(--t-xs)}
+.sf-item.is-bad .sf-cap span{color:var(--accent)}
+.sf-del{margin-left:auto;flex:none;width:34px;height:34px;border-radius:50%;
+  font-size:20px;line-height:1;color:var(--secondary);
+  transition:background .16s var(--ease),color .16s var(--ease)}
+.sf-del:hover{background:var(--ink);color:var(--paper)}
+
+.sf-fields{display:grid;gap:var(--s5);grid-template-columns:1fr 1fr}
 .sf-field{display:grid;gap:var(--s2)}
 .sf-field>span{font-size:var(--t-xs);letter-spacing:.14em;text-transform:uppercase;
   color:var(--secondary)}
 .sf-field>span b{color:var(--accent);font-weight:400}
 .sf-field input[type=text],.sf-field textarea{
-  font:inherit;font-size:var(--t-sm);color:var(--ink);background:var(--paper);
-  border:1px solid var(--hair);border-radius:2px;padding:.7em .8em;width:100%;
+  font:inherit;font-size:var(--t-md);color:var(--ink);background:var(--paper);
+  border:1px solid var(--hair);border-radius:3px;padding:.7em .8em;width:100%;
   transition:border-color .16s var(--ease)}
 .sf-field textarea{resize:vertical;line-height:1.5}
 .sf-field input[type=text]:focus,.sf-field textarea:focus{
   outline:none;border-color:var(--ink)}
-.sf-field input[type=file]{font:inherit;font-size:var(--t-sm);color:var(--soft);
-  padding:.6em 0}
-.sf-field input[type=file]::file-selector-button{
-  font:inherit;font-size:var(--t-sm);cursor:pointer;margin-right:var(--s3);
-  background:none;color:var(--ink);border:1px solid var(--hair);
-  border-radius:40px;padding:.5em 1.1em;transition:border-color .16s var(--ease)}
-.sf-field input[type=file]::file-selector-button:hover{border-color:var(--ink)}
-.sf-picked{margin:0;font-size:var(--t-xs);color:var(--secondary);
-  font-variant-numeric:tabular-nums}
+.sf-field ::placeholder{color:var(--secondary);opacity:1}
+
 /* Поле-пастка для ботів: прибрано з потоку, але не display:none —
    частина ботів свідомо ігнорує саме display:none. */
 .sf-trap{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
-/* Форма це грід із власним gap; успадкований від .sup-right відступ
-   додавався б до нього другим шаром. */
-.submit-form .pill{justify-self:start;cursor:pointer;margin-bottom:0;
-  padding:var(--s3) var(--s5);font-size:var(--t-sm)}
+
+.sf-send{display:grid;gap:var(--s3);justify-items:start}
+.submit-form .pill{cursor:pointer;padding:var(--s3) var(--s5);font-size:var(--t-sm)}
 .submit-form .pill[disabled]{opacity:.5;cursor:progress}
+.sf-bar{width:100%;max-width:22rem;height:2px;background:var(--hair);overflow:hidden}
+.sf-bar i{display:block;height:100%;width:0;background:var(--ink);
+  transition:width .2s linear}
 .sf-status{margin:0;font-size:var(--t-sm);line-height:1.5;color:var(--secondary);
   min-height:1.5em}
 .sf-status.is-bad{color:var(--accent)}
 .sf-status.is-good{color:var(--ink)}
+.sf-fine{margin:0;font-size:var(--t-xs);line-height:1.6;color:var(--secondary);
+  max-width:52ch;padding-top:var(--s4);border-top:1px solid var(--hair)}
+
 @media (max-width:720px){
-  .submit-form{max-width:none;text-align:left}
-  .submit .sup-right{align-items:stretch}
-  .submit-form .pill{justify-self:center}
-  .sf-field>span{text-align:left}
-  .sf-picked,.sf-status{text-align:left}
+  .sp-in{padding-left:var(--s5);padding-right:var(--s5)}
+  .sf-fields{grid-template-columns:1fr}
+  .sf-send{justify-items:stretch}
+  .submit-form .pill{text-align:center}
 }
