@@ -15,6 +15,7 @@ from PIL import Image, ImageOps
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CATALOG = os.path.join(ROOT, "data", "museum-catalog.json")
 EXCLUDED = os.path.join(ROOT, "data", "museum-excluded.json")
+TITLES = os.path.join(ROOT, "data", "museum-titles.json")
 # Каталог обходит только свой архив. Папка commons описана отдельным файлом
 # метаданных: если пройти по ней ещё и обходом, снимок попадёт в каталог дважды
 # — как свой (без автора) и как чужой (с автором), и дедупликация оставит тот,
@@ -35,7 +36,7 @@ HALLS = [
     ("sad-i-voda", "Сад і вода", "ботанічний сад, ставки, зелень", ["botsad", "addon", "new"]),
     ("arena", "Донбас Арена і Євро-2012", "коли місто бачила Європа", ["euro2012"]),
     ("viina", "Війна і окупація", "2014–2015 і 2022–2026",
-     ["2014", "murzilka", "after2022", "append2025"]),
+     ["2014", "images/2014", "murzilka", "after2022", "append2025"]),
 ]
 FOLDER_HALL = {f: slug for slug, _, _, folders in HALLS for f in folders}
 
@@ -43,6 +44,7 @@ FOLDER_HALL = {f: slug for slug, _, _, folders in HALLS for f in folders}
 DEFAULT_TITLE = {
     "bor": "Донецьк · міська архітектура",
     "images": "Донецьк · образи міста до 2014",
+    "images/2014": "Донецьк, 2014",
     "panfilova and others": "Донецьк · вечірнє місто",
     "before2014": "Донецьк до 2014",
     "euro2012": "Євро-2012 · Донецьк",
@@ -56,7 +58,7 @@ DEFAULT_TITLE = {
     "append2025": "Донецьк в окупації · 2025",
     "transport": "Міський транспорт · Донецьк",
 }
-YEARS = {"euro2012": "2012", "panorama": "2012–2014", "2014": "2014",
+YEARS = {"euro2012": "2012", "images/2014": "2014", "panorama": "2012–2014", "2014": "2014",
          "murzilka": "2014", "images": "до 2014", "before2014": "до 2014",
          "after2022": "2022–2026", "append2025": "2025", "bor": "до 2014",
          "panfilova and others": "до 2014", "transport": "до 2014"}
@@ -118,6 +120,19 @@ def captions_from_portal():
     return out
 
 
+def manual_titles():
+    """Підписи, виправлені руками.
+
+    Alt у розмітці порталу це основне джерело підписів, але частина з них не
+    відповідає кадру: «Фонтан на площі Леніна» на знімку нічного парку,
+    «14:00» перед вечірньою зйомкою. Тут вони перебиваються, і перезбірка
+    більше не повертає стару назву.
+    """
+    if not os.path.exists(TITLES):
+        return {}
+    return json.load(open(TITLES, encoding="utf-8")).get("titles", {})
+
+
 def excluded_files():
     """Що прибрано з музею руками.
 
@@ -138,7 +153,14 @@ def photos():
             if SKIP_FILES.match(name):
                 continue
             rel = os.path.relpath(os.path.join(base, name), ROOT)
-            folder = rel.split(os.sep)[0] if os.sep in rel else ""
+            parts = rel.split(os.sep)
+            # Спершу пробуємо двоскладовий ключ: images/2014 це кадри війни,
+            # а не «образи міста до 2014», як каже коренева тека images.
+            folder = ""
+            if len(parts) > 2 and "/".join(parts[:2]) in FOLDER_HALL:
+                folder = "/".join(parts[:2])
+            elif len(parts) > 1:
+                folder = parts[0]
             if folder not in FOLDER_HALL:
                 continue
             yield rel.replace(os.sep, "/"), folder
@@ -287,6 +309,7 @@ def commons_works():
 
 def main():
     skip_manual = excluded_files()
+    fixed_titles = manual_titles()
     old = {}
     if os.path.exists(CATALOG):
         old = {w["file"]: w for w in json.load(open(CATALOG, encoding="utf-8"))["works"]}
@@ -310,7 +333,10 @@ def main():
         works.append({
             "id": "",                       # проставит assign_ids: нужен взгляд на весь набор
             "file": rel,
-            "title": prev.get("title") or caps.get(rel) or DEFAULT_TITLE.get(folder, "Донецьк"),
+            # Попередній каталог більше не джерело: він консервував помилку.
+            # Порядок: ручний підпис → alt порталу → назва за розділом.
+            "title": (fixed_titles.get(rel) or caps.get(rel)
+                      or DEFAULT_TITLE.get(folder, "Донецьк")),
             "titled_by_author": rel in caps,
             # Зал перечитується з розкладки щоразу: інакше попередній
             # каталог законсервував би стару групіровку назавжди.
@@ -318,7 +344,7 @@ def main():
             # Порядок довіри: правка руками, потім дата з імені файлу,
             # і лише потім грубе датування за папкою.
             "year": (prev.get("year") if prev.get("year_manual") else
-                     date_from_name(rel) or prev.get("year") or YEARS.get(folder, "")),
+                     date_from_name(rel) or YEARS.get(folder, "")),
             "year_manual": prev.get("year_manual", False),
             "note": prev.get("note", ""),
             "source": "own", "author": "", "license": "", "page": "",
