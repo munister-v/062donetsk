@@ -34,6 +34,7 @@ HALLS = [
      ["before2014", "images", "panfilova and others", "bor", "transport"]),
     ("vuhillia", "Вугілля", "шахти, терикони, завод", []),
     ("khramy", "Храми", "собори, церкви, монастир", []),
+    ("yevromaidan", "Євромайдан", "проукраїнські мітинги, весна 2014", []),
     ("panoramy", "Панорами", "місто з висоти", ["panorama"]),
     ("sad-i-voda", "Сад і вода", "ботанічний сад, ставки, зелень", ["botsad", "addon", "new"]),
     ("arena", "Донбас Арена і Євро-2012", "коли місто бачила Європа", ["euro2012"]),
@@ -297,6 +298,8 @@ def commons_hall(label, year):
     if any(k in label for k in ("собор", "Собор", "Храм", "храм", "церкв", "Церкв",
                                 "монастир", "Костел", "Синагог", "Мечет", "мечет")):
         return "khramy"
+    if any(k in label for k in ("Євромайдан", "Мітинг за єдність")):
+        return "yevromaidan"
     if "Арена" in label:
         return "arena"
     if "з висоти" in label:

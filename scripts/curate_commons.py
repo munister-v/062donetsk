@@ -79,6 +79,8 @@ CATEGORY_TITLE = [
     ("Church of Saint Nina", "Храм святої Ніни"),
     ("Christmas Church", "Різдвяний храм"),
     ("Interiors of churches", "У храмі"),
+    ("Euromaidan in Donetsk", "Євромайдан у Донецьку"),
+    ("Demonstration in support of Ukrainian unity", "Мітинг за єдність України"),
     ("Ahat Jami Mosque", "Мечеть Ахать-Джамі"),
     ("Baptist Church Gospel House", "Баптистська церква"),
     ("Seventh-day Adventist Church", "Церква адвентистів"),
@@ -106,6 +108,8 @@ CATEGORY_TITLE = [
     ("Artema Street", "Вулиця Артема"),
     ("Universitetska", "Університетська вулиця"),
     # Історичні сюжети йдуть першими: вони найконкретніші.
+    ("Euromaidan in Donetsk", "Євромайдан у Донецьку"),
+    ("Demonstration in support of Ukrainian unity", "Мітинг за єдність України"),
     ("Ahat Jami Mosque", "Мечеть Ахать-Джамі"),
     ("Baptist Church Gospel House", "Баптистська церква"),
     ("Seventh-day Adventist Church", "Церква адвентистів"),
@@ -292,6 +296,10 @@ def main():
         "Музеї Донецька", "Університети Донецька", "Готелі Донецька",
         "Торгові будинки", "Інтер'єри Донецька", "Будівлі Донецька",
         "Архітектура Донецька", "Донецьк з висоти", "Нічний Донецьк",
+        # Мітинги: подія, а не один об'єкт зйомки. Кожен кадр з натовпу
+        # унікальний, і квота на сюжет тут відрізала б саме те, заради
+        # чого зал і робився.
+        "Євромайдан у Донецьку", "Мітинг за єдність України",
     }
     SUBJECT_CAP = 6
     by_subject = {}

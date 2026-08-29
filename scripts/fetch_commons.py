@@ -88,14 +88,27 @@ def main():
                           r"adventist|адвентист)", re.I)
     minority_quota = int(os.environ.get("MINORITY_QUOTA", "6"))
     minority = [f for f in items if MINORITY.search(f["title"] + " " + (f.get("desc") or ""))]
+    # Мітинги за єдність України, весна 2014-го: майже весь пул одного
+    # фотографа (Yakudza), і загальна квота в 12 кадрів на автора з'їла б
+    # дві третини знімків. Позначаємо їх «_event», щоб пропустити той ліміт
+    # саме для цієї події — це не персональна виставка, а єдине джерело.
+    EVENT = re.compile(r"(євромайдан|euromaidan|мітинг|митинг у донецьку|"
+                       r"ukrainian unity)", re.I)
+    event_quota = int(os.environ.get("EVENT_QUOTA", "20"))
+    events = [f for f in items
+              if EVENT.search(f["title"] + " " + (f.get("desc") or ""))
+              and not f["title"].lower().endswith((".webm", ".ogv"))]
+    for f in events[:event_quota]:
+        f["_event"] = True
     head = (historic[:hist_quota] + transport[:quota] + mines[:mine_quota]
-            + minority[:minority_quota] + churches[:church_quota])
+            + minority[:minority_quota] + events[:event_quota] + churches[:church_quota])
     picked_ids = {id(f) for f in head}
     rest = [f for f in items if id(f) not in picked_ids]
     items = head + rest
     print(f"  шахт і заводу {len(mines)} (беремо {min(len(mines), mine_quota)}), "
           f"храмів {len(churches)} (беремо {min(len(churches), church_quota)}), "
-          f"меншин {len(minority)} (беремо {min(len(minority), minority_quota)})")
+          f"меншин {len(minority)} (беремо {min(len(minority), minority_quota)}), "
+          f"мітингів {len(events)} (беремо {min(len(events), event_quota)})")
     print(f"у пулі: історичних {len(historic)} (беремо {min(len(historic), hist_quota)}), "
           f"транспортних {len(transport)} (беремо {min(len(transport), quota)})")
 
@@ -106,7 +119,7 @@ def main():
             break
         # Не больше 12 кадров от одного автора: иначе музей превращается
         # в персональную выставку самого плодовитого загрузчика.
-        if seen_author.get(f["author_clean"], 0) >= 12:
+        if not f.get("_event") and seen_author.get(f["author_clean"], 0) >= 12:
             continue
         # Имя файла на Commons чаще всего кириллическое, и ascii-регулярка
         # схлопывает его в «---.jpg»: снимки затирают друг друга, а подписи

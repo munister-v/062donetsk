@@ -118,6 +118,10 @@ CATEGORIES = [
     "Category:Ahat Jami Mosque, Donetsk",
     "Category:Baptist Church Gospel House in Donetsk",
     "Category:Seventh-day Adventist Church (Baydukova Street, Donetsk)",
+    # Проукраїнські мітинги в Донецьку навесні 2014-го: до того, як місто
+    # стало окупованим, воно ще виходило на власні євромайдани.
+    "Category:Euromaidan in Donetsk, 2013-11-24",
+    "Category:Demonstration in support of Ukrainian unity in Donetsk, 2014-04-17",
 ] + [f"Category:{y} in Donetsk" for y in range(1923, 1941)]
 # Не фотографии города: карты, гербы, схемы, сканы, коллажи.
 # Кириллические слова тут не для красоты: в категориях Донецка лежат сканы
