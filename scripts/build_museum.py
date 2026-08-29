@@ -224,15 +224,60 @@ def works_by_hall(slug):
     return [w for w in CAT["works"] if w["hall"] == slug]
 
 
-def key_work(ws):
-    """Ключовий кадр залу: найбільший горизонтальний знімок.
+# Похмурий кадр з-під землі чи будівельного майданчика, і нічний кадр:
+# обидва можуть бути великими й барвистими (неонове підсвічення собору
+# вночі дає високу насиченість), але на обкладинку залу не годяться.
+UGLY_KEY = re.compile(r"(метробуд|будівництв|реконструкц|демонтаж|знесен|"
+                      r"руїн|підземн|стовбур шахти|котлован|звалищ)", re.I)
+NIGHT_KEY = re.compile(r"(ніч|нічн|вечір|вечірн|підсвіт|вогні|захід сонця|"
+                       r"світанк)", re.I)
+_HSV_CACHE = {}
 
-    Раніше брався просто перший за іменем файлу, і зал вугілля відкривався
-    рейкою крупним планом. Горизонтальний кадр потрібен ще й тому, що з нього
-    ріжеться картка 1200×630 для месенджерів.
+
+def photo_hsv(w):
+    """Насиченість, яскравість і яскравість неба (верхні 25% кадру).
+
+    Довга витримка вночі дає теплу підсвітку з високою насиченістю й
+    непоганою середньою яскравістю — за самими лише sat/val нічний Донецьк
+    вигравав у денного. Небо їх виказує: вдень воно світле, вночі темне,
+    навіть коли вулиці внизу залиті ліхтарями. Рахується по мініатюрі
+    -s.webp (32×32), а не по оригіналу: для залу з полусотнею кадрів
+    це миттєво.
+    """
+    if w["id"] in _HSV_CACHE:
+        return _HSV_CACHE[w["id"]]
+    path = os.path.join(ROOT, "media", f"{w['id']}-s.webp")
+    try:
+        from PIL import Image
+        im = Image.open(path).convert("HSV").resize((32, 32))
+        px = list(im.getdata())
+        sat = sum(p[1] for p in px) / len(px)
+        val = sum(p[2] for p in px) / len(px)
+        sky_px = list(im.crop((0, 0, 32, 8)).getdata())
+        sky = sum(p[2] for p in sky_px) / len(sky_px)
+    except Exception:
+        sat = val = sky = 0
+    _HSV_CACHE[w["id"]] = (sat, val, sky)
+    return sat, val, sky
+
+
+def key_work(ws):
+    """Ключовий кадр залу: великий, горизонтальний, денний, не з будмайданчика.
+
+    Спершу відсіюються підземні/будівельні й підписані як нічні кадри,
+    потім серед великих горизонтальних лишається пул зі світлим небом
+    (орієнтир дня, а не сутінків чи довгої витримки), і з нього береться
+    найнасиченіший: зазвичай це і є ясний літній день, а не туман чи імла.
     """
     wide = [w for w in ws if w["w"] >= w["h"]]
-    return max(wide or ws, key=lambda w: w["w"] * w["h"])
+    pool = wide or ws
+    good = [w for w in pool if not UGLY_KEY.search(w["title"])]
+    day = [w for w in good if not NIGHT_KEY.search(w["title"])]
+    cand = day or good or pool
+    top = sorted(cand, key=lambda w: -(w["w"] * w["h"]))[:16]
+    bright = [w for w in top if photo_hsv(w)[2] >= 191]
+    pick_from = bright or top
+    return max(pick_from, key=lambda w: photo_hsv(w)[0])
 
 
 def exhibition_works(pattern):
@@ -339,7 +384,7 @@ def build_home():
 </article>""")
 
     named = sum(1 for w in CAT["works"] if w["titled_by_author"])
-    body = f"""{head("062.dn.ua",
+    body = f"""{head("Музей фотографії Донецька",
         f"Віртуальний музей: {total} фотографій Донецька у {len(halls)} залах, від міста до 2014 року до окупації.",
         "/", cover["id"], ld, og_card="/og/home.jpg")}
 <div class="stage">
@@ -417,7 +462,7 @@ def build_hall(i, h, halls):
     years = sorted({w["year"] for w in ws if w["year"]})
     data = json.dumps([{"id": w["id"], "title": w["title"], "year": w["year"]} for w in ws],
                       ensure_ascii=False)
-    body = f"""{head(f"{h['title']} · 062.dn.ua", hall_text(h)[:150],
+    body = f"""{head(f"{h['title']} · Музей фотографії Донецька", hall_text(h)[:150],
         f"/halls/{h['slug']}/", key["id"], og_card=f"/og/hall-{h['slug']}.jpg")}
 <div class="stage">
   <div class="lines" aria-hidden="true"><i></i><i></i><i></i><i></i></div>{header()}
@@ -438,7 +483,6 @@ def build_hall(i, h, halls):
     {plate_img(key, 'm', lazy=False, sizes='(max-width:900px) 100vw, 62vw')}
   </a>
   <div class="label">
-    <span class="eyebrow">Ключовий знімок залу</span>
     <span class="w-artist">{esc(key['title'])}</span>
     <span class="w-title"><i>{esc(byline(key))}</i></span>
     <span class="w-meta">{esc(key['year'] or 'без дати')} · фотографія<br>{provenance(key)}</span>
@@ -471,7 +515,7 @@ def build_exhibition(slug, title, pair, pattern):
         w["_i"] = k
     if len(ws) < 8:
         return 0
-    body = f"""{head(f"{title} · 062.dn.ua", pair, f"/exhibitions/{slug}/", ws[0]["id"])}
+    body = f"""{head(f"{title} · Музей фотографії Донецька", pair, f"/exhibitions/{slug}/", ws[0]["id"])}
 <div class="stage">
   <div class="lines" aria-hidden="true"><i></i><i></i><i></i><i></i></div>{header()}
   <section class="row hall-hero">
@@ -515,7 +559,7 @@ def build_work(w, hall, siblings):
     else:
         facts += [("підпис", "авторський" if w["titled_by_author"] else "за розділом архіву"),
                   ("права", "авторський архів 062.dn.ua")]
-    body = f"""{head(f"{w['title']} · 062.dn.ua", w["title"], f"/works/{w['id']}/", w["id"])}
+    body = f"""{head(f"{w['title']} · Музей фотографії Донецька", w["title"], f"/works/{w['id']}/", w["id"])}
 <div class="stage">
   <div class="lines" aria-hidden="true"><i></i><i></i><i></i><i></i></div>{header()}
   <nav class="row crumbs">
@@ -558,7 +602,7 @@ def build_search():
     idx = json.dumps([{"i": w["id"], "t": w["title"], "h": w["hall"], "y": w["year"]}
                       for w in CAT["works"]], ensure_ascii=False)
     halls = json.dumps({h["slug"]: h["title"] for h in CAT["halls"]}, ensure_ascii=False)
-    body = f"""{head("Пошук · 062.dn.ua", "Пошук по всьому архіву музею.", "/search/")}
+    body = f"""{head("Пошук · Музей фотографії Донецька", "Пошук по всьому архіву музею.", "/search/")}
 <div class="stage">
   <div class="lines" aria-hidden="true"><i></i><i></i><i></i><i></i></div>{header()}
   <section class="row hall-hero">
@@ -685,7 +729,7 @@ def build_meta():
           '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
           f"{body}\n</urlset>\n")
     write("/robots.txt", f"User-agent: *\nAllow: /\nSitemap: {SITE}/sitemap.xml\n")
-    write("/404.html", f"""{head("Сторінки немає · 062.dn.ua",
+    write("/404.html", f"""{head("Сторінки немає · Музей фотографії Донецька",
         "Такої сторінки в музеї немає.", "/404.html")}
 <div class="stage">
   <div class="lines" aria-hidden="true"><i></i><i></i><i></i><i></i></div>{header()}

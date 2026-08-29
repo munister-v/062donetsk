@@ -6,7 +6,7 @@
 взагалі. Тут із того самого кадру складається картка 1200×630 у JPEG:
 затемнений низ, назва музею, підзаголовок і адреса.
 """
-import json, os
+import json, os, re
 from PIL import Image, ImageDraw, ImageFont, ImageOps
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -75,9 +75,39 @@ def main():
     for w in works:
         by_hall.setdefault(w["hall"], []).append(w)
 
+    # Та сама логіка, що в build_museum.py: великий, горизонтальний,
+    # денний кадр, не з-під землі, не з будмайданчика й не нічний
+    # (нічне підсвічення дає оманливо високу насиченість).
+    UGLY_KEY = re.compile(r"(метробуд|будівництв|реконструкц|демонтаж|знесен|"
+                          r"руїн|підземн|стовбур шахти|котлован)", re.I)
+    NIGHT_KEY = re.compile(r"(ніч|нічн|вечір|вечірн|підсвіт|вогні|захід сонця|"
+                           r"світанк)", re.I)
+
+    def hsv(w):
+        # Небо (верхні 25%) виказує ніч навіть коли вулиці внизу яскраво
+        # підсвічені: sat/val самі по собі вигравали в довгій витримці.
+        path = os.path.join(ROOT, "media", f"{w['id']}-s.webp")
+        try:
+            im = Image.open(path).convert("HSV").resize((32, 32))
+            px = list(im.getdata())
+            sat = sum(p[1] for p in px) / len(px)
+            val = sum(p[2] for p in px) / len(px)
+            sky_px = list(im.crop((0, 0, 32, 8)).getdata())
+            sky = sum(p[2] for p in sky_px) / len(sky_px)
+            return sat, val, sky
+        except Exception:
+            return 0, 0, 0
+
     def key_work(ws):
         wide = [w for w in ws if w["w"] >= w["h"]]
-        return max(wide or ws, key=lambda w: w["w"] * w["h"])
+        pool = wide or ws
+        good = [w for w in pool if not UGLY_KEY.search(w["title"])]
+        day = [w for w in good if not NIGHT_KEY.search(w["title"])]
+        cand = day or good or pool
+        top = sorted(cand, key=lambda w: -(w["w"] * w["h"]))[:16]
+        bright = [w for w in top if hsv(w)[2] >= 191]
+        pick_from = bright or top
+        return max(pick_from, key=lambda w: hsv(w)[0])
 
     cover = key_work(by_hall["panoramy"])
     card(os.path.join(ROOT, cover["file"]), "Музей фотографії Донецька",
