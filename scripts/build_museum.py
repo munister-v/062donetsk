@@ -176,7 +176,6 @@ def header(home=False):
   <header class="row header">
     <div class="inA">
       <div class="brandbox">{mark}</div>
-      <div class="micro brandstack"><div class="est">062.dn.ua</div></div>
     </div>
     <div class="inC micro topnav">
       <a href="/search/">пошук</a>
@@ -445,7 +444,7 @@ def build_home():
 <div class="stage">
   <div class="lines" aria-hidden="true"><i></i><i></i><i></i><i></i></div>{header(home=True)}
   <section class="row fold">
-    <div class="inA label">2026</div>
+    <div class="inA"></div>
     <div class="inB"></div>
     <div class="inC">
       <h1 class="hero-title">Місто, яке<br>можна обійти<br>лише так</h1>
