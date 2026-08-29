@@ -736,7 +736,13 @@ mark{background:var(--tint);color:var(--ink);box-shadow:0 1px 0 var(--ink)}
      саме тим, що виглядало нерівно. */
   .hall-thumb{width:64px}
   .crumbs .inC,.hall-nav .inC{justify-content:flex-start}
-  .support .in{grid-template-columns:1fr}
+  /* Блок підтримки: на одну колонку весь вміст лягав ліворуч і виглядав
+     випадково притиснутим до краю. Центруємо кожен рядок і картку картки
+     теж, інакше «скопіювати» лишається одиноким зліва під номером. */
+  .support .in{grid-template-columns:1fr;text-align:center}
+  .support p{margin-left:auto;margin-right:auto}
+  .sup-right{display:flex;flex-direction:column;align-items:center}
+  .sup-card{align-items:center}
 }
 
 
