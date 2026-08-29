@@ -150,7 +150,21 @@ def head(title, desc, path, og_id=None, extra_ld="", og_card=None):
 {extra_ld}<link rel="stylesheet" href="/assets/museum.css?v={CSS_V}">
 </head>
 <body>
-<a class="skip" href="#main">До знімків</a>"""
+<a class="skip" href="#main">До знімків</a>
+<script>
+/* Гасимо контекстне меню й перетягування саме на знімках: «зберегти
+   картинку як» і drag-to-desktop — найпоширеніші побутові способи взяти
+   фото з сайту. Це не захист від когось, хто відкриє вкладку «Мережа»
+   чи вихідний код, лише від випадкового кліку правою кнопкою. */
+(function(){{
+  document.addEventListener('contextmenu', function(e){{
+    if (e.target.tagName === 'IMG') e.preventDefault();
+  }});
+  document.addEventListener('dragstart', function(e){{
+    if (e.target.tagName === 'IMG') e.preventDefault();
+  }});
+}})();
+</script>"""
 
 
 def header(home=False):
@@ -160,9 +174,9 @@ def header(home=False):
     halls = "#halls" if home else "/#halls"
     return f"""
   <header class="row header">
-    <div class="inA brandbox">{mark}</div>
-    <div class="inB micro brandstack">
-      <div class="est">062.dn.ua</div>
+    <div class="inA">
+      <div class="brandbox">{mark}</div>
+      <div class="micro brandstack"><div class="est">062.dn.ua</div></div>
     </div>
     <div class="inC micro topnav">
       <a href="/search/">пошук</a>

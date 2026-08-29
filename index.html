@@ -23,16 +23,30 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="https://062.dn.ua/">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Museum", "name": "062.dn.ua", "url": "https://062.dn.ua/", "description": "Віртуальний музей: 443 фотографій Донецька у 9 залах.", "isAccessibleForFree": true, "inLanguage": "uk"}</script>
-<link rel="stylesheet" href="/assets/museum.css?v=1788033904">
+<link rel="stylesheet" href="/assets/museum.css?v=1788036403">
 </head>
 <body>
 <a class="skip" href="#main">До знімків</a>
+<script>
+/* Гасимо контекстне меню й перетягування саме на знімках: «зберегти
+   картинку як» і drag-to-desktop — найпоширеніші побутові способи взяти
+   фото з сайту. Це не захист від когось, хто відкриє вкладку «Мережа»
+   чи вихідний код, лише від випадкового кліку правою кнопкою. */
+(function(){
+  document.addEventListener('contextmenu', function(e){
+    if (e.target.tagName === 'IMG') e.preventDefault();
+  });
+  document.addEventListener('dragstart', function(e){
+    if (e.target.tagName === 'IMG') e.preventDefault();
+  });
+})();
+</script>
 <div class="stage">
   <div class="lines" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
   <header class="row header">
-    <div class="inA brandbox"><img class="mark" src="/assets/gerb.png" alt="" width="192" height="192" decoding="async"><span class="wordmark">Музей фотографії Донецька</span></div>
-    <div class="inB micro brandstack">
-      <div class="est">062.dn.ua</div>
+    <div class="inA">
+      <div class="brandbox"><img class="mark" src="/assets/gerb.png" alt="" width="192" height="192" decoding="async"><span class="wordmark">Музей фотографії Донецька</span></div>
+      <div class="micro brandstack"><div class="est">062.dn.ua</div></div>
     </div>
     <div class="inC micro topnav">
       <a href="/search/">пошук</a>

@@ -41,6 +41,12 @@ body{
 }
 a{color:inherit;text-decoration:none}
 button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+/* Захист від побутового копіювання знімків: не заголовна оборона (файл
+   лишається доступним через мережеву вкладку чи вихідний код), але гасить
+   звичне «перетягнути на робочий стіл» і контекстне меню «зберегти
+   картинку як». Текст лишається виділюваним — підписи й опис копіювати
+   можна, це не захищається. */
+img{-webkit-user-drag:none;user-drag:none;-webkit-touch-callout:none}
 :focus-visible{outline:1px solid var(--ink);outline-offset:4px}
 /* Мобільний браузер малює своє тло під час натискання посилань і кнопок:
    на заокруглених .pill/.dose/.lock той прямокутник виступає за межі
@@ -185,7 +191,7 @@ a,button,.hall-row,.plate,.wk{-webkit-tap-highlight-color:transparent}
      бо назва музею може перенестись у два-три рядки. «062.DN.UA» пішов
      дрібною міткою в підвал. */
   .header{display:block;padding:16px 0;border-bottom:1px solid var(--hair);text-align:center}
-  .header .inA{padding:0;display:flex;align-items:center;justify-content:center}
+  .header .inA{padding:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
   .header .inB{display:none}
 
   .fold{padding:var(--s7) 0 var(--s8)}
@@ -237,7 +243,7 @@ a,button,.hall-row,.plate,.wk{-webkit-tap-highlight-color:transparent}
   /* Запас на системні шрифти-заміни (не в усіх Android/Windows є Iowan
      Old Style чи Palatino): деякі запасні серифи ширші, і назва музею
      може зʼїхати в три рядки. Трохи тісніший трекінг тримає її у двох. */
-  .wordmark{font-size:15px;letter-spacing:1.1px;max-width:170px}
+  .wordmark{font-size:18px;letter-spacing:1.4px;max-width:190px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 
@@ -334,7 +340,6 @@ figure.work figcaption{font-size:var(--t-sm);line-height:1.45}
 .keywork img{position:absolute;inset:var(--s5);width:calc(100% - 2*var(--s5));
   height:calc(100% - 2*var(--s5));object-fit:contain;object-position:center bottom}
 .keywork .label{padding-bottom:var(--s2)}
-.keywork .eyebrow{display:block;margin-bottom:var(--s3)}
 .keywork .w-artist{font-size:var(--t-xl)}
 .keywork .w-title{font-size:var(--t-lg);font-family:var(--serif)}
 .keywork .w-meta{margin-top:var(--s3)}
@@ -453,7 +458,6 @@ body.lb-open{overflow:hidden}
   aspect-ratio:4/3}
 .work-plate img{position:absolute;inset:var(--s5);width:calc(100% - 2*var(--s5));
   height:calc(100% - 2*var(--s5));object-fit:contain;object-position:center}
-.work-label .eyebrow{display:block;margin-bottom:var(--s3)}
 .work-label h1{margin:0;font-family:var(--serif);font-size:var(--t-xl);line-height:1.2;font-weight:400}
 .work-label .by{display:block;margin-top:var(--s2);font-size:var(--t-2xl);
   letter-spacing:-.025em;line-height:1.1}
@@ -711,11 +715,16 @@ mark{background:var(--tint);color:var(--ink);box-shadow:0 1px 0 var(--ink)}
 .wordmark{
   display:inline-block; max-width:100%; min-width:0; flex-shrink:1;
   white-space:normal; text-wrap:balance; text-transform:uppercase; text-align:left;
-  font-size:clamp(13px,2.4vw,20px);
-  letter-spacing:clamp(1.2px,.26vw,4.4px);
+  font-size:clamp(15px,2.6vw,23px);
+  letter-spacing:clamp(1.4px,.3vw,4.2px);
   margin-right:0; line-height:1.22;
 }
-.header .inA{min-width:0}
+/* Колонка A стандартної сітки (19.5%) завузька для більшого кегля:
+   слово «ФОТОГРАФІЇ» ламалось посеред літер. Шапка тому не йде за
+   загальною сіткою .row — власний двоколонковий грід, де назва отримує
+   стільки місця, скільки треба, а меню лишається праворуч. */
+.header{grid-template-columns:minmax(0,1fr) auto}
+.header .inA{min-width:0;padding-left:calc(var(--edge) + var(--gutter))}
 .header .inC.topnav{flex-wrap:wrap}
 
 
@@ -829,7 +838,7 @@ mark{background:var(--tint);color:var(--ink);box-shadow:0 1px 0 var(--ink)}
      знаком, незалежно від того, скільки вільного місця є праворуч.
      Кегль тут піднятий проти базового clamp — на телефоні лого мусить
      бути помітнішим, а не найдрібнішим написом на сторінці. */
-  .wordmark{max-width:190px;font-size:17px;letter-spacing:1.6px}
+  .wordmark{max-width:210px;font-size:20px;letter-spacing:1.8px}
 
   .fold{padding:var(--s6) 0 var(--s6)}
   .fold .inA{margin-bottom:var(--s2)}
