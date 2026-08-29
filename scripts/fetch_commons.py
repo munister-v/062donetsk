@@ -37,11 +37,21 @@ def year_of(raw):
     return m.group(1) if m else ""
 
 
+def year_of_title(title):
+    """«1911. Доменний цех.jpg» знято 1911 року, а не 2009-го.
+
+    У метаданих таких сканів стоїть дата завантаження, і зал вугілля
+    датувався роком, коли архівний знімок потрапив на Commons.
+    """
+    m = re.match(r"\s*(18\d\d|19[0-5]\d)\D", title or "")
+    return m.group(1) if m else ""
+
+
 def main():
     items = json.load(open(META, encoding="utf-8"))
     for f in items:
         f["author_clean"] = clean_author(f["author"])
-        f["year"] = year_of(f["date"])
+        f["year"] = year_of_title(f["title"]) or year_of(f["date"])
     items = [f for f in items if f["author_clean"]]
     # Крупнее — раньше: у Commons разброс от телефонных кадров до 50 Мп.
     items.sort(key=lambda f: -(f["w"] * f["h"]))

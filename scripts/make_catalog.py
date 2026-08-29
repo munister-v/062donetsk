@@ -286,10 +286,7 @@ def commons_hall(label, year):
     кадром (ім'я автора, ліцензія, посилання на файл), і це чесніше, ніж
     відгороджувати чуже стіною.
     """
-    if year.isdigit() and int(year) < 1961 and not any(
-            k in label for k in ("Шахт", "шахт", "Копальн", "копальн", "Терикон",
-                                 "Металургійн", "Домен", "Новоросійське",
-                                 "собор", "Собор", "Храм", "храм", "церкв", "Синагог")):
+    if year.isdigit() and int(year) < 1961:
         return "stare-misto"                     # Юзівка і Сталіне
     if any(k in label for k in ("старих знімках", "Юзівка", "Сталіне")):
         return "stare-misto"
