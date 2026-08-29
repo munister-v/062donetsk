@@ -75,7 +75,11 @@ def main():
     for w in works:
         by_hall.setdefault(w["hall"], []).append(w)
 
-    cover = by_hall["panoramy"][0]
+    def key_work(ws):
+        wide = [w for w in ws if w["w"] >= w["h"]]
+        return max(wide or ws, key=lambda w: w["w"] * w["h"])
+
+    cover = key_work(by_hall["panoramy"])
     card(os.path.join(ROOT, cover["file"]), "Музей фотографії Донецька",
          f"{len(works)} знімків у {len(halls)} залах · від Юзівки до сьогодні",
          os.path.join(OUT, "home.jpg"))
@@ -84,7 +88,7 @@ def main():
         ws = by_hall.get(h["slug"]) or []
         if not ws:
             continue
-        card(os.path.join(ROOT, ws[0]["file"]), h["title"],
+        card(os.path.join(ROOT, key_work(ws)["file"]), h["title"],
              f"{h['pair']} · {len(ws)} знімків",
              os.path.join(OUT, f"hall-{h['slug']}.jpg"))
         n += 1

@@ -330,6 +330,17 @@ def works_by_hall(slug):
     return [w for w in CAT["works"] if w["hall"] == slug]
 
 
+def key_work(ws):
+    """Ключовий кадр залу: найбільший горизонтальний знімок.
+
+    Раніше брався просто перший за іменем файлу, і зал вугілля відкривався
+    рейкою крупним планом. Горизонтальний кадр потрібен ще й тому, що з нього
+    ріжеться картка 1200×630 для месенджерів.
+    """
+    wide = [w for w in ws if w["w"] >= w["h"]]
+    return max(wide or ws, key=lambda w: w["w"] * w["h"])
+
+
 def exhibition_works(pattern):
     rx = re.compile(pattern, re.I)
     return [w for w in CAT["works"] if rx.search(w["title"])]
@@ -392,7 +403,7 @@ def build_home():
         "description": f"Віртуальний музей: {total} фотографій Донецька у {len(halls)} залах.",
         "isAccessibleForFree": True, "inLanguage": "uk",
     }, ensure_ascii=False) + "</script>\n")
-    key = works_by_hall("panoramy")[0]   # обкладинка музею: місто з висоти
+    key = key_work(works_by_hall("panoramy"))   # обкладинка музею: місто з висоти
     cover = key
 
     rows = []
@@ -400,7 +411,7 @@ def build_home():
         n = len(works_by_hall(h["slug"]))
         if not n:
             continue
-        key = works_by_hall(h["slug"])[0]
+        key = key_work(works_by_hall(h["slug"]))
         rows.append(f"""<article class="hall">
   <a class="row hall-row" href="/halls/{h['slug']}/">
     <span class="inA n">{i:02d}</span>
@@ -419,7 +430,7 @@ def build_home():
         ws = exhibition_works(pat)
         if len(ws) < 8:          # менше восьми кадрів це не виставка, а випадковість
             continue
-        k = ws[0]
+        k = key_work(ws)
         ex.append(f"""<article class="hall">
   <a class="row hall-row" href="/exhibitions/{slug}/">
     <span class="inA n">{i:02d}</span>
@@ -507,7 +518,8 @@ def build_hall(i, h, halls):
         return False
     for k, w in enumerate(ws):
         w["_i"] = k
-    key, rest = ws[0], ws[1:]
+    key = key_work(ws)
+    rest = [w for w in ws if w is not key]
     years = sorted({w["year"] for w in ws if w["year"]})
     data = json.dumps([{"id": w["id"], "title": w["title"], "year": w["year"]} for w in ws],
                       ensure_ascii=False)
