@@ -14,6 +14,7 @@ from PIL import Image, ImageOps
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CATALOG = os.path.join(ROOT, "data", "museum-catalog.json")
+EXCLUDED = os.path.join(ROOT, "data", "museum-excluded.json")
 # Каталог обходит только свой архив. Папка commons описана отдельным файлом
 # метаданных: если пройти по ней ещё и обходом, снимок попадёт в каталог дважды
 # — как свой (без автора) и как чужой (с автором), и дедупликация оставит тот,
@@ -115,6 +116,17 @@ def captions_from_portal():
         if len(text) > 3:
             out.setdefault(path, text)
     return out
+
+
+def excluded_files():
+    """Що прибрано з музею руками.
+
+    Файл лишається в репозиторії (портал ним користується), але в каталог
+    не потрапляє. Без цього списку перезбірка щоразу повертала б знімок назад.
+    """
+    if not os.path.exists(EXCLUDED):
+        return set()
+    return set(json.load(open(EXCLUDED, encoding="utf-8")).get("files", []))
 
 
 def photos():
@@ -274,6 +286,7 @@ def commons_works():
 
 
 def main():
+    skip_manual = excluded_files()
     old = {}
     if os.path.exists(CATALOG):
         old = {w["file"]: w for w in json.load(open(CATALOG, encoding="utf-8"))["works"]}
@@ -281,6 +294,9 @@ def main():
 
     works, skipped = [], []
     for rel, folder in photos():
+        if rel in skip_manual:
+            skipped.append((rel, "прибрано руками"))
+            continue
         try:
             with Image.open(os.path.join(ROOT, rel)) as im:
                 w, h = im.size
