@@ -150,15 +150,15 @@ def head(title, desc, path, og_id=None, extra_ld="", og_card=None):
 
 
 def header(home=False):
-    inner = f'{MARK}<span class="wordmark">062.DN.UA</span>'
+    inner = f'{MARK}<span class="wordmark">Музей фотографії Донецька</span>'
     mark = inner if home else f'<a class="brand" href="/">{inner}</a>'
-    
+
     halls = "#halls" if home else "/#halls"
     return f"""
   <header class="row header">
     <div class="inA brandbox">{mark}</div>
     <div class="inB micro brandstack">
-      <div class="est">Музей фотографії Донецька</div>
+      <div class="est">062.dn.ua</div>
     </div>
     <div class="inC micro topnav">
       <a href="/search/">пошук</a>

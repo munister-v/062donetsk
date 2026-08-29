@@ -173,14 +173,12 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
   .row{grid-template-columns:minmax(0,1fr)}
   .inA,.inB,.inC,.wide{padding:0 var(--s5)}
 
-  /* Шапка як у журналі: одна компактна смуга з вордмарком по центру
-     і волосяною лінією знизу. Значення зняті з живого eprisjournal.com:
-     Iowan Old Style 20px, трекінг 4.4px. Рядок «museum | virtual» та
-     «est. 2026» на телефоні прибрані — те саме є в підвалі, а тут вони
-     розганяли шапку до 160px замість 100. */
-  .header{display:block;padding:0;border-bottom:1px solid var(--hair);text-align:center}
-  .header .inA{padding:0;height:56px;display:flex;align-items:center;justify-content:center}
-  .wordmark{font-size:20px;letter-spacing:4.4px;margin-right:-4.4px}
+  /* Шапка: одна компактна смуга з вордмарком по центру й волосяною
+     лінією знизу. Вордмарк тепер повна назва музею («062.DN.UA» пішов
+     дрібною міткою в підвал), тож висота більше не фіксована — рядок
+     може перенестись, і шапка росте разом з ним. */
+  .header{display:block;padding:16px 0;border-bottom:1px solid var(--hair);text-align:center}
+  .header .inA{padding:0;display:flex;align-items:center;justify-content:center}
   .header .inB{display:none}
 
   .fold{padding:var(--s7) 0 var(--s8)}
@@ -694,7 +692,7 @@ mark{background:var(--tint);color:var(--ink);box-shadow:0 1px 0 var(--ink)}
    рядки, на десктопі один. Розрядка йде за кеглем, інакше на малому кеглі
    вона розсипає слово. */
 .wordmark{
-  display:inline-block; max-width:100%;
+  display:inline-block; max-width:100%; min-width:0; flex-shrink:1;
   white-space:normal; text-wrap:balance;
   font-size:clamp(15px,2.4vw,20px);
   letter-spacing:clamp(2.2px,.26vw,4.4px);
@@ -814,12 +812,11 @@ mark{background:var(--tint);color:var(--ink);box-shadow:0 1px 0 var(--ink)}
    тепер стоїть заголовком нижче, тож у шапці вона зайва, а меню стиснуте
    в одну смугу під волосяною лінією. */
 @media (max-width:720px){
-  .header{padding:0;border-bottom:1px solid var(--hair)}
-  .header .inA{height:52px;padding:0 var(--s5)}
+  .header{padding:14px 0 0;border-bottom:1px solid var(--hair)}
+  .header .inA{padding:0 var(--s5) 12px}
   .header .inB,.header .brandstack{display:none}
   .header .inC.topnav{padding:0 var(--s5) 10px;gap:1.1em;font-size:var(--t-xs);
     letter-spacing:.04em}
-  .wordmark{font-size:17px;letter-spacing:2.6px}
   .mark{width:1.7em;height:1.7em}
 
   .fold{padding:var(--s6) 0 var(--s6)}
