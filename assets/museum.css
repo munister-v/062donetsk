@@ -369,7 +369,12 @@ body.lb-open{overflow:hidden}
   .hall-nav .to-next{text-align:left;margin-left:0}
   .lb-stage{padding:var(--s4) var(--s4) 0}
   .lb-stage img{inset:var(--s4);width:calc(100% - 2*var(--s4));height:calc(100% - 2*var(--s4))}
-  .lb-bar{grid-template-columns:minmax(0,1fr);padding:var(--s4)}
+  /* Підпис і кнопки центруються кожен окремо: на телефоні рядок керування
+     раніше лишався притиснутим ліворуч, а решта ширини порожньою. */
+  .lb-bar{grid-template-columns:minmax(0,1fr);padding:var(--s4);
+    justify-items:center;text-align:center;gap:var(--s3)}
+  .lb-bar>div:first-child{display:flex;flex-direction:column;align-items:center}
+  .lb-controls{justify-content:center;width:100%}
 }
 
 /* ── вісь часу залів ──────────────────────────────────── */
@@ -826,57 +831,16 @@ mark{background:var(--tint);color:var(--ink);box-shadow:0 1px 0 var(--ink)}
 }
 
 
-/* ── «Пустеля реального» ─────────────────────────────────────────────
-   Єдиний темний блок сайту. Він темний не заради ефекту: після нього йде
-   «Про музей», і смуга працює паузою між залами й вихідними даними.
-   Зелений код з'являється тільки після натискання червоної пігулки. */
-.veil{position:relative;isolation:isolate;background:#0B0D0C;color:#EDEAE4;
-  margin-top:var(--s8);padding:var(--s8) 0;overflow:hidden}
-.veil-rain{position:absolute;inset:0;width:100%;height:100%;z-index:0;
-  opacity:0;transition:opacity .8s var(--ease);pointer-events:none}
-body.is-code .veil-rain{opacity:.55}
-.veil-in{position:relative;z-index:1;align-items:start}
-.veil .sec-title{color:#FFF;font-size:var(--t-2xl);margin:var(--s2) 0 var(--s4)}
-.veil-eyebrow{font-size:var(--t-xs);letter-spacing:.18em;text-transform:uppercase;
-  color:#8FA096}
-.veil-text p{margin:0 0 var(--s4);max-width:52ch;color:#CFCBC4;line-height:1.55}
-.veil-real{color:#EDEAE4}
-.veil-quote{margin:0 0 var(--s5);padding-left:var(--s4);
-  border-left:1px solid rgba(237,234,228,.28);
-  font-family:var(--serif);font-size:var(--t-lg);line-height:1.4;color:#FFF}
-.veil-quote cite{display:block;margin-top:var(--s2);font-family:var(--sans);
-  font-style:normal;font-size:var(--t-xs);color:#8FA096;letter-spacing:.02em}
-.veil-figure{color:rgba(237,234,228,.5)}
-.veil-figure svg{width:clamp(72px,7vw,104px);height:auto;display:block}
-.veil-cap{display:block;margin-top:var(--s2);font-size:var(--t-xs);
-  letter-spacing:.16em;text-transform:uppercase;color:#6F7C74}
-.veil-note{margin:0 0 var(--s4);font-size:var(--t-sm);color:#9FA9A2;max-width:34ch}
-.pills{display:flex;gap:var(--s2);flex-wrap:wrap}
-.dose{border-radius:999px;padding:.55em 1.3em;font-size:var(--t-sm);
-  letter-spacing:.04em;border:1px solid transparent;transition:all .2s var(--ease)}
-.dose-red{background:#8E2B20;color:#FFF}
-.dose-blue{background:none;color:#B9C6DA;border-color:rgba(185,198,218,.45)}
-.dose-red:hover{background:#A63527}
-.dose-blue:hover{border-color:#B9C6DA;color:#FFF}
-.dose[aria-pressed="true"]{outline:1px solid rgba(237,234,228,.75);outline-offset:3px}
-.veil-sound{margin-top:var(--s5);font-size:var(--t-xs);letter-spacing:.14em;
-  text-transform:uppercase;color:#8FA096;border-bottom:1px solid rgba(143,160,150,.5);
-  padding-bottom:2px}
-.veil-sound:hover{color:#FFF;border-bottom-color:#FFF}
-.veil-fine{margin:var(--s3) 0 0;font-size:var(--t-xs);color:#6F7C74;max-width:32ch;
-  line-height:1.5}
-/* Червона пігулка: текст блоку переходить на моноширинний і зеленіє.
-   Далі блоку це не поширюється, музей лишається музеєм. */
-body.is-code .veil-text p,body.is-code .veil-note,body.is-code .veil-fine{
-  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:var(--t-sm);
-  color:#B6E8C4}
-body.is-code .veil .sec-title,body.is-code .veil-real{color:#D9FFE4}
-body.is-code .veil-eyebrow,body.is-code .veil-cap{color:#7ED09A}
-body.is-code .veil-figure{color:rgba(150,255,180,.75)}
+/* ── Пустеля реального: цитата ───────────────────────────────────────
+   Одна репліка між залами й «Про музей», набрана як епіграф, без жодних
+   ефектів. Волосяні лінії зверху й знизу — та сама межа, що в .sec-rule. */
+.veil{padding:var(--s7) 0;border-top:1px solid var(--hair)}
+.veil-quote{margin:0}
+.veil-quote p{margin:0;font-family:var(--serif);font-size:var(--t-xl);
+  line-height:1.35;letter-spacing:-.006em;max-width:34ch}
+.veil-quote cite{display:block;margin-top:var(--s3);font-style:normal;
+  font-size:var(--t-xs);letter-spacing:.06em;color:var(--secondary)}
 @media (max-width:900px){
-  .veil{margin-top:var(--s7);padding:var(--s7) 0}
-  .veil-figure{margin-bottom:var(--s4)}
-  .veil-figure svg{width:64px}
-  .veil-text{margin-bottom:var(--s5)}
-  .veil-quote{font-size:var(--t-md)}
+  .veil{padding:var(--s6) 0}
+  .veil-quote p{font-size:var(--t-lg)}
 }

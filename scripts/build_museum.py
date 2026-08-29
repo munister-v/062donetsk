@@ -46,123 +46,19 @@ HALL_TEXT = {
            "робота арт-групи «Мурзилка», і місто під окупацією."),
 }
 
-# ── «Пустеля реального» ──────────────────────────────────────────────
-# Єдиний темний блок на всьому сайті. Привід не декоративний: місто на цих
-# знімках існує сьогодні здебільшого як зображення, і зображення про нього
-# роблять різні люди з різною метою. Бодріяр тут доречний, «Матриця» —
-# це його ж думка, переказана так, що її впізнають без виноски.
-# Обличчя актора не використовується: силует намальований лінією, як герб.
-# Музика з фільму не звучить і звучати не може, вона під копірайтом; кнопка
-# вмикає власний згенерований гул, і вимкнена за замовчуванням.
+# ── Пустеля реального ────────────────────────────────────────────────
+# Один тихий блок-цитата перед «Про музей»: без коду, без пігулок.
+# Привід — Бодріяр про симулякр, доречний тут тому, що містом сьогодні
+# для більшості лишається саме зображення; сам вислів наведений без ефектів.
 VEIL = """
-<section class="veil" id="veil">
-  <canvas class="veil-rain" aria-hidden="true"></canvas>
-  <div class="row veil-in">
-    <div class="inA veil-figure">
-      <svg viewBox="0 0 120 190" fill="none" stroke="currentColor" stroke-width="1.4"
-           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M60 20c11 0 18 8 18 19s-7 21-18 21-18-10-18-21 7-19 18-19z"/>
-        <path d="M42 40h36"/>
-        <circle cx="51" cy="41" r="7"/><circle cx="69" cy="41" r="7"/>
-        <path d="M58 41h4"/>
-        <path d="M60 60c16 0 26 7 30 18l14 96c-14 8-30 12-44 12s-30-4-44-12l14-96c4-11 14-18 30-18z"/>
-        <path d="M60 60v126"/>
-        <path d="M46 80l-6 100M74 80l6 100"/>
-      </svg>
-      <span class="veil-cap">провідник</span>
-    </div>
-    <div class="inB veil-text">
-      <span class="veil-eyebrow">поза залами</span>
-      <h2 class="sec-title">Пустеля реального</h2>
-      <p>Донецьк сьогодні існує для більшості як зображення: чужі кадри,
-      підписані чужими словами. Ці 480 знімків не сперечаються з ними
-      і нічого не доводять. Вони просто були зняті тут, і в кожного з них
-      є дата, місце й ім'я того, хто натиснув кнопку.</p>
-      <blockquote class="veil-quote">«Симулякр — це не те, що приховує істину.»
-        <cite>Жан Бодріяр, «Симулякри і симуляція», 1981</cite></blockquote>
-      <p class="veil-real">Архів — це те, що лишилось справжнім: не спогад про місто,
-      а світло, яке справді впало на плівку.</p>
-    </div>
-    <div class="inC veil-choice">
-      <p class="veil-note">Дві пігулки. Синя лишає музей папером, червона
-      показує, з чого зроблене зображення.</p>
-      <div class="pills">
-        <button type="button" class="dose dose-red" data-dose="red">червона</button>
-        <button type="button" class="dose dose-blue" data-dose="blue">синя</button>
-      </div>
-      <button type="button" class="veil-sound" aria-pressed="false">звук — вимкнено</button>
-      <p class="veil-fine">Гул генерується у браузері. Музики з фільму тут нема:
-      вона під копірайтом.</p>
-    </div>
+<section class="row veil" id="veil">
+  <div class="inA"></div>
+  <div class="inB veil-quote">
+    <p>«Симулякр — це не те, що приховує істину.»</p>
+    <cite>Жан Бодріяр, «Симулякри і симуляція», 1981</cite>
   </div>
-</section>
-<script>
-(function(){
-  var sec=document.getElementById('veil'); if(!sec) return;
-  var cv=sec.querySelector('.veil-rain'), ctx=cv.getContext('2d');
-  var calm=matchMedia('(prefers-reduced-motion:reduce)').matches;
-  var on=false, cols=[], step=0, raf=0, dpr=Math.min(devicePixelRatio||1,2);
-  var glyphs='0621ДНУАCODE01'.split('');
-  function size(){
-    var r=sec.getBoundingClientRect();
-    cv.width=r.width*dpr; cv.height=r.height*dpr;
-    cols=[]; for(var x=0;x<r.width;x+=16) cols.push(Math.random()*r.height);
-  }
-  function frame(){
-    var r=sec.getBoundingClientRect();
-    ctx.setTransform(dpr,0,0,dpr,0,0);
-    ctx.fillStyle='rgba(10,12,10,.16)'; ctx.fillRect(0,0,r.width,r.height);
-    ctx.font='13px ui-monospace,SFMono-Regular,Menlo,monospace';
-    for(var i=0;i<cols.length;i++){
-      ctx.fillStyle=i%9===0?'rgba(190,255,205,.85)':'rgba(120,200,140,.42)';
-      ctx.fillText(glyphs[(Math.random()*glyphs.length)|0], i*16, cols[i]);
-      cols[i]= cols[i]>r.height+Math.random()*220 ? 0 : cols[i]+16;
-    }
-    step++;
-    raf=requestAnimationFrame(frame);
-  }
-  function dose(kind){
-    on = kind==='red';
-    document.body.classList.toggle('is-code', on);
-    sec.querySelectorAll('.dose').forEach(function(b){
-      b.setAttribute('aria-pressed', String(b.dataset.dose===kind)); });
-    cancelAnimationFrame(raf);
-    if(on){ size(); if(!calm) raf=requestAnimationFrame(frame); else frame0(); }
-    else { ctx.clearRect(0,0,cv.width,cv.height); }
-  }
-  /* Без анімації код усе одно має бути видним: малюємо один кадр. */
-  function frame0(){ raf=requestAnimationFrame(function(){ frame(); cancelAnimationFrame(raf); }); }
-  sec.querySelectorAll('.dose').forEach(function(b){
-    b.addEventListener('click', function(){ dose(b.dataset.dose); }); });
-  addEventListener('resize', function(){ if(on) size(); });
-  /* Посилання з #code відкриває сторінку вже під червоною пігулкою:
-     стан можна переслати, а не тільки натиснути. */
-  if(location.hash==='#code') dose('red');
-
-  /* Власний гул: дві розстроєні синусоїди крізь фільтр. Вмикається лише
-     з кнопки, бо звук без згоди це те саме, що автоплей. */
-  var ac=null, gain=null, nodes=[];
-  var btn=sec.querySelector('.veil-sound');
-  btn.addEventListener('click', function(){
-    if(ac){ stop(); return; }
-    try{ ac=new (window.AudioContext||window.webkitAudioContext)(); }catch(e){ return; }
-    gain=ac.createGain(); gain.gain.value=0; gain.connect(ac.destination);
-    var flt=ac.createBiquadFilter(); flt.type='lowpass'; flt.frequency.value=520; flt.connect(gain);
-    [55,55.6,82.5].forEach(function(f){
-      var o=ac.createOscillator(); o.type='sine'; o.frequency.value=f;
-      var g=ac.createGain(); g.gain.value=.5; o.connect(g); g.connect(flt); o.start(); nodes.push(o);
-    });
-    gain.gain.linearRampToValueAtTime(.12, ac.currentTime+2.5);
-    btn.textContent='звук — увімкнено'; btn.setAttribute('aria-pressed','true');
-  });
-  function stop(){
-    var t=ac.currentTime; gain.gain.linearRampToValueAtTime(0, t+1.2);
-    var a=ac; setTimeout(function(){ nodes.forEach(function(o){ try{o.stop();}catch(e){} }); a.close(); }, 1400);
-    ac=null; nodes=[]; btn.textContent='звук — вимкнено'; btn.setAttribute('aria-pressed','false');
-  }
-})();
-</script>"""
-
+  <div class="inC"></div>
+</section>"""
 
 LEGACY_ANCHORS = """<script>
 /* Раніше корінь домену був порталом, і на нього лишились посилання з якорями
