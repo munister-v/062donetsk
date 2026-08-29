@@ -217,6 +217,8 @@ def tidy_author(name):
     if len(name) % 2 == 0 and name[:half] == name[half:]:   # «AA» вместо «A»
         name = name[:half]
     name = re.split(r"\s+[-–—]\s+|\s*\(|,\s", name)[0].strip()
+    # «Shamil Khakirov from Ukraine» — під знімком потрібне ім'я, а не адреса.
+    name = re.sub(r"\s+from\s+[A-Za-zА-Яа-яЇїІіЄєҐґ' -]+$", "", name).strip()
     return name[:46] or "Автор невідомий"
 
 

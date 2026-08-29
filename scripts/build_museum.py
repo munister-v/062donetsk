@@ -49,8 +49,9 @@ EXHIBITIONS = [
   r"ставок|ставк|фонтан|вода|озер|сад|квіт|дерев|парк"),
  ("mozaiky", "Мозаїки і монументи", "радянський спадок у камені й смальті",
   r"мозаїк|монумент|пам.ятник|стела|скульптур|барельєф"),
- ("doroha", "Дорога", "вокзали, трамваї, тролейбуси",
-  r"трамва|тролейбус|вокзал|потяг|перон|автобус|маршрут|аеропорт"),
+ ("doroha", "Дорога", "трамваї, тролейбуси, автобуси, залізниця",
+  r"трамва|тролейбус|вокзал|потяг|перон|автобус|маршрут|аеропорт|"
+  r"залізниц|метробуд|маршрутк|tatra|citylaz|транспорт"),
 ]
 
 
@@ -205,7 +206,7 @@ def plate_img(w, size="s", lazy=True, sizes='(max-width:900px) 92vw, 30vw'):
 def byline(w):
     """Кто снял. У своих кадров это архив портала, у чужих — имя автора,
     и оно должно стоять на самом видном месте подписи, а не в мелком тексте."""
-    return w.get("author") or "Донецьк"
+    return w.get("author") or "архів 062.dn.ua"
 
 
 def provenance(w):
@@ -222,8 +223,8 @@ def figure(w):
     <a class="plate" href="/works/{w['id']}/" data-i="{w['_i']}" aria-label="Відкрити знімок: {esc(w['title'])}">
       {plate_img(w)}</a>
     <figcaption>
-      <span class="w-artist">{esc(byline(w))}</span>
-      <span class="w-title"><i>{esc(w['title'])}</i></span>
+      <span class="w-artist">{esc(w['title'])}</span>
+      <span class="w-title"><i>{esc(byline(w))}</i></span>
       <span class="w-meta">{year}фотографія<br>
         <a href="/works/{w['id']}/">картка знімка</a> · {provenance(w)}</span>
     </figcaption>
@@ -383,8 +384,8 @@ def build_hall(i, h, halls):
   </a>
   <div class="label">
     <span class="eyebrow">Ключовий знімок залу</span>
-    <span class="w-artist">{esc(byline(key))}</span>
-    <span class="w-title"><i>{esc(key['title'])}</i></span>
+    <span class="w-artist">{esc(key['title'])}</span>
+    <span class="w-title"><i>{esc(byline(key))}</i></span>
     <span class="w-meta">{esc(key['year'] or 'без дати')} · фотографія<br>{provenance(key)}</span>
   </div>
 </div>
@@ -446,7 +447,7 @@ def build_work(w, hall, siblings):
     grid = "\n".join(f"""    <a class="sib" href="/works/{s['id']}/">
       <span class="p"><img src="/media/{s['id']}-s.webp" alt="{esc(s['title'])}"
         loading="lazy" decoding="async" width="500" height="{round(s['h']*500/s['w'])}"></span>
-      <span class="c"><b>{esc(byline(s))}</b>{esc(s['title'])}</span>
+      <span class="c"><b>{esc(s['title'])}</b>{esc(byline(s))}</span>
     </a>""" for s in sibs)
     facts = [("назва", esc(w["title"])),
              ("автор", esc(w["author"]) if w.get("author") else "архів 062.dn.ua"),

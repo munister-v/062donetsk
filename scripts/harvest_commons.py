@@ -40,6 +40,23 @@ CATEGORIES = [
     "Category:Sculptures in Donetsk",
     "Category:Fountains in Donetsk",
     "Category:Kalmius River",
+    # Транспорт: окремим блоком, бо це найпопулярніша тема архіву міста
+    # і у вільному доступі її більше, ніж здається з категорії «Trams».
+    "Category:2020 in transport in Donetsk",
+    "Category:Tatra T3 in Donetsk",
+    "Category:Trams in Donetsk",
+    "Category:Trams in Donetsk by model",
+    "Category:Trolleybuses in Donetsk",
+    "Category:KTG trolleybuses in Donetsk",
+    "Category:LAZ trolleybuses in Donetsk",
+    "Category:Buses in Donetsk",
+    "Category:CityLAZ-12 in Donetsk",
+    "Category:Minibuses in Donetsk",
+    "Category:Rail transport in Donetsk",
+    "Category:Donetsk Children's Railway",
+    "Category:Donetsk Metro",
+    "Category:Transport in Donetsk",
+    "Category:Road transport in Donetsk",
 ]
 # Не фотографии города: карты, гербы, схемы, сканы, коллажи.
 # Кириллические слова тут не для красоты: в категориях Донецка лежат сканы

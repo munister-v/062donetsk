@@ -19,7 +19,10 @@ HARD_DROP = re.compile(
     r"денежн|разменн|облигац|обліга|банкнот|купюр|марка|конверт|спецгашен|"
     r"škoda|skoda|octavia|"
     r"iphone|айфон|macbook|ноутбук|laptop|"
-    r"portrait|портрет|f cks|fücks|жюри|журі)", re.I)
+    r"portrait|портрет|f cks|fücks|жюри|журі|"
+    r"ferrari|porsche|bmw|mercedes|lamborghini|автомобіл|автомобил|"
+    r"магазин|супермаркет|вітрин|витрин|прилав|холодильн|товар|цінник|ценник|"
+    r"їжа|еда|продукт|молок|ковбас|пиво|напо)", re.I)
 
 # Мягкие: это повод загрузки, а не сюжет. Автор мог подписать «DrupalCamp»
 # набор, где на кадрах стадион и улицы, — категория тут говорит правду,
@@ -32,6 +35,18 @@ SOFT_DROP = re.compile(r"(drupalcamp|конференц|conference|camp\b|"
 CATEGORY_TITLE = [
     # Спершу найконкретніше: сімдесят кадрів з однаковим підписом
     # «Вулиці Донецька» це не каталог, а шпалери.
+    ("Tatra T3", "Трамвай Tatra T3"),
+    ("Trams in Donetsk", "Донецький трамвай"),
+    ("Tram transport", "Донецький трамвай"),
+    ("Trolleybuses in Donetsk", "Донецький тролейбус"),
+    ("KTG trolleybuses", "Тролейбус КТГ"),
+    ("LAZ trolleybuses", "Тролейбус ЛАЗ"),
+    ("CityLAZ", "Автобус CityLAZ"),
+    ("Minibuses in Donetsk", "Маршрутка"),
+    ("Buses in Donetsk", "Донецький автобус"),
+    ("Donetsk Children's Railway", "Дитяча залізниця"),
+    ("Rail transport in Donetsk", "Залізниця Донецька"),
+    ("Donetsk Metro", "Донецький метробуд"),
     ("Pushkin Boulevard", "Бульвар Пушкіна"),
     ("Artema Street", "Вулиця Артема"),
     ("Universitetska", "Університетська вулиця"),
@@ -64,8 +79,7 @@ CATEGORY_TITLE = [
     ("History of Donetsk", "Донецьк на старих знімках"),
     ("Buildings in Donetsk", "Будівлі Донецька"),
     ("Architecture", "Архітектура Донецька"),
-    ("Views of Donetsk", "Види Донецька"),
-    ("Objects of Donetsk", "Донецьк"),
+    ("Views of Donetsk", "Панорама міста"),
 ]
 
 
@@ -95,9 +109,22 @@ def categories(titles):
     return out
 
 
+# Категорії, які нічого не кажуть про сюжет: це службові теки завантажувача.
+NOISE_CAT = re.compile(r"(photos,? created by|photographs of donetsk by|uncategoris|"
+                       r"uncategoriz|taken with|flickr|panoramio|license|cc-by|pd-|"
+                       r"self-published|files by|media (needing|requiring)|gfdl)", re.I)
+
+
 def title_for(cats):
+    """Назва тільки з предметної категорії.
+
+    Раніше тут був загальний запасний варіант «Вулиці Донецька», і через нього
+    в музей потрапляли вітрина холодильника й чужа Ferrari під виглядом вулиці.
+    Немає категорії про сюжет — знімок не береться взагалі.
+    """
+    useful = [c for c in cats if not NOISE_CAT.search(c)]
     for needle, label in CATEGORY_TITLE:
-        if any(needle.lower() in c.lower() for c in cats):
+        if any(needle.lower() in c.lower() for c in useful):
             return label
     return ""
 
@@ -112,7 +139,9 @@ def main():
         cat_text = " ".join(cats.get(x["title"], []))
         # Люди крупним планом і речі зі столу це не музей міста.
         if re.search(r"(people of donetsk|portraits|men |women |journalists|"
-                     r"computers|electronics|meetings|conferences)", cat_text, re.I):
+                     r"computers|electronics|meetings|conferences|"
+                     r"shops|shopping|supermarket|retail|food|drinks|"
+                     r"cars in|automobiles|interiors of shops)", cat_text, re.I):
             dropped.append((x["title"][:50], "люди або предмети, не місто"))
             continue
         # По категориям ловим только советские монументы: категория надёжно

@@ -46,6 +46,17 @@ def main():
     # Крупнее — раньше: у Commons разброс от телефонных кадров до 50 Мп.
     items.sort(key=lambda f: -(f["w"] * f["h"]))
 
+    # Транспорт добираємо квотою, а не сподіванням: за розміром кадру трамвай
+    # програє панорамі на 50 Мп і не потрапляє у вибірку взагалі.
+    TRANSPORT = re.compile(r"(трамва|тролейбус|автобус|tram|trolley|bus\b|"
+                           r"tatra|ziu|laz|вокзал|поїзд|поезд|потяг|metro|метро|"
+                           r"залізни|железнодорож|рейк|депо)", re.I)
+    quota = int(os.environ.get("TRANSPORT_QUOTA", "60"))
+    transport = [f for f in items if TRANSPORT.search(f["title"] + " " + (f.get("desc") or ""))]
+    rest = [f for f in items if f not in transport]
+    items = transport[:quota] + rest
+    print(f"транспортних кадрів у пулі: {len(transport)}, беремо до {quota}")
+
     os.makedirs(OUT, exist_ok=True)
     picked, seen_author = [], {}
     for f in items:
