@@ -243,7 +243,7 @@ a,button,.hall-row,.plate,.wk{-webkit-tap-highlight-color:transparent}
   /* Запас на системні шрифти-заміни (не в усіх Android/Windows є Iowan
      Old Style чи Palatino): деякі запасні серифи ширші, і назва музею
      може зʼїхати в три рядки. Трохи тісніший трекінг тримає її у двох. */
-  .wordmark{font-size:18px;letter-spacing:1.4px;max-width:190px}
+  .wordmark{font-size:22px;letter-spacing:1.8px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 
@@ -718,6 +718,11 @@ mark{background:var(--tint);color:var(--ink);box-shadow:0 1px 0 var(--ink)}
   font-size:clamp(15px,2.6vw,23px);
   letter-spacing:clamp(1.4px,.3vw,4.2px);
   margin-right:0; line-height:1.22;
+  /* Три рядки на всіх ширинах: «МУЗЕЙ / ФОТОГРАФІЇ / ДОНЕЦЬКА».
+     min-content = ширина найдовшого слова, тож перенос стає по пробілах
+     і саме там, де треба. Задавати межу в ch не можна: ch не знає про
+     розрядку, і «ФОТОГРАФІЇ» ламалось посеред слова. */
+  width:min-content;
 }
 /* Колонка A стандартної сітки (19.5%) завузька для більшого кегля:
    слово «ФОТОГРАФІЇ» ламалось посеред літер. Шапка тому не йде за
@@ -809,6 +814,10 @@ mark{background:var(--tint);color:var(--ink);box-shadow:0 1px 0 var(--ink)}
 /* Заголовок першого екрана: тепер це лише поетичний рядок, назва музею
    вже стоїть у шапці над ним і повторювати її тут — зайве. */
 .blurb{margin:var(--s5) 0 0;max-width:52ch;color:var(--soft);line-height:1.55}
+/* Лічильник під заголовком: та сама вага, що в підзаголовках залів —
+   це факт про архів, а не рекламний рядок. */
+.hero-count{margin:var(--s4) 0 0;font-family:var(--serif);font-size:var(--t-lg);
+  line-height:1.3;color:var(--secondary);letter-spacing:-.006em}
 .fold .backlink{display:inline-block;margin-top:var(--s5);
   border-bottom:1px solid currentColor;padding-bottom:2px}
 
@@ -838,7 +847,7 @@ mark{background:var(--tint);color:var(--ink);box-shadow:0 1px 0 var(--ink)}
      знаком, незалежно від того, скільки вільного місця є праворуч.
      Кегль тут піднятий проти базового clamp — на телефоні лого мусить
      бути помітнішим, а не найдрібнішим написом на сторінці. */
-  .wordmark{max-width:210px;font-size:20px;letter-spacing:1.8px}
+  .wordmark{font-size:25px;letter-spacing:2.2px}
 
   .fold{padding:var(--s6) 0 var(--s6)}
   .fold .inA{margin-bottom:var(--s2)}
@@ -871,4 +880,50 @@ mark{background:var(--tint);color:var(--ink);box-shadow:0 1px 0 var(--ink)}
 @media (max-width:900px){
   .veil{padding:var(--s6) 0}
   .veil-quote p{font-size:var(--t-lg)}
+}
+
+
+/* ── Приймальня знімків ──────────────────────────────────────────────
+   Блок стоїть на тій самій сітці, що «Підтримати автора»: та сама
+   двоколонкова .support, ті самі .pill і .sup-eyebrow. Форма — єдине
+   місце на сайті з полями вводу, тож вони описані тут повністю. */
+.submit .sup-left p{margin:var(--s3) 0 0}
+.submit-rules{font-size:var(--t-sm);color:var(--secondary)}
+.submit-form{display:grid;gap:var(--s4);max-width:34rem}
+.sf-field{display:grid;gap:var(--s2)}
+.sf-field>span{font-size:var(--t-xs);letter-spacing:.14em;text-transform:uppercase;
+  color:var(--secondary)}
+.sf-field>span b{color:var(--accent);font-weight:400}
+.sf-field input[type=text],.sf-field textarea{
+  font:inherit;font-size:var(--t-sm);color:var(--ink);background:var(--paper);
+  border:1px solid var(--hair);border-radius:2px;padding:.7em .8em;width:100%;
+  transition:border-color .16s var(--ease)}
+.sf-field textarea{resize:vertical;line-height:1.5}
+.sf-field input[type=text]:focus,.sf-field textarea:focus{
+  outline:none;border-color:var(--ink)}
+.sf-field input[type=file]{font:inherit;font-size:var(--t-sm);color:var(--soft);
+  padding:.6em 0}
+.sf-field input[type=file]::file-selector-button{
+  font:inherit;font-size:var(--t-sm);cursor:pointer;margin-right:var(--s3);
+  background:none;color:var(--ink);border:1px solid var(--hair);
+  border-radius:40px;padding:.5em 1.1em;transition:border-color .16s var(--ease)}
+.sf-field input[type=file]::file-selector-button:hover{border-color:var(--ink)}
+.sf-picked{margin:0;font-size:var(--t-xs);color:var(--secondary);
+  font-variant-numeric:tabular-nums}
+/* Поле-пастка для ботів: прибрано з потоку, але не display:none —
+   частина ботів свідомо ігнорує саме display:none. */
+.sf-trap{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.submit-form .pill{justify-self:start;cursor:pointer;
+  padding:var(--s3) var(--s5);font-size:var(--t-sm)}
+.submit-form .pill[disabled]{opacity:.5;cursor:progress}
+.sf-status{margin:0;font-size:var(--t-sm);line-height:1.5;color:var(--secondary);
+  min-height:1.5em}
+.sf-status.is-bad{color:var(--accent)}
+.sf-status.is-good{color:var(--ink)}
+@media (max-width:720px){
+  .submit-form{max-width:none;text-align:left}
+  .submit .sup-right{align-items:stretch}
+  .submit-form .pill{justify-self:center}
+  .sf-field>span{text-align:left}
+  .sf-picked,.sf-status{text-align:left}
 }
