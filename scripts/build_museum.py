@@ -220,22 +220,19 @@ SUPPORT = """<section class="support" id="support">
 </script>"""
 
 # ── Запрошення поповнити архів ───────────────────────────────────────
-# Сама форма живе окремою сторінкою /submit/: на головній вона забирала
-# екран і змагалася увагою із залами, заради яких сюди й приходять.
-SUBMIT_CTA = """<section class="support" id="submit">
-  <div class="in">
-    <div class="sup-left">
-      <span class="sup-eyebrow">Поповнити архів</span>
-      <h2 class="sec-title">У вас є фотографії Донецька?</h2>
-      <p>Свої, батьківські, скановані з альбому — надішліть їх музею.
-      Кожен кадр переглядається руками; те, що підійде, стане на стіну
-      з вашим ім'ям у підписі.</p>
+# Стоїть перед залами: архів росте з чужих альбомів, і сказати про це
+# треба до того, як людина піде роздивлятися зали, а не після. Сама форма
+# живе окремою сторінкою /submit/ — на головній вона забирала цілий екран.
+# Блок іде на загальній сітці сцени (.row/.inA/.inB/.inC), а не на власній,
+# інакше він розійшовся б по краях із рештою сторінки.
+SUBMIT_CTA = """  <section class="row cta" id="submit">
+    <div class="inA"><span class="cta-eyebrow">Поповнити архів</span></div>
+    <div class="inB cta-text">
+      <p>Музей росте з чужих альбомів. Якщо у вас є фотографії Донецька —
+      свої, батьківські, скановані — надішліть їх сюди.</p>
     </div>
-    <div class="sup-right">
-      <a class="pill" href="/submit/">Надіслати знімки →</a>
-    </div>
-  </div>
-</section>"""
+    <div class="inC cta-act"><a class="pill" href="/submit/">Надіслати знімки →</a></div>
+  </section>"""
 
 
 # Той самий автор написав роман-репортаж про літо 2014-го: логічне продовження
@@ -457,6 +454,7 @@ def build_home():
       width="1200" height="{round(cover['h'] * 1200 / cover['w'])}" decoding="async">
     <figcaption>{esc(cover['title'])}</figcaption>
   </figure>
+{SUBMIT_CTA}
   <section class="row sec" id="halls">
     <div class="inA"><h2 class="sec-title">Зали</h2></div>
     <div class="inB sec-note">Кожен зал це окрема розвіска. Оберіть назву, щоб увійти.</div>
@@ -496,7 +494,6 @@ def build_home():
 </div>
 {CREDIT}
 {LEGACY_ANCHORS}
-{SUBMIT_CTA}
 {SUPPORT}
 {BOOK}
 {FOOT}"""
