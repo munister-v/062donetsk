@@ -693,7 +693,7 @@ mark{background:var(--tint);color:var(--ink);box-shadow:0 1px 0 var(--ink)}
    вона розсипає слово. */
 .wordmark{
   display:inline-block; max-width:100%; min-width:0; flex-shrink:1;
-  white-space:normal; text-wrap:balance;
+  white-space:normal; text-wrap:balance; text-transform:uppercase;
   font-size:clamp(15px,2.4vw,20px);
   letter-spacing:clamp(2.2px,.26vw,4.4px);
   margin-right:0; line-height:1.2;

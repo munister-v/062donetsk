@@ -164,7 +164,6 @@ def header(home=False):
       <a href="/search/">пошук</a>
       <a href="/#exhibitions">виставки</a>
       <a href="{halls}">зали</a>
-      <a href="/portal/">портал</a>
     </div>
   </header>"""
 
