@@ -227,6 +227,10 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 @media (max-width:420px){
   .inA,.inB,.inC,.wide,  .hall-row,.prog-item{padding-left:16px;padding-right:16px}
   .band-cap{left:var(--s5)}
+  /* Запас на системні шрифти-заміни (не в усіх Android/Windows є Iowan
+     Old Style чи Palatino): деякі запасні серифи ширші, і назва музею
+     може зʼїхати в три рядки. Трохи тісніший трекінг тримає її у двох. */
+  .wordmark{font-size:12.5px;letter-spacing:.8px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 
@@ -694,9 +698,9 @@ mark{background:var(--tint);color:var(--ink);box-shadow:0 1px 0 var(--ink)}
 .wordmark{
   display:inline-block; max-width:100%; min-width:0; flex-shrink:1;
   white-space:normal; text-wrap:balance; text-transform:uppercase;
-  font-size:clamp(15px,2.4vw,20px);
-  letter-spacing:clamp(2.2px,.26vw,4.4px);
-  margin-right:0; line-height:1.2;
+  font-size:clamp(13px,2.4vw,20px);
+  letter-spacing:clamp(1.2px,.26vw,4.4px);
+  margin-right:0; line-height:1.22;
 }
 .header .inA{min-width:0}
 .header .inC.topnav{flex-wrap:wrap}
