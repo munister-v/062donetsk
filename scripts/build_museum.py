@@ -63,6 +63,11 @@ def hall_text(h):
     return HALL_TEXT.get(h["slug"]) or h["pair"]
 
 
+MARK = ('<svg class="mark" viewBox="0 0 44 44" aria-hidden="true" focusable="false">'
+        '<circle cx="33" cy="11" r="4.4" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M2.5 33.5 C11 31 14.5 21 18.5 9.5 C22.5 21 27.5 30 35.5 33.5 Z" fill="currentColor" fill-opacity=".12" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M1 37.5 H43" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>'
+        '</svg>')
+
+
 def esc(s):
     return H.escape(s or "", quote=True)
 
@@ -76,6 +81,7 @@ def head(title, desc, path, og_id=None, extra_ld=""):
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>{esc(title)}</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32">
 <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
@@ -98,12 +104,13 @@ def head(title, desc, path, og_id=None, extra_ld=""):
 
 
 def header(home=False):
-    mark = ('<span class="wordmark">062.DN.UA</span>' if home
-            else '<a href="/"><span class="wordmark">062.DN.UA</span></a>')
+    inner = f'{MARK}<span class="wordmark">062.DN.UA</span>'
+    mark = inner if home else f'<a class="brand" href="/">{inner}</a>'
+    
     halls = "#halls" if home else "/#halls"
     return f"""
   <header class="row header">
-    <div class="inA">{mark}</div>
+    <div class="inA brandbox">{mark}</div>
     <div class="inB micro brandstack">
       <div class="est">Музей фотографії Донецька</div>
     </div>
@@ -242,10 +249,16 @@ def build_home():
         n = len(works_by_hall(h["slug"]))
         if not n:
             continue
+        key = works_by_hall(h["slug"])[0]
         rows.append(f"""<article class="hall">
   <a class="row hall-row" href="/halls/{h['slug']}/">
     <span class="inA n">{i:02d}</span>
-    <span class="inB hall-name">{esc(h['title'])}</span>
+    <span class="inB hall-name">
+      <span class="hall-thumb"><img src="/media/{key['id']}-s.webp" alt=""
+        loading="lazy" decoding="async" width="500"
+        height="{round(key['h'] * 500 / key['w'])}"></span>
+      <span class="hall-title">{esc(h['title'])}</span>
+    </span>
     <span class="inC hall-meta"><span>{esc(h['pair'])}</span><span class="lock">{n} знімків</span></span>
   </a>
 </article>""")

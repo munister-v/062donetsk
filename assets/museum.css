@@ -9,6 +9,8 @@
   --rule:#121212;
   --tint:#F2F1EF;
   --pill:#121212;
+  --accent:#9E3B2C;      /* цегла: єдиний колір, яким музей дозволяє собі говорити */
+  --accent-soft:#F6EDEA;
   --pill-ink:#FFFFFF;
   --edge:16px;            /* крайні лінії сітки, у пікселях */
   --gutter:20px;          /* відбивка тексту від лінії */
@@ -725,18 +727,43 @@ mark{background:var(--tint);color:var(--ink);box-shadow:0 1px 0 var(--ink)}
   .header .inB,.header .brandstack{display:block}
   .header .est{max-width:18ch;margin:.5em auto 0;line-height:1.35;
                white-space:normal;text-wrap:pretty}
-  .fold,.fold .inA,.fold .inC{text-align:center}
-  .fold .blurb,.fold .hero-title{margin-left:auto;margin-right:auto}
-  .hall-hero .inC{text-align:center}
-  .hall-hero .blurb,.hall-hero .pair{margin-left:auto;margin-right:auto}
-  .hall-stats{justify-content:center}
-  .sec-note{text-align:center}
-  .sec-title,.sec-count{text-align:center}
-  .row.sec .inA,.row.sec .inC{justify-content:center}
-  .row.visit .inC{text-align:center}
-  .crumbs .inC,.hall-nav .inC{justify-content:center;text-align:center}
+  /* Центрується тільки шапка. Тексти лишаються ліворуч: списки залів
+     усе одно вирівняні по лівому краю, і половинчасте центрування було
+     саме тим, що виглядало нерівно. */
+  .hall-thumb{width:64px}
+  .crumbs .inC,.hall-nav .inC{justify-content:flex-start}
   .support .in{grid-template-columns:1fr;text-align:center}
   .support p{margin-left:auto;margin-right:auto}
   .sup-card{align-items:center}
   .sup-copy{align-self:center}
 }
+
+
+/* ── Знак ────────────────────────────────────────────────────────────
+   Терикон із сонцем: монолінія, успадковує колір тексту, тому працює
+   і в шапці, і на темному підвалі. */
+.brandbox{display:flex;align-items:center;gap:.6em}
+.brandbox .brand{display:flex;align-items:center;gap:.6em;text-decoration:none;color:inherit}
+.mark{width:1.9em;height:1.9em;flex:none;color:var(--accent);transition:transform .5s var(--ease)}
+.brandbox:hover .mark{transform:translateY(-2px)}
+
+/* ── Акцент ──────────────────────────────────────────────────────────
+   Один колір і тільки на трьох речах: номер залу, лічильник, дія.
+   Більше — і музей перестає бути папером. */
+.hall-row .n{color:var(--accent)}
+.hall-meta .lock{background:var(--accent-soft);color:var(--accent);
+  border-radius:999px;padding:.25em .7em;font-size:var(--t-xs);letter-spacing:.1em}
+.hall-row:hover .hall-name,.hall-row:hover .hall-title{color:var(--accent)}
+.sup-jar{border-color:var(--accent);color:var(--accent)}
+.sup-jar:hover{background:var(--accent);color:var(--paper)}
+.fold .backlink,.hall-hero .backlink{color:var(--accent)}
+
+/* ── Мініатюра залу ──────────────────────────────────────────────────
+   Список залів був стовпцем самого лише тексту. Кадр збоку показує,
+   що всередині, і не ламає рядок: він фіксованої висоти. */
+.hall-name{display:flex;align-items:center;gap:clamp(12px,1.6vw,22px)}
+.hall-thumb{flex:none;width:clamp(72px,9vw,120px);aspect-ratio:4/3;overflow:hidden;
+  background:var(--tint);border-radius:2px}
+.hall-thumb img{width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform .6s var(--ease)}
+.hall-row:hover .hall-thumb img{transform:scale(1.06)}
