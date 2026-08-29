@@ -237,7 +237,7 @@ a,button,.hall-row,.plate,.wk{-webkit-tap-highlight-color:transparent}
   /* Запас на системні шрифти-заміни (не в усіх Android/Windows є Iowan
      Old Style чи Palatino): деякі запасні серифи ширші, і назва музею
      може зʼїхати в три рядки. Трохи тісніший трекінг тримає її у двох. */
-  .wordmark{font-size:12.5px;letter-spacing:.8px}
+  .wordmark{font-size:15px;letter-spacing:1.1px;max-width:170px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 
@@ -816,12 +816,14 @@ mark{background:var(--tint);color:var(--ink);box-shadow:0 1px 0 var(--ink)}
   .header .inB,.header .brandstack{display:none}
   .header .inC.topnav{padding:0 var(--s5) 10px;gap:1.1em;font-size:var(--t-xs);
     letter-spacing:.04em}
-  .mark{width:1.7em;height:1.7em}
+  .mark{width:2.15em;height:2.15em}
   /* На широких телефонах назва вміщувалась в один довгий рядок — виходило
      розтягнуте лого замість компактного знака з підписом. Обмежуємо
      ширину тексту, щоб він завжди складався у два-три рядки поруч зі
-     знаком, незалежно від того, скільки вільного місця є праворуч. */
-  .wordmark{max-width:150px}
+     знаком, незалежно від того, скільки вільного місця є праворуч.
+     Кегль тут піднятий проти базового clamp — на телефоні лого мусить
+     бути помітнішим, а не найдрібнішим написом на сторінці. */
+  .wordmark{max-width:190px;font-size:17px;letter-spacing:1.6px}
 
   .fold{padding:var(--s6) 0 var(--s6)}
   .fold .inA{margin-bottom:var(--s2)}
