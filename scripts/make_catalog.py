@@ -120,6 +120,27 @@ def captions_from_portal():
     return out
 
 
+CREDIT_IN_TITLE = re.compile(r"\s*·\s*(z1uk\s*&\s*railalex)\s*", re.I)
+
+
+def split_credit(title):
+    """Ім'я знімальників, зашите в підпис, переносимо в поле автора.
+
+    У порталі підпис написаний одним рядком: «Донецьк · z1uk & railalex ·
+    2012–2014». У музеї для автора є окреме поле й окремий рядок під кадром,
+    і сорок дев'ять однакових назв через це перестають бути однаковими.
+    """
+    m = CREDIT_IN_TITLE.search(title)
+    if not m:
+        return title, ""
+    cleaned = CREDIT_IN_TITLE.sub(" · ", title).strip(" ·")
+    cleaned = re.sub(r"\s*·\s*·\s*", " · ", cleaned)
+    # Рік і так стоїть окремим полем під кадром; лишати його ще й у назві
+    # означає друкувати «Донецьк · 2012–2014» сорок дев'ять разів поспіль.
+    cleaned = re.sub(r"\s*·\s*(19|20)\d\d(\s*[–-]\s*(19|20)\d\d)?\s*$", "", cleaned).strip(" ·")
+    return cleaned, m.group(1)
+
+
 def manual_titles():
     """Підписи, виправлені руками.
 
@@ -330,13 +351,17 @@ def main():
             skipped.append((rel, f"мелкий {w}x{h}"))
             continue
         prev = old.get(rel, {})
+        title = (fixed_titles.get(rel) or caps.get(rel)
+                 or DEFAULT_TITLE.get(folder, "Донецьк"))
+        title, credit = split_credit(title)
+        if title in ("", "Донецьк"):        # лишився голий топонім — беремо назву розділу
+            title = DEFAULT_TITLE.get(folder, "Донецьк")
         works.append({
             "id": "",                       # проставит assign_ids: нужен взгляд на весь набор
             "file": rel,
             # Попередній каталог більше не джерело: він консервував помилку.
             # Порядок: ручний підпис → alt порталу → назва за розділом.
-            "title": (fixed_titles.get(rel) or caps.get(rel)
-                      or DEFAULT_TITLE.get(folder, "Донецьк")),
+            "title": title,
             "titled_by_author": rel in caps,
             # Зал перечитується з розкладки щоразу: інакше попередній
             # каталог законсервував би стару групіровку назавжди.
@@ -347,7 +372,7 @@ def main():
                      date_from_name(rel) or YEARS.get(folder, "")),
             "year_manual": prev.get("year_manual", False),
             "note": prev.get("note", ""),
-            "source": "own", "author": "", "license": "", "page": "",
+            "source": "own", "author": credit, "license": "", "page": "",
             "w": w, "h": h,
         })
 

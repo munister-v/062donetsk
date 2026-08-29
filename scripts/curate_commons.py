@@ -19,6 +19,8 @@ HARD_DROP = re.compile(
     r"денежн|разменн|облигац|обліга|банкнот|купюр|марка|конверт|спецгашен|"
     r"škoda|skoda|octavia|"
     r"iphone|айфон|macbook|ноутбук|laptop|"
+    r"crash|accident|collision|аварі|катастроф|зіткн|зштовх|"      # аварії, не місто
+    r"проспект реклам|рекламн\w* проспект|прейскурант|каталог товар|"  # скани друку
     r"portrait|портрет|f cks|fücks|жюри|журі|"
     r"ferrari|porsche|bmw|mercedes|lamborghini|автомобіл|автомобил|"
     r"магазин|супермаркет|вітрин|витрин|прилав|холодильн|товар|цінник|ценник|"
@@ -167,6 +169,11 @@ def main():
         # Довоєнні кадри це не «вулиці», це інша епоха міста.
         if year and year.isdigit() and int(year) < 1940:
             label = "Донецьк на старих знімках"
+        # І навпаки: «старий знімок», датований 2010 роком, це помилка
+        # каталогу, а не знахідка. Категорія «History of Donetsk» тут бреше.
+        if label == "Донецьк на старих знімках" and year.isdigit() and int(year) > 1960:
+            dropped.append((x["title"][:50], "стара категорія на новому кадрі"))
+            continue
         stamp = month or year
         x["museum_title"] = f"{label} · {stamp}" if stamp else label
         kept.append(x)
