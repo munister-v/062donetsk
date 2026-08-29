@@ -173,10 +173,7 @@ def header(home=False):
 SUPPORT = """<section class="support" id="support">
   <div class="in">
     <div class="sup-left">
-      <span class="sup-eyebrow">Без реклами й донорів</span>
       <h2 class="sec-title">Підтримати автора сайту</h2>
-      <p>Музей і портал зроблені однією людиною і живуть без реклами.
-      Якщо архів для вас щось важить, ви можете допомогти йому далі рости.</p>
     </div>
     <div class="sup-right">
       <a class="pill" href="https://send.monobank.ua/jar/5w5VyzR26W" rel="noopener" target="_blank">
@@ -208,7 +205,8 @@ SUPPORT = """<section class="support" id="support">
 FOOT = """<footer class="site-foot">
   <div class="in">
     <div>
-      <h2>062.DN.UA</h2>
+      <span class="foot-mark">062.DN.UA</span>
+      <h2>Музей<br>фотографії<br>Донецька</h2>
     </div>
     <div class="right">
       <p>© 2026 062.dn.ua</p>

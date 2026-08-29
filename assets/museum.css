@@ -285,9 +285,14 @@ figure.work figcaption{font-size:var(--t-sm);line-height:1.45}
   justify-content:space-between;align-items:flex-end;gap:48px;
 }
 
+/* Мітка над назвою: та сама роль, що адреса над заголовком на головній.
+   Без неї «Музей фотографії Донецька» у підвалі виглядало б без опори —
+   назва повторюється, а сам домен більше ніде тут не написаний. */
+.foot-mark{display:block;margin-bottom:16px;font-size:13px;
+  letter-spacing:2.4px;color:var(--foot-mute)}
 .site-foot h2{
-  margin:0 0 32px;font-family:var(--serif);font-weight:400;
-  font-size:60px;line-height:1;letter-spacing:.08px;color:var(--foot-ink);
+  margin:0;font-family:var(--serif);font-weight:400;
+  font-size:44px;line-height:1.06;letter-spacing:-.012em;color:var(--foot-ink);
 }
 .site-foot .lines-of{max-width:20rem}
 .site-foot p{
@@ -302,7 +307,8 @@ figure.work figcaption{font-size:var(--t-sm);line-height:1.45}
   .site-foot{padding:48px 32px}
   .site-foot .in{flex-direction:column;align-items:center;text-align:center;gap:48px}
   
-.site-foot h2{font-size:36px;margin-bottom:24px}
+.site-foot h2{font-size:30px}
+  .foot-mark{margin-bottom:12px}
   .site-foot .right{text-align:center}
   .site-foot .lines-of{margin:0 auto}
 }
