@@ -17,25 +17,21 @@ SITE = "https://062.dn.ua"
 CSS_V = "20260829"
 
 HALL_TEXT = {
- "misto-do-2014": ("Місто, яким його знали: вокзали, проспекти, мозаїки, вечірні вогні. "
-                   "Знімки зроблені до 2014 року, коли ця зйомка не була документом втрати."),
- "euro-2012": ("Червень 2012 року, чемпіонат Європи. Донецьк приймає Європу, і це "
-               "єдиний час, коли місто бачив увесь континент."),
- "panorama": ("Панорама з висоти, 2012–2014. Місто на піку: забудова, зелень, "
-              "стадіон, терикони на горизонті."),
- "lito-2014": ("Літо 2014 і зима 2015: дим над кварталами, спалений тролейбус біля "
-               "вокзалу, обстріляна зупинка на Купріна 22 січня 2015 року, остання "
-               "робота арт-групи «Мурзилка». Рік, який розділив архів надвоє."),
- "botanichnyi-sad": ("Донецький ботанічний сад: оаза посеред вугільного краю, "
-                     "один з найбільших садів країни."),
- "kolory": ("Колір як окремий сюжет: вода, зелень, світло на бетоні. "
-            "Знімки без точної дати, зроблені до повномасштабної війни."),
- "okupatsiia": ("2022–2026. Місто під окупацією: те, що з нього зробили, "
-                "і те, що в ньому ще впізнається."),
- "ochyma-inshykh": ("Знімки Донецька з Wikimedia Commons. Під кожним стоїть ім'я "
-                    "автора, ліцензія і посилання на файл-джерело: ці кадри зроблені "
-                    "не нами, і з підпису це видно. Півсотні авторів, від міських "
-                    "видів початку століття до вулиць останніх років."),
+ "stare-misto": ("Юзівка і перші десятиліття міста: заводські краєвиди, які возили "
+                 "на Всесвітню виставку в Париж, вулиці, забудова. Найстаріші кадри "
+                 "тут з 1900 року."),
+ "vulytsi": ("Місто щодня: проспекти й площі, бульвар Пушкіна і вулиця Артема, "
+             "трамваї й тролейбуси, вечірні вогні. Найбільший зал музею, бо саме "
+             "таким місто бачили ті, хто в ньому жив."),
+ "panoramy": ("Донецьк з висоти, здебільшого 2012–2014 років: забудова, зелень, "
+              "стадіон і терикони на горизонті. Місто на піку."),
+ "sad-i-voda": ("Ботанічний сад, ставки, фонтани, зелень: оаза посеред вугільного "
+                "краю. Більшість цих кадрів без точної дати, і вона не вигадана."),
+ "arena": ("Стадіон і чемпіонат Європи 2012 року: будівництво й відкриття арени, "
+           "місто в дні матчів, уболівальники на вулицях."),
+ "viina": ("2014–2015 і 2022–2026. Дим над кварталами, спалений тролейбус біля "
+           "вокзалу, обстріляна зупинка на Купріна 22 січня 2015 року, остання "
+           "робота арт-групи «Мурзилка», і місто під окупацією."),
 }
 
 LEGACY_ANCHORS = """<script>
@@ -56,6 +52,19 @@ EXHIBITIONS = [
  ("doroha", "Дорога", "вокзали, трамваї, тролейбуси",
   r"трамва|тролейбус|вокзал|потяг|перон|автобус|маршрут|аеропорт"),
 ]
+
+
+def photos_word(n):
+    """«21 знімок», «42 знімки», «171 знімок»: українське відмінювання
+    залежить від останніх двох цифр, а не від самого числа."""
+    tail, last = n % 100, n % 10
+    if 11 <= tail <= 14:
+        return f"{n} знімків"
+    if last == 1:
+        return f"{n} знімок"
+    if 2 <= last <= 4:
+        return f"{n} знімки"
+    return f"{n} знімків"
 
 
 def hall_text(h):
@@ -241,7 +250,7 @@ def build_home():
         "description": f"Віртуальний музей: {total} фотографій Донецька у {len(halls)} залах.",
         "isAccessibleForFree": True, "inLanguage": "uk",
     }, ensure_ascii=False) + "</script>\n")
-    key = works_by_hall("panorama")[0]
+    key = works_by_hall("panoramy")[0]   # обкладинка музею: місто з висоти
 
     rows = []
     for i, h in enumerate(halls, 1):
@@ -258,14 +267,14 @@ def build_home():
         height="{round(key['h'] * 500 / key['w'])}"></span>
       <span class="hall-title">{esc(h['title'])}</span>
     </span>
-    <span class="inC hall-meta"><span>{esc(h['pair'])}</span><span class="lock">{n} знімків</span></span>
+    <span class="inC hall-meta"><span>{esc(h['pair'])}</span><span class="lock">{photos_word(n)}</span></span>
   </a>
 </article>""")
 
     ex = []
     for i, (slug, title, pair, pat) in enumerate(EXHIBITIONS, 1):
         ws = exhibition_works(pat)
-        if not ws:
+        if len(ws) < 8:          # менше восьми кадрів це не виставка, а випадковість
             continue
         k = ws[0]
         ex.append(f"""<article class="hall">
@@ -277,7 +286,7 @@ def build_home():
         height="{round(k['h'] * 500 / k['w'])}"></span>
       <span class="hall-title">{esc(title)}</span>
     </span>
-    <span class="inC hall-meta"><span>{esc(pair)}</span><span class="lock">{len(ws)} знімків</span></span>
+    <span class="inC hall-meta"><span>{esc(pair)}</span><span class="lock">{photos_word(len(ws))}</span></span>
   </a>
 </article>""")
 
@@ -363,7 +372,7 @@ def build_hall(i, h, halls):
       <h1>{esc(h['title'])}</h1>
       <p class="pair">{esc(h['pair'])}</p>
       <p class="blurb">{esc(hall_text(h))}</p>
-      <div class="hall-stats"><span>знімків <b>{len(ws)}</b></span><span>роки <b>{esc(', '.join(years) or 'без дати')}</b></span></div>
+      <div class="hall-stats"><span>{photos_word(len(ws))}</span><span>роки <b>{esc(', '.join(years) or 'без дати')}</b></span></div>
       <a class="backlink" href="/#halls">← усі зали</a>
     </div>
   </section>
@@ -404,7 +413,7 @@ def build_exhibition(slug, title, pair, pattern):
     ws = exhibition_works(pattern)
     for k, w in enumerate(ws):
         w["_i"] = k
-    if not ws:
+    if len(ws) < 8:
         return 0
     body = f"""{head(f"{title} · 062.dn.ua", pair, f"/exhibitions/{slug}/", ws[0]["id"])}
 <div class="stage">
@@ -416,7 +425,7 @@ def build_exhibition(slug, title, pair, pattern):
       <h1>{esc(title)}</h1>
       <p class="pair">{esc(pair)}</p>
       <p class="blurb">Підбірка йде крізь усі зали: знімки зібрані за сюжетом, а не за роком.</p>
-      <div class="hall-stats"><span>знімків <b>{len(ws)}</b></span></div>
+      <div class="hall-stats"><span>{photos_word(len(ws))}</span></div>
       <a class="backlink" href="/#exhibitions">← усі виставки</a>
     </div>
   </section>
@@ -533,6 +542,14 @@ def clean_orphans():
     for name in os.listdir(works_dir) if os.path.isdir(works_dir) else []:
         if name not in ids:
             shutil.rmtree(os.path.join(works_dir, name)); gone_pages += 1
+    # Виставка, що схудла нижче порога, не має лишатись відкритою за старою
+    # адресою: на неї вже ніщо не веде, а сторінка живе.
+    live_ex = {slug for slug, _, _, pat in EXHIBITIONS if len(exhibition_works(pat)) >= 8}
+    ex_dir = os.path.join(ROOT, "exhibitions")
+    for name in os.listdir(ex_dir) if os.path.isdir(ex_dir) else []:
+        if name not in live_ex:
+            shutil.rmtree(os.path.join(ex_dir, name)); gone_pages += 1
+
     media_dir = os.path.join(ROOT, "media")
     for name in os.listdir(media_dir) if os.path.isdir(media_dir) else []:
         stem = re.sub(r"-(s|m)\.webp$", "", name)
@@ -540,6 +557,45 @@ def clean_orphans():
             os.remove(os.path.join(media_dir, name)); gone_media += 1
     if gone_pages or gone_media:
         print(f"прибрано сиріт: сторінок {gone_pages}, нарізок {gone_media}")
+
+
+# Стара розкладка залів жила на сайті кілька годин, і посилання на неї могли
+# розійтись. Сервера тут немає, тому на старих адресах лишається сторінка,
+# яка одразу веде на новий зал.
+OLD_HALLS = {
+    "misto-do-2014": "vulytsi", "euro-2012": "arena", "panorama": "panoramy",
+    "lito-2014": "viina", "botanichnyi-sad": "sad-i-voda", "kolory": "sad-i-voda",
+    "okupatsiia": "viina", "ochyma-inshykh": "vulytsi",
+}
+
+
+def build_redirects():
+    by_slug = {h["slug"]: h for h in CAT["halls"]}
+    for old, new in OLD_HALLS.items():
+        title = by_slug[new]["title"]
+        write(f"/halls/{old}/", f"""<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<title>Зал переїхав · 062.dn.ua</title>
+<link rel="canonical" href="{SITE}/halls/{new}/">
+<meta http-equiv="refresh" content="0; url=/halls/{new}/">
+<link rel="stylesheet" href="/assets/museum.css?v={CSS_V}">
+</head>
+<body>
+<div class="stage">
+  <section class="row hall-hero">
+    <div class="inA num">зал</div><div class="inB"></div>
+    <div class="inC">
+      <h1>Зал переїхав</h1>
+      <p class="blurb">Ці знімки тепер у залі «{esc(title)}».</p>
+      <a class="backlink" href="/halls/{new}/">перейти →</a>
+    </div>
+  </section>
+</div>
+</body>
+</html>""")
+    print(f"перенаправлень зі старих залів: {len(OLD_HALLS)}")
 
 
 def main():
@@ -553,6 +609,7 @@ def main():
         build_work(w, by_slug[w["hall"]], works_by_hall(w["hall"]))
     build_search()
     build_meta()
+    build_redirects()
     clean_orphans()
     print(f"зібрано: головна, {len(halls)} залів, {len(EXHIBITIONS)} виставок "
           f"({ex_total} входжень), {total} карток знімків, пошук")
@@ -564,7 +621,8 @@ def build_meta():
     """Карта сайта, robots и страница 404 в той же вёрстке."""
     urls = ["/", "/search/", "/portal/"]
     urls += [f"/halls/{h['slug']}/" for h in CAT["halls"] if works_by_hall(h["slug"])]
-    urls += [f"/exhibitions/{s}/" for s, *_ in EXHIBITIONS]
+    urls += [f"/exhibitions/{s}/" for s, _, _, pat in EXHIBITIONS
+             if len(exhibition_works(pat)) >= 8]
     urls += [f"/works/{w['id']}/" for w in CAT["works"]]
     body = "\n".join(f"  <url><loc>{SITE}{u}</loc></url>" for u in urls)
     write("/sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n'

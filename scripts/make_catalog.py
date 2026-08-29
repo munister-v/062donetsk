@@ -25,15 +25,16 @@ SKIP_FILES = re.compile(r"^(favicon|apple-touch|icon-)")
 # Залы хронологические; папка — единственный надёжный признак времени,
 # который есть у всего архива, поэтому раскладка идёт по ней.
 HALLS = [
-    ("misto-do-2014", "Місто до 2014", "яким його знали",
+    # Одна вісь: що видно на кадрі. Час і автор стоять у підписі під знімком,
+    # а не в назві залу — саме змішування трьох осей і не давало згрупувати.
+    ("stare-misto", "Старе місто", "Юзівка і перші десятиліття", []),
+    ("vulytsi", "Вулиці й площі", "місто щодня",
      ["before2014", "images", "panfilova and others", "bor", "transport"]),
-    ("euro-2012", "Євро-2012", "місто приймає Європу", ["euro2012"]),
-    ("panorama", "Панорама 2012–2014", "місто на піку", ["panorama"]),
-    ("lito-2014", "Війна 2014–2015", "рік, що розділив", ["2014", "murzilka"]),
-    ("botanichnyi-sad", "Ботанічний сад", "оаза посеред вугілля", ["botsad", "addon"]),
-    ("kolory", "Кольори міста", "світло, вода, зелень", ["new"]),
-    ("okupatsiia", "Окупація 2022–2026", "що з ним зробили", ["after2022", "append2025"]),
-    ("ochyma-inshykh", "Очима інших", "знімки спільноти, з іменем автора", ["commons"]),
+    ("panoramy", "Панорами", "місто з висоти", ["panorama"]),
+    ("sad-i-voda", "Сад і вода", "ботанічний сад, ставки, зелень", ["botsad", "addon", "new"]),
+    ("arena", "Донбас Арена і Євро-2012", "коли місто бачила Європа", ["euro2012"]),
+    ("viina", "Війна і окупація", "2014–2015 і 2022–2026",
+     ["2014", "murzilka", "after2022", "append2025"]),
 ]
 FOLDER_HALL = {f: slug for slug, _, _, folders in HALLS for f in folders}
 
@@ -219,6 +220,26 @@ def tidy_author(name):
     return name[:46] or "Автор невідомий"
 
 
+def commons_hall(label, year):
+    """Чужий знімок потрапляє в зал за сюжетом, як і свій.
+
+    Окремого залу для Commons більше немає: походження видно з підпису під
+    кадром (ім'я автора, ліцензія, посилання на файл), і це чесніше, ніж
+    відгороджувати чуже стіною.
+    """
+    if year.isdigit() and int(year) < 1940:
+        return "stare-misto"
+    if "старих знімках" in label:
+        return "stare-misto"
+    if "Арена" in label:
+        return "arena"
+    if "з висоти" in label:
+        return "panoramy"
+    if any(w in label for w in ("Кальміус", "Парки", "Ботан")):
+        return "sad-i-voda"
+    return "vulytsi"
+
+
 def commons_works():
     """Снимки с Wikimedia Commons отдельным залом.
 
@@ -241,7 +262,7 @@ def commons_works():
             title = re.sub(r"\s+", " ", title).strip()
         out.append({
             "id": "", "file": f["file"], "title": title[:120],
-            "titled_by_author": True, "hall": "ochyma-inshykh",
+            "titled_by_author": True, "hall": commons_hall(title, f.get("year", "")),
             "year": f.get("year", ""), "note": "",
             "source": "commons", "author": tidy_author(f["author_clean"]),
             "license": f["license"], "page": f["page"],
@@ -273,7 +294,9 @@ def main():
             "file": rel,
             "title": prev.get("title") or caps.get(rel) or DEFAULT_TITLE.get(folder, "Донецьк"),
             "titled_by_author": rel in caps,
-            "hall": prev.get("hall") or FOLDER_HALL[folder],
+            # Зал перечитується з розкладки щоразу: інакше попередній
+            # каталог законсервував би стару групіровку назавжди.
+            "hall": FOLDER_HALL[folder],
             # Порядок довіри: правка руками, потім дата з імені файлу,
             # і лише потім грубе датування за папкою.
             "year": (prev.get("year") if prev.get("year_manual") else
