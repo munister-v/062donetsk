@@ -809,6 +809,11 @@ mark{background:var(--tint);color:var(--ink);box-shadow:0 1px 0 var(--ink)}
   .header .inC.topnav{padding:0 var(--s5) 10px;gap:1.1em;font-size:var(--t-xs);
     letter-spacing:.04em}
   .mark{width:1.7em;height:1.7em}
+  /* На широких телефонах назва вміщувалась в один довгий рядок — виходило
+     розтягнуте лого замість компактного знака з підписом. Обмежуємо
+     ширину тексту, щоб він завжди складався у два-три рядки поруч зі
+     знаком, незалежно від того, скільки вільного місця є праворуч. */
+  .wordmark{max-width:150px}
 
   .fold{padding:var(--s6) 0 var(--s6)}
   .fold .inA{margin-bottom:var(--s2)}
