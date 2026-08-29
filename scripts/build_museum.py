@@ -110,10 +110,6 @@ FOOT = """<footer class="site-foot">
   <div class="in">
     <div>
       <h2>МУЗЕЙ ФОТОГРАФІЇ ДОНЕЦЬКА</h2>
-      <div class="lines-of">
-        <p>Розділ порталу <a href="/portal/">062.dn.ua</a>.</p>
-        <p>Знімки авторські. Я повернусь.</p>
-      </div>
     </div>
     <div class="right">
       <p>© 2026 062.dn.ua</p>
@@ -427,6 +423,28 @@ def build_search():
     write("/search/", body)
 
 
+def clean_orphans():
+    """Удаляет сгенерированное, чего больше нет в каталоге.
+
+    После дедупликации снимков стало меньше, а страницы и нарезки от прошлой
+    сборки остались бы лежать и открываться по старым адресам. Трогаем только
+    /works и /media: это целиком наш вывод, оригиналы фотографий не при чём.
+    """
+    ids = {w["id"] for w in CAT["works"]}
+    gone_pages = gone_media = 0
+    works_dir = os.path.join(ROOT, "works")
+    for name in os.listdir(works_dir) if os.path.isdir(works_dir) else []:
+        if name not in ids:
+            shutil.rmtree(os.path.join(works_dir, name)); gone_pages += 1
+    media_dir = os.path.join(ROOT, "media")
+    for name in os.listdir(media_dir) if os.path.isdir(media_dir) else []:
+        stem = re.sub(r"-(s|m)\.webp$", "", name)
+        if stem == name or stem not in ids:
+            os.remove(os.path.join(media_dir, name)); gone_media += 1
+    if gone_pages or gone_media:
+        print(f"прибрано сиріт: сторінок {gone_pages}, нарізок {gone_media}")
+
+
 def main():
     total = build_home()
     halls = CAT["halls"]
@@ -438,6 +456,7 @@ def main():
         build_work(w, by_slug[w["hall"]], works_by_hall(w["hall"]))
     build_search()
     build_meta()
+    clean_orphans()
     print(f"зібрано: головна, {len(halls)} залів, {len(EXHIBITIONS)} виставок "
           f"({ex_total} входжень), {total} карток знімків, пошук")
 

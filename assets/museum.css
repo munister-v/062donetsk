@@ -675,11 +675,17 @@ mark{background:var(--tint);color:var(--ink);box-shadow:0 1px 0 var(--ink)}
 .wall-bar{display:flex;justify-content:flex-end;margin-bottom:var(--s3)}
 
 /* ── Українська назва довша за EPRIS MUSEUM ──────────────────────────
-   На вузькому екрані «МУЗЕЙ ФОТОГРАФІЇ ДОНЕЦЬКА» з розрядкою 4,4 px
-   не влазить у рядок і вилазить за край. Тут вона стискається і, якщо
-   потрібно, переноситься на два рядки, а не ріжеться. */
-@media (max-width:720px){
-  .wordmark{font-size:14px;letter-spacing:2px;margin-right:-2px;
-            display:inline-block;max-width:100%;white-space:normal;line-height:1.15}
-  .header .inC.topnav{flex-wrap:wrap}
+   «МУЗЕЙ ФОТОГРАФІЇ ДОНЕЦЬКА» з розрядкою 4,4 px не тримається в один
+   рядок на вузькому екрані. Замість того щоб різати назву, дозволяємо їй
+   переноситись і масштабуємо кегль від ширини вікна: на телефоні два-три
+   рядки, на десктопі один. Розрядка йде за кеглем, інакше на малому кеглі
+   вона розсипає слово. */
+.wordmark{
+  display:inline-block; max-width:100%;
+  white-space:normal; text-wrap:balance;
+  font-size:clamp(15px,2.4vw,20px);
+  letter-spacing:clamp(2.2px,.26vw,4.4px);
+  margin-right:0; line-height:1.2;
 }
+.header .inA{min-width:0}
+.header .inC.topnav{flex-wrap:wrap}

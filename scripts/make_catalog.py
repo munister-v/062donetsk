@@ -9,8 +9,8 @@ alt, написанный автором, и переписывать его м�
 а не промежуточный кэш. Повторный запуск сохраняет уже отредактированные
 поля (title, hall, year, note) и только добавляет новые снимки.
 """
-import json, os, re, sys, urllib.parse
-from PIL import Image
+import hashlib, json, os, re, sys, urllib.parse
+from PIL import Image, ImageOps
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CATALOG = os.path.join(ROOT, "data", "museum-catalog.json")
@@ -56,7 +56,12 @@ YEARS = {"euro2012": "2012", "panorama": "2012–2014", "2014": "2014",
 
 def captions_from_portal():
     """Автор подписал снимки прямо в разметке портала: забираем оттуда."""
-    html = open(os.path.join(ROOT, "index.html"), encoding="utf-8").read()
+    # Портал переехал в /portal/, а в корне теперь музей: подписи живут там,
+    # где их писал автор. Читать корневой index.html нельзя — он сгенерирован.
+    src = os.path.join(ROOT, "portal", "index.html")
+    if not os.path.exists(src):
+        src = os.path.join(ROOT, "index.html")
+    html = open(src, encoding="utf-8").read()
     out = {}
     for tag in re.findall(r"<img\b[^>]*>", html, re.S):
         src = re.search(r'src="([^"]+)"', tag)
@@ -88,6 +93,76 @@ def photos():
             yield rel.replace(os.sep, "/"), folder
 
 
+TRANSLIT = {
+    "а": "a", "б": "b", "в": "v", "г": "h", "ґ": "g", "д": "d", "е": "e", "є": "ie",
+    "ж": "zh", "з": "z", "и": "y", "і": "i", "ї": "i", "й": "i", "к": "k", "л": "l",
+    "м": "m", "н": "n", "о": "o", "п": "p", "р": "r", "с": "s", "т": "t", "у": "u",
+    "ф": "f", "х": "kh", "ц": "ts", "ч": "ch", "ш": "sh", "щ": "shch", "ю": "iu",
+    "я": "ia", "ы": "y", "э": "e", "ё": "e", "ъ": "", "ь": "",
+}
+
+
+def slug(path):
+    """Адрес снимка из имени файла.
+
+    Кириллицу транслитерируем: без этого «Донецк_2012_-_panoramio.jpg» и
+    «После_реконструкции_2012_-_panoramio.jpg» схлопывались в один и тот же
+    ascii-огрызок, страницы затирали друг друга, и шесть снимков из музея
+    просто пропадали.
+    """
+    text = "".join(TRANSLIT.get(ch, ch) for ch in path.lower())
+    return re.sub(r"[^a-z0-9]+", "-", text).strip("-")[:70] or "foto"
+
+
+def assign_ids(works):
+    """Один файл — один адрес. Совпадение слагов разводим хвостом от пути,
+    а не порядковым номером: номер поехал бы при следующем добавлении фото."""
+    taken = {}
+    for w in sorted(works, key=lambda x: x["file"]):
+        base = slug(w["file"])
+        if taken.get(base, w["file"]) != w["file"]:
+            base = f"{base}-{hashlib.sha1(w['file'].encode()).hexdigest()[:4]}"
+        taken[base] = w["file"]
+        w["id"] = base
+    return works
+
+
+def dhash(path, side=16):
+    """Перцептивный хеш: одна и та же фотография лежит в архиве по два раза,
+    как .jpg и как .webp, а иногда ещё и в соседней папке под другим именем.
+    Побайтовое сравнение такие пары не ловит, поэтому сравниваем картинку."""
+    with Image.open(path) as im:
+        im = ImageOps.exif_transpose(im).convert("L").resize((side + 1, side), Image.LANCZOS)
+        px = list(im.getdata())
+    bits = 0
+    for y in range(side):
+        row = px[y * (side + 1):(y + 1) * (side + 1)]
+        for x in range(side):
+            bits = (bits << 1) | (1 if row[x] > row[x + 1] else 0)
+    return bits
+
+
+def drop_duplicates(works, threshold=12):
+    """Из группы одинаковых снимков остаётся один.
+
+    Приоритет: подпись автора важнее (её писал человек), потом больший размер,
+    потом оригинальный jpg. Так в музее не висит один и тот же кадр дважды
+    с разными подписями, как это было на панораме с конём.
+    """
+    hashes = {w["file"]: dhash(w["file"]) for w in works}
+    order = sorted(works, key=lambda w: (not w["titled_by_author"], -w["w"] * w["h"],
+                                         w["file"].endswith(".webp"), w["file"]))
+    kept, dropped = [], []
+    for w in order:
+        h = hashes[w["file"]]
+        twin = next((k for k in kept if bin(hashes[k["file"]] ^ h).count("1") <= threshold), None)
+        if twin:
+            dropped.append((w["file"], twin["file"]))
+        else:
+            kept.append(w)
+    return kept, dropped
+
+
 def main():
     old = {}
     if os.path.exists(CATALOG):
@@ -107,7 +182,7 @@ def main():
             continue
         prev = old.get(rel, {})
         works.append({
-            "id": prev.get("id") or re.sub(r"[^a-z0-9]+", "-", rel.lower()).strip("-")[:60],
+            "id": "",                       # проставит assign_ids: нужен взгляд на весь набор
             "file": rel,
             "title": prev.get("title") or caps.get(rel) or DEFAULT_TITLE.get(folder, "Донецьк"),
             "titled_by_author": rel in caps,
@@ -117,6 +192,8 @@ def main():
             "w": w, "h": h,
         })
 
+    works, dropped = drop_duplicates(works)
+    works = assign_ids(works)
     works.sort(key=lambda x: ([s for s, *_ in HALLS].index(x["hall"]), x["file"]))
     os.makedirs(os.path.dirname(CATALOG), exist_ok=True)
     json.dump({
@@ -129,6 +206,8 @@ def main():
         n = sum(1 for w in works if w["hall"] == slug)
         named = sum(1 for w in works if w["hall"] == slug and w["titled_by_author"])
         print(f"  {title:24} {n:4}  з авторським підписом {named}")
+    if dropped:
+        print(f"прибрано дублів: {len(dropped)} (приклад: {dropped[0][0]} = {dropped[0][1]})")
     if skipped:
         print("пропущено:", len(skipped), skipped[:3])
 
