@@ -205,6 +205,25 @@ SUPPORT = """<section class="support" id="support">
 })();
 </script>"""
 
+# Той самий автор написав роман-репортаж про літо 2014-го: логічне продовження
+# музею в іншому форматі. Блок побудований так само, як «Підтримати автора»,
+# і лишень на головній — це не те, що має повторюватись на кожній сторінці залу.
+BOOK = """<section class="support" id="book">
+  <div class="in">
+    <div class="sup-left">
+      <span class="sup-eyebrow">Роман-репортаж</span>
+      <h2 class="sec-title">«Я знаю, що ви робили влітку чотирнадцятого»</h2>
+      <p>Хроніка літа 2014 року: місто, яке втратило приватне життя. Друга книга
+      В'ячеслава Муністера, продовження «Волошкового поля».</p>
+    </div>
+    <div class="sup-right">
+      <a class="pill" href="https://donetsk2014.github.io/" rel="noopener" target="_blank">
+        Замовити книгу →
+      </a>
+    </div>
+  </div>
+</section>"""
+
 FOOT = """<footer class="site-foot">
   <div class="in">
     <div>
@@ -396,9 +415,6 @@ def build_home():
     <div class="inB"></div>
     <div class="inC">
       <h1 class="hero-title">Місто, яке<br>можна обійти<br>лише так</h1>
-      <p class="blurb">{total} фотографій у {len(halls)} залах: від Юзівки на знімках
-      1900 року до кадрів з окупації. Більшість це авторський архів; там, де кадр узятий
-      із вільних джерел, під ним стоїть ім'я автора й ліцензія.</p>
       <a class="backlink" href="#halls">увійти до залів ↓</a>
     </div>
   </section>
@@ -447,6 +463,7 @@ def build_home():
 {CREDIT}
 {LEGACY_ANCHORS}
 {SUPPORT}
+{BOOK}
 {FOOT}"""
     write("/index.html", body)
     return total
