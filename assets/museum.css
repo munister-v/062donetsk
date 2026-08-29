@@ -829,7 +829,13 @@ mark{background:var(--tint);color:var(--ink);box-shadow:0 1px 0 var(--ink)}
 /* Лічильник під заголовком: та сама вага, що в підзаголовках залів —
    це факт про архів, а не рекламний рядок. */
 .hero-count{margin:var(--s4) 0 0;font-family:var(--serif);font-size:var(--t-lg);
-  line-height:1.3;color:var(--secondary);letter-spacing:-.006em}
+  line-height:1.4;color:var(--secondary);letter-spacing:-.006em;max-width:24ch}
+/* Заклик іде тим самим рядком, що й лічильник: спершу факт, скільки вже
+   зібрано, і одразу за ним запрошення додати наступне. Колір цегли
+   вирізняє його з сірого рядка, не роблячи окремим блоком. */
+.hero-add{color:var(--accent);white-space:nowrap;
+  border-bottom:1px solid transparent;transition:border-color .16s var(--ease)}
+.hero-add:hover{border-bottom-color:currentColor}
 .fold .backlink{display:inline-block;margin-top:var(--s6);
   font-size:var(--t-lg);letter-spacing:-.01em;
   border-bottom:1px solid currentColor;padding-bottom:3px}

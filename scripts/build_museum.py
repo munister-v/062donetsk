@@ -120,9 +120,17 @@ def head(title, desc, path, og_id=None, extra_ld="", og_card=None):
     url = SITE + path
     # Готова картка 1200×630 у JPEG (scripts/make_og.py) там, де вона є:
     # месенджер малює її як прев'ю з назвою, а не голий кадр у webp.
-    og = (f"{SITE}{og_card}" if og_card
-          else (f"{SITE}/media/{og_id}-m.webp" if og_id
-                else f"{SITE}/media/og-default.webp"))
+    # Соцмережі кешують прев'ю за адресою і самі його не оновлюють: доки
+    # URL той самий, Telegram і Facebook показуватимуть картинку, яку
+    # забрали першого разу. Версія від часу правки файлу робить адресу
+    # новою щоразу, коли картку перезібрано.
+    if og_card:
+        card_path = os.path.join(ROOT, og_card.lstrip("/"))
+        stamp = int(os.path.getmtime(card_path)) if os.path.exists(card_path) else 0
+        og = f"{SITE}{og_card}?v={stamp}"
+    else:
+        og = (f"{SITE}/media/{og_id}-m.webp" if og_id
+              else f"{SITE}/media/og-default.webp")
     og_size = ('\n<meta property="og:image:width" content="1200">'
                '\n<meta property="og:image:height" content="630">') if og_card else ""
     return f"""<!doctype html>
@@ -445,7 +453,8 @@ def build_home():
     <div class="inB"></div>
     <div class="inC">
       <h1 class="hero-title">Місто, яке<br>можна обійти<br>лише так</h1>
-      <p class="hero-count">{total} фото нашого міста</p>
+      <p class="hero-count">{total} фото нашого міста.
+        <a class="hero-add" href="/submit/">Наступне ваше →</a></p>
       <a class="backlink" href="#halls">увійти до залів ↓</a>
     </div>
   </section>
