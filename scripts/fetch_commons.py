@@ -75,18 +75,27 @@ def main():
                       r"metallurg|металург|blast furnace|домен|рудник|"
                       r"копер|winding tower|завод|steel works|hughes|юз[іо]вк)", re.I)
     CHURCH = re.compile(r"(church|cathedral|собор|церкв|храм|монастир|monaster|"
-                        r"chapel|каплиц|дзвіниц|bell tower|synagogue|синагог|mosque)", re.I)
+                        r"chapel|каплиц|дзвіниц|bell tower|synagogue|синагог|"
+                        r"mosque|мечет|cami\b|adventist|адвентист)", re.I)
     mine_quota = int(os.environ.get("MINE_QUOTA", "48"))
     church_quota = int(os.environ.get("CHURCH_QUOTA", "44"))
     mines = [f for f in items if MINE.search(f["title"] + " " + (f.get("desc") or ""))]
     churches = [f for f in items if CHURCH.search(f["title"] + " " + (f.get("desc") or ""))]
-    head = (historic[:hist_quota] + transport[:quota]
-            + mines[:mine_quota] + churches[:church_quota])
+    # Мечеть і протестантські храми програють навіть усередині church_quota:
+    # соборів у Комонсі на порядок більше, і 44 місця по розміру заповнює
+    # сама лише православна церква. Виносимо меншину окремою квотою першою.
+    MINORITY = re.compile(r"(мечет|mosque|ahat|cami\b|baptist|баптист|"
+                          r"adventist|адвентист)", re.I)
+    minority_quota = int(os.environ.get("MINORITY_QUOTA", "6"))
+    minority = [f for f in items if MINORITY.search(f["title"] + " " + (f.get("desc") or ""))]
+    head = (historic[:hist_quota] + transport[:quota] + mines[:mine_quota]
+            + minority[:minority_quota] + churches[:church_quota])
     picked_ids = {id(f) for f in head}
     rest = [f for f in items if id(f) not in picked_ids]
     items = head + rest
     print(f"  шахт і заводу {len(mines)} (беремо {min(len(mines), mine_quota)}), "
-          f"храмів {len(churches)} (беремо {min(len(churches), church_quota)})")
+          f"храмів {len(churches)} (беремо {min(len(churches), church_quota)}), "
+          f"меншин {len(minority)} (беремо {min(len(minority), minority_quota)})")
     print(f"у пулі: історичних {len(historic)} (беремо {min(len(historic), hist_quota)}), "
           f"транспортних {len(transport)} (беремо {min(len(transport), quota)})")
 

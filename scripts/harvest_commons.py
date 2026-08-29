@@ -113,6 +113,11 @@ CATEGORIES = [
     "Category:Church of Saint Nina (Donetsk)",
     "Category:Christmas Church in Donetsk",
     "Category:Interiors of churches in Donetsk",
+    # Не тільки православ'я: мечеть і костел — обидва вже дають досить
+    # знімків на власний підпис у залі, а не одну галочку в підписі.
+    "Category:Ahat Jami Mosque, Donetsk",
+    "Category:Baptist Church Gospel House in Donetsk",
+    "Category:Seventh-day Adventist Church (Baydukova Street, Donetsk)",
 ] + [f"Category:{y} in Donetsk" for y in range(1923, 1941)]
 # Не фотографии города: карты, гербы, схемы, сканы, коллажи.
 # Кириллические слова тут не для красоты: в категориях Донецка лежат сканы
@@ -202,6 +207,14 @@ def details(titles):
     return out
 
 
+# Меншини серед культових споруд (мечеть, баптистська, адвентистська):
+# категорія на всю Юзівку дає одиниці кадрів, і поріг 1400 px лишав би
+# зал без жодного, крім двох майже однакових знімків. Поріг тут нижчий,
+# як і для довоєнних сканів.
+MINORITY = re.compile(r"(мечет|mosque|ahat|cami|baptist|баптист|"
+                      r"adventist|адвентист)", re.I)
+
+
 def wanted(f):
     if not f["mime"].startswith("image/") or f["mime"] == "image/svg+xml":
         return False
@@ -209,7 +222,7 @@ def wanted(f):
     # відбитка. Тримати для нього той самий поріг, що для цифрового знімка,
     # означає не мати старого міста в музеї взагалі.
     old = re.search(r"(18\d\d|19[0-5]\d)", f.get("date") or "")
-    floor = 900 if old else MIN_WIDTH
+    floor = 900 if old else (1100 if MINORITY.search(f["title"]) else MIN_WIDTH)
     if f["w"] < floor or (f["h"] < 700 and f["w"] < floor + 600):
         return False
     if BAD_NAME.search(f["title"]):

@@ -54,7 +54,7 @@ VEIL = """
 <section class="row veil" id="veil">
   <div class="inA"></div>
   <div class="inB veil-quote">
-    <p>«Симулякр — це не те, що приховує істину.»</p>
+    <p>«Симулякр не те, що приховує істину»</p>
     <cite>Жан Бодріяр, «Симулякри і симуляція», 1981</cite>
   </div>
   <div class="inC"></div>

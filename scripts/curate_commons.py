@@ -79,6 +79,9 @@ CATEGORY_TITLE = [
     ("Church of Saint Nina", "Храм святої Ніни"),
     ("Christmas Church", "Різдвяний храм"),
     ("Interiors of churches", "У храмі"),
+    ("Ahat Jami Mosque", "Мечеть Ахать-Джамі"),
+    ("Baptist Church Gospel House", "Баптистська церква"),
+    ("Seventh-day Adventist Church", "Церква адвентистів"),
     ("Cathedral Transfiguration of Jesus in Hughesovka", "Преображенський собор"),
     ("Historical photos of churches", "Храми міста"),
     ("Synagogue of Yuzovka", "Синагога Юзівки"),
@@ -103,6 +106,9 @@ CATEGORY_TITLE = [
     ("Artema Street", "Вулиця Артема"),
     ("Universitetska", "Університетська вулиця"),
     # Історичні сюжети йдуть першими: вони найконкретніші.
+    ("Ahat Jami Mosque", "Мечеть Ахать-Джамі"),
+    ("Baptist Church Gospel House", "Баптистська церква"),
+    ("Seventh-day Adventist Church", "Церква адвентистів"),
     ("Cathedral Transfiguration of Jesus in Hughesovka", "Преображенський собор"),
     ("Historical photos of churches", "Храми міста"),
     ("Synagogue of Yuzovka", "Синагога Юзівки"),
@@ -267,10 +273,45 @@ def main():
             continue
         stamp = month or year
         x["museum_title"] = f"{label} · {stamp}" if stamp else label
+        x["_subject"] = label
         kept.append(x)
 
+    # Один собор не має займати весь зал: «Спасо-Преображенський» сам
+    # по собі найбільший об'єкт зйомки в місті, і без квоти він забивав
+    # 15 місць із 21 у залі «Храми». Квота на сюжет, а не на файл —
+    # найбільші кадри лишаються, решта йде в надлишок. Загальні кошики
+    # («Вулиці Донецька», «Панорама міста» тощо) квота не чіпає: вони й
+    # мають бути великими, бо це не один об'єкт, а ціла категорія міста.
+    BUCKET_LABELS = {
+        "", "Донецьк на старих знімках", "Вулиці Донецька", "Панорама міста",
+        "Види Донецька", "Юзівка", "Сталіне", "Донецький трамвай",
+        "Трамвай у Донецьку", "Тролейбус у Донецьку", "Донецький тролейбус",
+        "Залізниця Донецька", "Площі Донецька", "Парки Донецька",
+        "Фонтани Донецька", "Кальміус", "Храми міста", "Храми Донецька",
+        "Пам'ятні знаки міста", "Міська скульптура", "Театри Донецька",
+        "Музеї Донецька", "Університети Донецька", "Готелі Донецька",
+        "Торгові будинки", "Інтер'єри Донецька", "Будівлі Донецька",
+        "Архітектура Донецька", "Донецьк з висоти", "Нічний Донецьк",
+    }
+    SUBJECT_CAP = 6
+    by_subject = {}
+    for x in kept:
+        by_subject.setdefault(x["_subject"], []).append(x)
+    capped, overflow = [], 0
+    for subj, xs in by_subject.items():
+        if subj in BUCKET_LABELS:
+            capped += xs
+            continue
+        xs.sort(key=lambda x: -(x["w"] * x["h"]))
+        capped += xs[:SUBJECT_CAP]
+        overflow += max(0, len(xs) - SUBJECT_CAP)
+    kept = capped
+    for x in kept:
+        del x["_subject"]
+
     json.dump(kept, open(PICKED, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
-    print(f"лишилось: {len(kept)}, прибрано: {len(dropped)}")
+    print(f"лишилось: {len(kept)}, прибрано: {len(dropped)}, "
+          f"зрізано квотою на сюжет: {overflow}")
     seen = {}
     for d in dropped:
         seen[d[1]] = seen.get(d[1], 0) + 1

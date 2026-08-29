@@ -295,7 +295,7 @@ def commons_hall(label, year):
                                 "Новоросійське")):
         return "vuhillia"
     if any(k in label for k in ("собор", "Собор", "Храм", "храм", "церкв", "Церкв",
-                                "монастир", "Костел", "Синагог")):
+                                "монастир", "Костел", "Синагог", "Мечет", "мечет")):
         return "khramy"
     if "Арена" in label:
         return "arena"
