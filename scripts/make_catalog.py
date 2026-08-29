@@ -29,7 +29,7 @@ HALLS = [
      ["before2014", "images", "panfilova and others", "bor", "transport"]),
     ("euro-2012", "Євро-2012", "місто приймає Європу", ["euro2012"]),
     ("panorama", "Панорама 2012–2014", "місто на піку", ["panorama"]),
-    ("lito-2014", "Літо 2014", "рік, що розділив", ["2014", "murzilka"]),
+    ("lito-2014", "Війна 2014–2015", "рік, що розділив", ["2014", "murzilka"]),
     ("botanichnyi-sad", "Ботанічний сад", "оаза посеред вугілля", ["botsad", "addon"]),
     ("kolory", "Кольори міста", "світло, вода, зелень", ["new"]),
     ("okupatsiia", "Окупація 2022–2026", "що з ним зробили", ["after2022", "append2025"]),
@@ -58,6 +58,38 @@ YEARS = {"euro2012": "2012", "panorama": "2012–2014", "2014": "2014",
          "murzilka": "2014", "images": "до 2014", "before2014": "до 2014",
          "after2022": "2022–2026", "append2025": "2025", "bor": "до 2014",
          "panfilova and others": "до 2014", "transport": "до 2014"}
+
+
+MONTHS_UK = ["січень", "лютий", "березень", "квітень", "травень", "червень",
+             "липень", "серпень", "вересень", "жовтень", "листопад", "грудень"]
+# Телеграм зберігає файли як photo_2026-02-09_15-40-03: це дата вивантаження
+# архіву, а не зйомки. Знімок міста до 2014 року з такою назвою датувати
+# 2026-м було б грубою помилкою, тому цей шаблон ігнорується.
+EXPORT_NAME = re.compile(r"^photo_20\d\d-\d\d-\d\d[_ ]")
+
+
+def date_from_name(path):
+    """Дата зйомки з імені файлу, коли вона там справді є.
+
+    Ловить YYYY-MM-DD, YYMMDD (як у 150122-world-ukraine-bus-blast) і
+    unix-час (1409490664). Повертає «місяць рік» або порожньо.
+    """
+    name = path.split("/")[-1]
+    if EXPORT_NAME.match(name):
+        return ""
+    m = re.search(r"(20[0-2]\d)[-_.]?(0[1-9]|1[0-2])[-_.]?(0[1-9]|[12]\d|3[01])", name)
+    if m:
+        return f"{MONTHS_UK[int(m.group(2)) - 1]} {m.group(1)}"
+    m = re.search(r"(?<!\d)(1[0-9]|2[0-6])(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])(?!\d)", name)
+    if m:
+        return f"{MONTHS_UK[int(m.group(2)) - 1]} 20{m.group(1)}"
+    m = re.search(r"(?<!\d)(1[0-9]{9})(?!\d)", name)
+    if m:
+        import datetime
+        d = datetime.datetime.fromtimestamp(int(m.group(1)), datetime.UTC)
+        if 2005 <= d.year <= 2026:
+            return f"{MONTHS_UK[d.month - 1]} {d.year}"
+    return ""
 
 
 def captions_from_portal():
@@ -242,7 +274,11 @@ def main():
             "title": prev.get("title") or caps.get(rel) or DEFAULT_TITLE.get(folder, "Донецьк"),
             "titled_by_author": rel in caps,
             "hall": prev.get("hall") or FOLDER_HALL[folder],
-            "year": prev.get("year") or YEARS.get(folder, ""),
+            # Порядок довіри: правка руками, потім дата з імені файлу,
+            # і лише потім грубе датування за папкою.
+            "year": (prev.get("year") if prev.get("year_manual") else
+                     date_from_name(rel) or prev.get("year") or YEARS.get(folder, "")),
+            "year_manual": prev.get("year_manual", False),
             "note": prev.get("note", ""),
             "source": "own", "author": "", "license": "", "page": "",
             "w": w, "h": h,
