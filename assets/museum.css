@@ -1,0 +1,685 @@
+/* Жодних вебшрифтів. Ті самі стеки, що на живих сайтах:
+   A2 → "KTF Prima","Helvetica Neue",Arial   |   EPRIS → "Iowan Old Style", serif */
+:root{
+  --paper:#FFFFFF;
+  --ink:#121212;
+  --secondary:#999999;
+  --soft:rgba(18,18,18,.72);
+  --hair:#E6E4E0;
+  --rule:#121212;
+  --tint:#F2F1EF;
+  --pill:#121212;
+  --pill-ink:#FFFFFF;
+  --edge:16px;            /* крайні лінії сітки, у пікселях */
+  --gutter:20px;          /* відбивка тексту від лінії */
+  --L2:19.5%; --L3:51.5%; /* внутрішні лінії, у відсотках сцени */
+  --ease:cubic-bezier(.2,0,0,1);
+  /* кегль: один ряд 11 / 13 / 15 / 19 / 24 / 30 / display */
+  --t-xs:11px; --t-sm:13px; --t-md:15px; --t-lg:19px; --t-xl:24px; --t-2xl:30px;
+  --t-display:clamp(34px,4.6vw,62px);
+  /* відступи: 4 8 12 16 24 32 48 72 96 */
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px; --s6:32px; --s7:48px; --s8:72px; --s9:96px;
+  /* футер один в один із eprisjournal.com: знято з живого сайту */
+  --foot-bg:#180D13; --foot-ink:#F7F2EC; --foot-mute:#D9C7BA;
+  --foot-dim:#BFAFA4; --foot-rule:rgba(209,181,149,.45);
+  --sans:"KTF Prima","Helvetica Neue","Helvetica",Arial,sans-serif;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+}
+/* Тема одна: світла. Сторінка не йде за системною темною. */
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;color-scheme:light}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--sans);
+  font-size:var(--t-md);line-height:1.45;
+  letter-spacing:-.004em;
+  -webkit-font-smoothing:antialiased;
+  overflow-wrap:break-word;
+}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+:focus-visible{outline:1px solid var(--ink);outline-offset:4px}
+
+/* ── сцена A2 ─────────────────────────────────────────── */
+.stage{position:relative;max-width:1440px;margin:0 auto}
+.lines{position:absolute;inset:0;pointer-events:none;z-index:0}
+.lines i{position:absolute;top:0;bottom:0;width:1px;background:var(--hair)}
+.lines i:nth-child(1){left:var(--edge)}
+.lines i:nth-child(2){left:var(--L2)}
+.lines i:nth-child(3){left:var(--L3)}
+.lines i:nth-child(4){left:auto;right:var(--edge)}
+.row{position:relative;z-index:1;display:grid;
+  grid-template-columns:var(--L2) calc(var(--L3) - var(--L2)) 1fr}
+.inA{padding:0 14px 0 calc(var(--edge) + var(--gutter))}
+.inB{padding:0 14px 0 var(--gutter)}
+.inC{padding:0 calc(var(--edge) + var(--gutter)) 0 var(--gutter)}
+
+.micro{font-size:var(--t-xs);line-height:1.5}
+.label{font-size:var(--t-xs);letter-spacing:.02em;color:var(--secondary)}
+.serif{font-family:var(--serif)}
+
+/* ── шапка ───────────────────────────────────────────── */
+.header{padding:var(--s5) 0 var(--s5);align-items:baseline}
+/* Кегль підібраний під колонку A сітки: при 24px «EPRIS.MUSEUM» виходив
+   на 252px і налазив на підпис поруч, бо колонка закінчується на 250. */
+.wordmark{display:inline-block;font-family:var(--serif);font-size:18px;
+  letter-spacing:.24em;margin-right:-.24em;line-height:1;white-space:nowrap}
+/* Пробіл справжній, щоб копіювалось і читалось «EPRIS MUSEUM», а не одним
+   словом. Трекінг .24em додається і до пробілу, тож розрив вийшов би вдвічі
+   ширшим за міжлітерний — гасимо його від'ємним word-spacing. */
+.wordmark{word-spacing:-.15em}
+.brandstack .est{color:var(--secondary)}
+
+/* ── перший екран ────────────────────────────────────── */
+.fold{padding:var(--s9) 0 var(--s9)}
+.hero-title{
+  margin:0;font-family:var(--sans);font-weight:400;
+  font-size:var(--t-display);
+  line-height:1.04;letter-spacing:-.026em;text-wrap:balance;
+}
+.hero-lead{margin:var(--s5) 0 0;max-width:46ch;font-size:var(--t-lg);line-height:1.38;letter-spacing:-.012em}
+.hero-cta{margin-top:var(--s6);display:flex;gap:var(--s2);flex-wrap:wrap}
+.pill{display:inline-block;background:var(--pill);color:var(--pill-ink);border-radius:40px;
+  padding:var(--s2) var(--s4);font-size:var(--t-sm);transition:opacity .18s var(--ease)}
+.pill-ghost{background:none;color:var(--ink);border:1px solid var(--hair)}
+
+.band{position:relative;width:100%;height:clamp(230px,36vw,420px);background:var(--tint);overflow:hidden}
+.band canvas{display:block;width:100%;height:100%;filter:grayscale(1)}
+.band-cap{position:absolute;left:calc(var(--edge) + var(--gutter));bottom:var(--s4);color:#fff;mix-blend-mode:difference}
+
+/* ── заголовок розділу ──────────────────────────────── */
+.sec{padding:var(--s8) 0 0}
+.sec-title{margin:0;font-family:var(--serif);font-weight:400;
+  font-size:var(--t-xl);line-height:1.12;letter-spacing:.005em}
+.sec-rule{grid-column:1 / -1;height:1px;background:var(--rule);margin-top:var(--s4)}
+.sec-count{color:var(--secondary);font-size:var(--t-xs);text-align:right;
+  padding-right:calc(var(--edge) + var(--gutter));align-self:end}
+.sec-note{color:var(--secondary);font-size:var(--t-sm);align-self:end}
+
+/* ── зали ───────────────────────────────────────────── */
+.hall{border-bottom:1px solid var(--hair)}
+.hall-row{width:100%;text-align:left;padding:var(--s6) 0;align-items:baseline}
+.hall-row .n{font-size:var(--t-xl);line-height:1;letter-spacing:-.02em;color:var(--secondary);
+  font-variant-numeric:tabular-nums}
+.hall-name{font-size:var(--t-2xl);line-height:1.06;letter-spacing:-.025em;
+  transition:color .18s var(--ease)}
+/* розкритий зал має бути помітнішим, а не блідішим */
+.hall[data-open="true"]{background:var(--tint)}
+.hall[data-open="true"] .hall-row .n{color:var(--ink)}
+.hall-meta{display:flex;justify-content:space-between;align-items:baseline;gap:var(--s4);
+  color:var(--secondary);font-size:var(--t-sm)}
+.lock{border:1px solid var(--hair);border-radius:40px;padding:var(--s1) var(--s3);
+  font-size:var(--t-xs);letter-spacing:.04em;color:var(--secondary);white-space:nowrap}
+
+.hall-body{display:none;padding:var(--s2) 0 var(--s7)}
+.hall[data-open="true"] .hall-body{display:grid}
+.hall-body>div{min-width:0}
+.hall-lead{margin:0;font-family:var(--serif);font-size:var(--t-lg);line-height:1.45}
+.hall-text{margin:0;color:var(--soft);font-size:var(--t-md);line-height:1.55;max-width:54ch}
+.hall-facts{display:grid;gap:var(--s2);font-size:var(--t-xs);color:var(--secondary);
+  font-variant-numeric:tabular-nums;line-height:1.5;
+  padding-top:var(--s2);border-top:1px solid var(--hair)}
+.hall-facts b{font-weight:400;color:var(--ink);float:right;margin-left:var(--s3)}
+
+/* ── план і об'єм ───────────────────────────────────── */
+.wide{grid-column:1 / -1;padding:0 calc(var(--edge) + var(--gutter))}
+.plan-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-top:var(--s5);
+  border:1px solid var(--hair);background:var(--paper)}
+.plan-svg{display:block;width:100%;height:auto}
+.plan-wide{min-width:820px}
+.plan-narrow{display:none}
+.plan-svg text{font-family:var(--sans);fill:var(--ink)}
+.plan-svg .poche{fill:var(--ink)}                 /* стіни залиті, як на кресленні */
+.plan-svg .p-fill{fill:var(--paper);transition:fill .16s var(--ease)}
+.plan-svg .p-swing{stroke:var(--secondary);stroke-width:1}
+.plan-svg .p-arrow{stroke:var(--secondary);stroke-width:1.2;fill:none}
+.plan-svg .p-arrow-head{fill:var(--secondary)}
+.plan-svg .p-num{font-size:12px;fill:var(--secondary)}
+.plan-svg .p-name{font-size:17px;letter-spacing:-.02em}
+.plan-svg .p-lbl{font-size:11px;fill:var(--secondary)}
+.plan-svg .p-tier{font-size:11px;fill:var(--secondary);letter-spacing:.18em;text-transform:uppercase}
+.plan-svg .p-col{fill:var(--ink)}
+.plan-svg .p-dim{stroke:var(--secondary);stroke-width:1}
+.plan-svg .p-here{font-size:10px;fill:var(--ink);letter-spacing:.16em;text-transform:uppercase}
+.plan-svg .p-room:focus-visible .p-fill{fill:var(--tint)}
+.plan-svg .is-here .p-fill{fill:var(--tint)}
+.after-note{margin-top:var(--s3);color:var(--secondary);font-size:var(--t-sm)}
+
+/* ── програма ───────────────────────────────────────── */
+.prog-item{padding:var(--s5) 0;border-bottom:1px solid var(--hair);align-items:baseline}
+.prog-item .date{font-size:var(--t-sm);font-variant-numeric:tabular-nums}
+.prog-t{font-size:var(--t-xl);line-height:1.16;letter-spacing:-.02em}
+.prog-where{display:block;margin-top:var(--s1);color:var(--secondary);font-size:var(--t-sm)}
+.prog-st{text-align:right;color:var(--secondary);font-size:var(--t-sm)}
+
+/* ── візит, підвал ──────────────────────────────────── */
+.visit{padding:var(--s7) 0 var(--s7)}
+.end{padding-bottom:var(--s9)}
+.end-rule{height:1px;background:var(--hair)}
+.visit .cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s6)}
+.visit h3{margin:0 0 var(--s3);font-size:var(--t-sm);font-weight:400;color:var(--secondary)}
+.visit p{margin:0 0 var(--s1);font-size:var(--t-md)}
+
+@media (max-width:900px){
+  /* та сама шкала, лише зсунута: жодних разових розмірів нижче */
+  :root{
+    --t-lg:18px; --t-xl:21px; --t-2xl:26px;
+    --t-display:clamp(30px,8.6vw,44px);
+    --s7:32px; --s8:40px; --s9:48px;
+  }
+  .row{grid-template-columns:minmax(0,1fr)}
+  .inA,.inB,.inC,.wide{padding:0 var(--s5)}
+
+  /* Шапка як у журналі: одна компактна смуга з вордмарком по центру
+     і волосяною лінією знизу. Значення зняті з живого eprisjournal.com:
+     Iowan Old Style 20px, трекінг 4.4px. Рядок «museum | virtual» та
+     «est. 2026» на телефоні прибрані — те саме є в підвалі, а тут вони
+     розганяли шапку до 160px замість 100. */
+  .header{display:block;padding:0;border-bottom:1px solid var(--hair);text-align:center}
+  .header .inA{padding:0;height:56px;display:flex;align-items:center;justify-content:center}
+  .wordmark{font-size:20px;letter-spacing:4.4px;margin-right:-4.4px}
+  .header .inB{display:none}
+
+  .fold{padding:var(--s7) 0 var(--s8)}
+  .fold .inA{margin-bottom:var(--s3)}
+  .hero-lead{max-width:none}
+  .hero-cta{margin-top:var(--s5)}
+  .pill{padding:var(--s3) 18px}
+
+  .band{height:clamp(170px,52vw,240px)}
+  .band-cap{left:var(--s5)}
+
+  .sec{padding:var(--s7) 0 0}
+  .sec-note{margin-top:var(--s1)}
+  .sec-count{text-align:left;padding:0 var(--s5);margin-top:var(--s2)}
+
+  /* вертикальні лінії сітки на телефоні тільки заважають */
+  .lines{display:none}
+  .plan-scroll{overflow-x:visible}
+  .plan-wide{display:none}
+  .plan-narrow{display:block}
+  .plan-narrow .p-name{font-size:20px}
+  .plan-narrow .p-num,.plan-narrow .p-lbl,.plan-narrow .p-tier,.plan-narrow .p-here{font-size:13px}
+
+  .hall-row{padding:var(--s4) var(--s5);display:block}
+  .hall-row .n{font-size:var(--t-md);letter-spacing:0;color:var(--secondary);
+    display:block;line-height:1.2}
+  .hall-name{display:block;margin-top:var(--s1)}
+  .hall-meta{justify-content:flex-start;gap:var(--s3);margin-top:var(--s2)}
+  .hall-body{grid-template-columns:minmax(0,1fr);padding:0 0 var(--s5)}
+  .hall-body .inB{order:1}
+  .hall-body .inC{order:2}
+  .hall-body .inA{order:3}
+  /* чотири показники в один рядок на 375 px тиснуться; кладемо у дві колонки */
+  .hall-stats{display:grid;grid-template-columns:1fr 1fr;gap:var(--s2) var(--s4)}
+  .hall-text{margin-top:var(--s3)}
+  .hall-facts{margin-top:var(--s4);padding-top:var(--s3);border-top:1px solid var(--hair)}
+
+  .prog-item{padding:var(--s4) var(--s5);display:block}
+  .prog-t{display:block;margin-top:var(--s1)}
+  .prog-st{text-align:left;margin-top:var(--s2)}
+
+  .visit{padding:var(--s5) 0 var(--s7)}
+  .visit .inB{margin-bottom:var(--s5)}
+  .visit .cols{grid-template-columns:1fr;gap:var(--s5)}
+}
+@media (max-width:420px){
+  .inA,.inB,.inC,.wide,  .hall-row,.prog-item{padding-left:16px;padding-right:16px}
+  .band-cap{left:var(--s5)}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* ── галерея залу ─────────────────────────────────────── */
+.hall-hero{padding:var(--s8) 0 var(--s7)}
+.hall-hero .num{color:var(--secondary);font-size:var(--t-sm)}
+.hall-hero h1{margin:0;font-size:var(--t-display);line-height:1.04;
+  letter-spacing:-.026em;font-weight:400;text-wrap:balance}
+.hall-hero .pair{margin:var(--s3) 0 0;color:var(--secondary);font-size:var(--t-sm)}
+.hall-hero .blurb{margin:var(--s5) 0 0;max-width:46ch;font-size:var(--t-lg);
+  line-height:1.38;letter-spacing:-.012em}
+
+.gallery{display:grid;gap:var(--s8) var(--s6);
+  grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  padding:var(--s7) calc(var(--edge) + var(--gutter))}
+figure.work{margin:0;display:flex;flex-direction:column;gap:var(--s3)}
+/* спільна лінія підвісу: полотна різного формату висять у боксі одної висоти,
+   тому підписи вирівнюються між собою, як етикетки на стіні */
+figure.work a.plate{position:relative;display:block;aspect-ratio:4/3;
+  background:var(--tint);overflow:hidden}
+figure.work img{position:absolute;inset:var(--s4);width:calc(100% - 2*var(--s4));
+  height:calc(100% - 2*var(--s4));object-fit:contain;object-position:center bottom}
+figure.work figcaption{font-size:var(--t-sm);line-height:1.45}
+.w-artist{font-family:var(--serif);font-size:var(--t-lg);line-height:1.2;display:block}
+.w-title{display:block;margin-top:var(--s1);color:var(--soft)}
+.w-title i{font-style:italic}
+.w-meta{display:block;margin-top:var(--s2);color:var(--secondary);font-size:var(--t-xs);line-height:1.6}
+.w-meta a{border-bottom:1px solid var(--hair)}
+
+.credit{padding:var(--s7) calc(var(--edge) + var(--gutter)) var(--s9);
+  border-top:1px solid var(--hair);color:var(--secondary);font-size:var(--t-sm);max-width:78ch}
+.credit a{border-bottom:1px solid var(--hair)}
+
+.backlink{display:inline-block;margin-top:var(--s5);font-size:var(--t-sm);
+  border-bottom:1px solid var(--hair)}
+
+@media (max-width:900px){
+  .hall-hero{padding:var(--s7) 0 var(--s6)}
+  .gallery{padding:var(--s6) var(--s5);gap:var(--s7) var(--s5);
+    grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+  .credit{padding:var(--s6) var(--s5) var(--s8)}
+  figure.work a.plate{aspect-ratio:1/1}
+  figure.work img{inset:var(--s3);width:calc(100% - 2*var(--s3));height:calc(100% - 2*var(--s3))}
+}
+
+/* ── футер журналу ────────────────────────────────────── */
+.site-foot{
+  border-top:1px solid var(--foot-rule);
+  background:var(--foot-bg);color:var(--foot-ink);
+  padding:96px 64px;
+}
+.site-foot .in{
+  max-width:1600px;margin:0 auto;display:flex;
+  justify-content:space-between;align-items:flex-end;gap:48px;
+}
+
+.site-foot h2{
+  margin:0 0 32px;font-family:var(--serif);font-weight:400;
+  font-size:60px;line-height:1;letter-spacing:.08px;color:var(--foot-ink);
+}
+.site-foot .lines-of{max-width:20rem}
+.site-foot p{
+  margin:0;font-family:var(--serif);font-size:12px;line-height:1.62;
+  letter-spacing:1.2px;text-transform:uppercase;color:var(--foot-mute);
+}
+.site-foot .right{text-align:right}
+.site-foot .right p{color:var(--foot-dim)}
+.site-foot a{border-bottom:1px solid rgba(209,181,149,.35)}
+
+@media (max-width:900px){
+  .site-foot{padding:48px 32px}
+  .site-foot .in{flex-direction:column;align-items:center;text-align:center;gap:48px}
+  
+.site-foot h2{font-size:36px;margin-bottom:24px}
+  .site-foot .right{text-align:center}
+  .site-foot .lines-of{margin:0 auto}
+}
+@media (max-width:560px){
+  .site-foot{padding:32px 16px}
+  
+.site-foot h2{font-size:30px}
+}
+
+/* ── ключова робота залу ──────────────────────────────── */
+.keywork{padding:var(--s7) calc(var(--edge) + var(--gutter)) 0;
+  display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:var(--s6);align-items:end}
+.keywork .plate{position:relative;display:block;background:var(--tint);overflow:hidden;aspect-ratio:3/2}
+.keywork img{position:absolute;inset:var(--s5);width:calc(100% - 2*var(--s5));
+  height:calc(100% - 2*var(--s5));object-fit:contain;object-position:center bottom}
+.keywork .label{padding-bottom:var(--s2)}
+.keywork .eyebrow{display:block;margin-bottom:var(--s3)}
+.keywork .w-artist{font-size:var(--t-xl)}
+.keywork .w-title{font-size:var(--t-lg);font-family:var(--serif)}
+.keywork .w-meta{margin-top:var(--s3)}
+
+/* ── дані залу ────────────────────────────────────────── */
+.hall-stats{display:flex;flex-wrap:wrap;gap:var(--s2) var(--s6);margin:var(--s5) 0 0;
+  padding-top:var(--s4);border-top:1px solid var(--hair);
+  font-size:var(--t-xs);color:var(--secondary);font-variant-numeric:tabular-nums}
+.hall-stats b{font-weight:400;color:var(--ink)}
+
+/* ── перехід у сусідній зал ───────────────────────────── */
+.hall-nav{display:flex;justify-content:space-between;gap:var(--s5);
+  padding:var(--s7) calc(var(--edge) + var(--gutter)) var(--s8);
+  border-top:1px solid var(--hair)}
+.hall-nav a{max-width:22rem}
+.hall-nav .dir{display:block;font-size:var(--t-xs);letter-spacing:.16em;
+  text-transform:uppercase;color:var(--secondary);margin-bottom:var(--s2)}
+.hall-nav .nm{font-size:var(--t-xl);letter-spacing:-.02em;line-height:1.15}
+.hall-nav .to-next{text-align:right;margin-left:auto}
+
+/* ── лайтбокс ─────────────────────────────────────────── */
+.lb{position:fixed;inset:0;z-index:50;background:var(--paper);display:none;
+  grid-template-rows:1fr auto}
+.lb[data-open="true"]{display:grid}
+.lb-stage{position:relative;overflow:hidden;padding:var(--s6) var(--s6) 0}
+.lb-stage img{position:absolute;inset:var(--s6);width:calc(100% - 2*var(--s6));
+  height:calc(100% - 2*var(--s6));object-fit:contain;object-position:center}
+.lb-bar{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:var(--s5);
+  align-items:end;padding:var(--s5) var(--s6) var(--s6);border-top:1px solid var(--hair)}
+.lb-bar .w-artist{font-size:var(--t-xl)}
+.lb-controls{display:flex;align-items:center;gap:var(--s3);
+  font-size:var(--t-sm);color:var(--ink)}
+.lb-count{color:var(--secondary);margin-right:var(--s2)}
+.lb-controls button{display:inline-flex;align-items:center;justify-content:center;
+  min-width:46px;min-height:46px;border-radius:40px;font-size:16px;line-height:1;
+  border:1px solid var(--ink);color:var(--ink);background:var(--paper);
+  transition:background .16s var(--ease),color .16s var(--ease)}
+.lb-controls #lb-close{background:var(--ink);color:var(--paper)}
+.lb-count{font-variant-numeric:tabular-nums}
+body.lb-open{overflow:hidden}
+
+@media (max-width:900px){
+  .keywork{grid-template-columns:minmax(0,1fr);padding:var(--s6) var(--s5) 0;gap:var(--s5)}
+  .keywork .plate{aspect-ratio:4/3}
+  .keywork img{inset:var(--s4);width:calc(100% - 2*var(--s4));height:calc(100% - 2*var(--s4))}
+  .hall-nav{flex-direction:column;padding:var(--s6) var(--s5) var(--s7)}
+  .hall-nav .to-next{text-align:left;margin-left:0}
+  .lb-stage{padding:var(--s4) var(--s4) 0}
+  .lb-stage img{inset:var(--s4);width:calc(100% - 2*var(--s4));height:calc(100% - 2*var(--s4))}
+  .lb-bar{grid-template-columns:minmax(0,1fr);padding:var(--s4)}
+}
+
+/* ── вісь часу залів ──────────────────────────────────── */
+.tl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-top:var(--s5)}
+.tl{display:block;width:100%;height:auto;min-width:680px}
+.tl text{font-family:var(--sans);fill:var(--ink)}
+.tl-tick{stroke:var(--hair);stroke-width:1}
+.tl-year{font-size:11px;fill:var(--secondary);letter-spacing:.06em;
+  font-variant-numeric:tabular-nums}
+.tl-num{font-size:12px;fill:var(--secondary);font-variant-numeric:tabular-nums}
+.tl-name{font-size:15px;letter-spacing:-.01em}
+.tl-span{font-size:11px;fill:var(--secondary);font-variant-numeric:tabular-nums}
+.tl-bar{fill:var(--tint);stroke:var(--ink);stroke-width:1;transition:fill .16s var(--ease)}
+.tl-hit{fill:transparent}
+.tl-work{stroke:var(--paper);stroke-width:1.4}
+.tl-note{font-size:11px;fill:var(--secondary)}
+.tl-row.is-here .tl-bar{fill:var(--ink)}
+.tl-row.is-here .tl-name{font-weight:400}
+.tl-row.is-here .tl-span{fill:var(--ink)}
+.tl-row:focus-visible .tl-bar{fill:var(--secondary)}
+
+@media (max-width:900px){
+  .tl{min-width:600px}
+  .tl-name{font-size:14px}
+}
+
+/* ── виставки ─────────────────────────────────────────── */
+.ex-row{border-bottom:1px solid var(--hair)}
+.ex-link{width:100%;text-align:left;padding:var(--s6) 0;align-items:baseline}
+.ex-status{font-size:var(--t-xs);letter-spacing:.16em;text-transform:uppercase;color:var(--secondary)}
+.ex-status.on-view{color:var(--ink)}
+.ex-title{font-size:var(--t-2xl);letter-spacing:-.025em;line-height:1.06;transition:color .18s var(--ease)}
+.ex-sub{display:block;margin-top:var(--s2);font-family:var(--serif);
+  font-size:var(--t-md);color:var(--soft)}
+.ex-dates{font-size:var(--t-sm);color:var(--secondary);font-variant-numeric:tabular-nums;
+  display:flex;justify-content:space-between;gap:var(--s4)}
+
+.ex-hero{padding:var(--s8) 0 var(--s7)}
+.ex-hero h1{margin:0;font-size:var(--t-display);line-height:1.04;
+  letter-spacing:-.026em;font-weight:400;text-wrap:balance}
+.ex-hero .sub{margin:var(--s3) 0 0;font-family:var(--serif);font-size:var(--t-lg);color:var(--soft)}
+.ex-hero .meta{margin:var(--s5) 0 0;padding-top:var(--s4);border-top:1px solid var(--hair);
+  display:flex;flex-wrap:wrap;gap:var(--s2) var(--s6);font-size:var(--t-xs);
+  color:var(--secondary);font-variant-numeric:tabular-nums}
+.ex-hero .meta b{font-weight:400;color:var(--ink)}
+.ex-statement{margin:var(--s5) 0 0;max-width:46ch}
+.ex-statement p{margin:0 0 var(--s3);font-size:var(--t-lg);line-height:1.45}
+.ex-statement p:last-child{margin-bottom:0}
+
+/* ── сторінка однієї роботи ───────────────────────────── */
+/* Шапка сторінки роботи — це лише мітка й посилання назад, а не заголовок.
+   Раніше вона мала відступи повноцінного героя і давала близько 120 px
+   майже порожнечі перед картиною. */
+.crumbs{padding:var(--s5) 0 0;align-items:baseline}
+.crumbs .num{color:var(--secondary);font-size:var(--t-xs);letter-spacing:.16em;
+  text-transform:uppercase}
+.crumbs .backlink{margin-top:0}
+.work-page{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:var(--s7);
+  padding:var(--s7) calc(var(--edge) + var(--gutter)) var(--s8);align-items:start}
+.work-plate{position:relative;display:block;background:var(--tint);overflow:hidden;
+  aspect-ratio:4/3}
+.work-plate img{position:absolute;inset:var(--s5);width:calc(100% - 2*var(--s5));
+  height:calc(100% - 2*var(--s5));object-fit:contain;object-position:center}
+.work-label .eyebrow{display:block;margin-bottom:var(--s3)}
+.work-label h1{margin:0;font-family:var(--serif);font-size:var(--t-xl);line-height:1.2;font-weight:400}
+.work-label .by{display:block;margin-top:var(--s2);font-size:var(--t-2xl);
+  letter-spacing:-.025em;line-height:1.1}
+/* Дві колонки: мітка ліворуч, значення праворуч. Раніше довге значення
+   на кшталт «Mr. and Mrs. Martin A. Ryerson Collection» переносилось
+   під мітку, до лівого краю. */
+.work-facts{margin-top:var(--s5);padding-top:var(--s4);border-top:1px solid var(--hair);
+  display:grid;grid-template-columns:9em minmax(0,1fr);gap:var(--s2) var(--s4);
+  font-size:var(--t-sm);color:var(--secondary)}
+.work-facts>div{display:contents}
+.work-facts b{font-weight:400;color:var(--ink)}
+.work-facts .k{color:var(--secondary)}
+.work-links{margin-top:var(--s5);display:flex;flex-wrap:wrap;gap:var(--s2)}
+.siblings{padding:0 calc(var(--edge) + var(--gutter)) var(--s8)}
+.siblings h2{margin:0 0 var(--s4);font-family:var(--serif);font-weight:400;font-size:var(--t-xl)}
+.sib-grid{display:grid;gap:var(--s5);grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
+.sib{display:block}
+.sib .p{position:relative;display:block;background:var(--tint);aspect-ratio:1/1;overflow:hidden}
+.sib img{position:absolute;inset:var(--s3);width:calc(100% - 2*var(--s3));
+  height:calc(100% - 2*var(--s3));object-fit:contain;object-position:center bottom}
+.sib .c{display:block;margin-top:var(--s2);font-size:var(--t-xs);color:var(--secondary);line-height:1.5}
+.sib .c b{display:block;font-weight:400;color:var(--ink);font-size:var(--t-sm)}
+
+@media (max-width:900px){
+  .crumbs{padding-top:var(--s4)}
+  .work-page{grid-template-columns:minmax(0,1fr);gap:var(--s5);
+    padding:var(--s5) var(--s5) var(--s7)}
+  .work-plate img{inset:var(--s4);width:calc(100% - 2*var(--s4));height:calc(100% - 2*var(--s4))}
+  .siblings{padding:0 var(--s5) var(--s7)}
+  .sib-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
+}
+
+/* ── указатель авторів ────────────────────────────────── */
+.az{position:sticky;top:0;z-index:4;background:var(--paper);
+  padding:var(--s4) calc(var(--edge) + var(--gutter));border-bottom:1px solid var(--hair);
+  display:flex;flex-wrap:wrap;gap:var(--s1) var(--s3);font-size:var(--t-sm)}
+.az a{color:var(--secondary)}
+.az a.off{opacity:.32;pointer-events:none}
+
+.letter{padding:var(--s6) calc(var(--edge) + var(--gutter)) 0}
+.letter h2{margin:0 0 var(--s3);font-family:var(--serif);font-weight:400;
+  font-size:var(--t-xl);line-height:1}
+.artist-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:var(--s4);
+  align-items:baseline;padding:var(--s3) 0;border-top:1px solid var(--hair)}
+.artist-row .nm{font-size:var(--t-lg);letter-spacing:-.015em}
+.artist-row .life{display:block;margin-top:2px;font-size:var(--t-xs);color:var(--secondary)}
+.artist-row .cnt{font-size:var(--t-xs);color:var(--secondary);
+  font-variant-numeric:tabular-nums;white-space:nowrap}
+
+.artist-hero{padding:var(--s8) 0 var(--s6)}
+.artist-hero h1{margin:0;font-size:var(--t-display);line-height:1.04;
+  letter-spacing:-.026em;font-weight:400;text-wrap:balance}
+.artist-hero .life{margin:var(--s3) 0 0;font-family:var(--serif);
+  font-size:var(--t-lg);color:var(--soft)}
+.artist-hero .meta{margin:var(--s5) 0 0;padding-top:var(--s4);border-top:1px solid var(--hair);
+  display:flex;flex-wrap:wrap;gap:var(--s2) var(--s6);font-size:var(--t-xs);
+  color:var(--secondary);font-variant-numeric:tabular-nums}
+.artist-hero .meta b{font-weight:400;color:var(--ink)}
+
+@media (max-width:900px){
+  .az{padding:var(--s3) var(--s5);gap:var(--s1) var(--s2)}
+  .letter{padding:var(--s5) var(--s5) 0}
+  .artist-hero{padding:var(--s7) 0 var(--s5)}
+}
+
+/* ── посилання «до вмісту» для клавіатури ─────────────── */
+.skip{position:absolute;left:-9999px;top:0;z-index:60;background:var(--ink);color:var(--paper);
+  padding:var(--s3) var(--s4);font-size:var(--t-sm)}
+.skip:focus{left:var(--s4);top:var(--s4)}
+
+/* ── пошук ────────────────────────────────────────────── */
+.search-box{padding:var(--s6) calc(var(--edge) + var(--gutter)) 0}
+.search-box label{display:block;margin-bottom:var(--s2)}
+.search-box input{width:100%;max-width:36rem;padding:var(--s3) 0;background:none;
+  border:0;border-bottom:1px solid var(--ink);font-family:var(--sans);
+  font-size:var(--t-xl);letter-spacing:-.02em;color:var(--ink)}
+.search-box input::placeholder{color:var(--secondary)}
+.search-box input:focus{outline:none;border-bottom-width:2px}
+.search-meta{margin-top:var(--s3);font-size:var(--t-sm);color:var(--secondary);
+  font-variant-numeric:tabular-nums}
+.results{padding:var(--s5) calc(var(--edge) + var(--gutter)) var(--s8)}
+.res{display:grid;grid-template-columns:64px minmax(0,1fr) auto;gap:var(--s4);
+  align-items:center;padding:var(--s3) 0;border-bottom:1px solid var(--hair)}
+.res .th{width:64px;height:64px;background:var(--tint);position:relative;overflow:hidden}
+.res .th img{position:absolute;inset:4px;width:calc(100% - 8px);height:calc(100% - 8px);
+  object-fit:contain}
+.res .t{font-size:var(--t-md);line-height:1.3}
+.res .t b{display:block;font-weight:400;font-size:var(--t-lg);letter-spacing:-.015em}
+.res .h{font-size:var(--t-xs);color:var(--secondary);text-align:right;white-space:nowrap}
+mark{background:var(--tint);color:var(--ink);box-shadow:0 1px 0 var(--ink)}
+@media (max-width:900px){
+  .search-box{padding:var(--s5) var(--s5) 0}
+  .search-box input{font-size:var(--t-lg)}
+  .results{padding:var(--s4) var(--s5) var(--s7)}
+  .res{grid-template-columns:48px minmax(0,1fr);gap:var(--s3)}
+  .res .th{width:48px;height:48px}
+  .res .h{display:none}
+}
+
+/* ── навігація в шапці ────────────────────────────────── */
+.topnav{display:flex;gap:var(--s4);justify-content:flex-end}
+.topnav a{color:var(--secondary)}
+@media (max-width:900px){
+  .topnav{justify-content:center;margin:0;gap:var(--s6);
+    border-top:1px solid var(--hair);height:46px;align-items:center}
+  .topnav a{min-height:44px;display:inline-flex;align-items:center;
+    font-size:var(--t-sm);letter-spacing:.04em}
+}
+
+/* ── ховер тільки там, де є справжній курсор ─────────────
+   На тачі :hover залипає після дотику: кнопка «далі» в лайтбоксі
+   лишалась залитою чорним уже після переходу. */
+@media (hover: hover) and (pointer: fine){
+  .pill:hover{opacity:.82}
+  .hall-row:hover .hall-name{color:var(--secondary)}
+  .plan-svg .p-room:hover .p-fill{fill:var(--tint)}
+  .w-meta a:hover{border-color:var(--ink);color:var(--ink)}
+  .backlink:hover{border-color:var(--ink)}
+  .site-foot a:hover{border-color:var(--foot-ink);color:var(--foot-ink)}
+  .hall-nav a:hover .nm{color:var(--secondary)}
+  .lb-controls button:hover{background:var(--ink);color:var(--paper)}
+  .lb-controls #lb-close:hover{background:var(--paper);color:var(--ink)}
+  .tl-row:hover .tl-bar{fill:var(--secondary)}
+  .ex-link:hover .ex-title{color:var(--secondary)}
+  .sib:hover .p{background:var(--hair)}
+  .az a:hover{color:var(--ink)}
+  .artist-row:hover .nm{color:var(--secondary)}
+  .res:hover{background:var(--tint)}
+  .topnav a:hover{color:var(--ink)}
+}
+
+/* ── блок авторів на головній ─────────────────────────── */
+.az-inline{display:flex;flex-wrap:wrap;gap:var(--s1) var(--s3);margin-top:var(--s3)}
+.az-inline a{font-size:var(--t-sm);color:var(--secondary);font-variant-numeric:tabular-nums}
+.az-inline a.off{opacity:.3;pointer-events:none}
+.names{display:flex;flex-wrap:wrap;gap:var(--s2);margin-top:var(--s4)}
+.names a{font-size:var(--t-sm);border:1px solid var(--hair);border-radius:40px;
+  padding:var(--s1) var(--s3);white-space:nowrap}
+.names .more{border-color:var(--ink)}
+
+/* ── візит: щільніше і з лінійками ────────────────────── */
+.visit .cols{gap:0}
+.visit .grp{padding:var(--s4) 0;border-top:1px solid var(--hair)}
+.visit .grp:first-child{border-top:0;padding-top:0}
+.visit h3{margin:0 0 var(--s2)}
+.visit p{margin:0 0 var(--s1)}
+
+/* ── випадкова робота ─────────────────────────────────── */
+.dice{margin-top:var(--s5)}
+
+/* ── стіна: розвіска в справжньому масштабі ───────────── */
+/* --cm — скільки пікселів у сантиметрі полотна. Від нього залежать усі
+   розміри, тому стіна масштабується плавно, а довгий зал переноситься
+   на другий рядок замість того, щоб дрібнити всі інші. */
+/* Масштаб піднято: рядки переносяться, тож більший --cm не ламає розкладку,
+   а просто додає рядків. При 1.15 px/см відбитки Еванса (8 см) виходили
+   по 9 пікселів — не видно й нікуди влучити.
+   Нижня межа впирається у фізику: найбільша робота 378 см має вміститись
+   у рядок, тож на 375 px більше за 0.85 px/см не візьмеш, і восьмисантиметровий
+   відбиток лишається сімома пікселями. Це і є правда про зібрання —
+   тому дрібні отримують видиму обводку, а не збільшення. */
+.wall-wrap{margin-top:var(--s5);container-type:inline-size}
+/* Масштаб рахується від ширини САМОГО КОНТЕЙНЕРА, а не вікна: 100cqw/--maxw
+   означає «найширша робота рівно в контейнер», 2.05px — стеля, щоб на великому
+   екрані не роздувати. Так нічого не обрізається за жодної ширини. */
+.wall{display:grid;gap:var(--s7);--cm:min(3.4px, calc(100cqw / var(--maxw)))}
+/* min-width:0 обов'язковий: у grid і flex діти мають автоматичний мінімум
+   min-content, і рядок роздувався під найширше полотно, тягнучи за собою
+   ширину контейнера — через це max-width:100% на Вюйарі не спрацьовував. */
+/* Рядок залу згортається. Закритий стан не порожній: смужка .bar показує
+   довжину розвіски залу відносно найдовшого, тож зали порівнюються між собою
+   ще до відкриття. <details> обрано свідомо — працює без JS, з клавіатури і
+   з пошуку по сторінці. */
+.wrow{position:relative;min-width:0;border-top:1px solid var(--hair);
+  padding-top:var(--s3)}
+.wrow.wfig{border-top:0}
+.whead{display:flex;align-items:baseline;gap:var(--s2);margin-bottom:var(--s3);
+  font-size:var(--t-sm);cursor:pointer;list-style:none;padding:var(--s2) 0}
+.whead::-webkit-details-marker{display:none}
+.whead:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+/* Знак розкриття малюємо самі: рискою, що стає хрестиком-мінусом. */
+.whead::before{content:"+";font-family:var(--sans);color:var(--secondary);
+  width:1em;flex:none;transition:color .14s var(--ease)}
+.wrow[open] > .whead::before{content:"–"}
+.wrow:hover > .whead::before{color:var(--ink)}
+.whead .n{color:var(--secondary);font-variant-numeric:tabular-nums}
+.whead .nm{font-size:var(--t-lg);letter-spacing:-.015em}
+/* Смужка бере всю вільну ширину між назвою і цифрами, а --f — частка від
+   найдовшого залу. Це та сама величина, що й «10.9 m» поруч, тільки видима. */
+.whead .bar{flex:1 1 40px;min-width:24px;height:1px;background:var(--hair);
+  position:relative;align-self:center;margin:0 var(--s3)}
+.whead .bar::after{content:"";position:absolute;left:0;top:0;bottom:0;
+  width:calc(var(--f) * 100%);background:var(--secondary)}
+.wrow[open] > .whead .bar::after{background:var(--ink)}
+.whead .m{color:var(--secondary);font-variant-numeric:tabular-nums;
+  text-align:right;flex:none}
+.wrow.is-here > .whead .nm{font-family:var(--serif)}
+.wenter{display:inline-block;margin-top:var(--s4);font-size:var(--t-sm);
+  color:var(--secondary);border-bottom:1px solid var(--hair)}
+.wenter:hover{color:var(--ink);border-bottom-color:var(--ink)}
+/* Керування всім розділом одразу: без JS кнопки просто немає. */
+.wall-all{font-size:var(--t-sm);color:var(--secondary);background:none;
+  border:0;border-bottom:1px solid var(--hair);padding:0 0 2px;cursor:pointer;
+  font-family:inherit}
+.wall-all:hover{color:var(--ink);border-bottom-color:var(--ink)}
+@media (max-width: 720px){
+  .whead{flex-wrap:wrap}
+  .whead .bar{order:3;flex-basis:100%;margin:var(--s2) 0 0}
+  .whead .m{margin-left:auto}
+}
+/* align-items:center дає лінію підвісу для кожного рядка окремо */
+.whang{display:flex;flex-wrap:wrap;align-items:center;min-width:0;
+  gap:calc(var(--cm) * 34) calc(var(--cm) * 26)}
+.wk{position:relative;display:block;line-height:0;background:var(--tint);
+  width:calc(var(--cm) * var(--w));height:calc(var(--cm) * var(--h))}
+/* Єдине полотно ширше за масштабну базу (Вюйар, 392 см) стискається до рядка.
+   Висота йде за aspect-ratio, інакше картина деформувалась би. Пунктир каже,
+   що тут масштаб порушено свідомо — решта стіни лишається правдою. */
+.wk.is-over{max-width:100%;min-width:0;height:auto;aspect-ratio:var(--w) / var(--h)}
+.wk.is-over::after{box-shadow:none;outline:1px dashed rgba(18,18,18,.42);outline-offset:0}
+/* Запас на влучання пальцем навколо дрібних робіт: сама картина лишається
+   справжнього розміру, збільшується тільки невидима область натискання. */
+.wk::before{content:"";position:absolute;inset:-9px}
+.wk img{width:100%;height:100%;object-fit:fill;display:block}
+.wk::after{content:"";position:absolute;inset:0;box-shadow:0 0 0 1px var(--line-on-tint, rgba(18,18,18,.28)) inset;
+  transition:box-shadow .14s var(--ease)}
+.fig{display:block;background:var(--hair);border-radius:6px;
+  width:calc(var(--cm) * var(--w));height:calc(var(--cm) * var(--h))}
+.figlabel{font-size:var(--t-xs);color:var(--secondary);align-self:flex-end}
+@media (hover: hover) and (pointer: fine){
+  .wk:hover::after{box-shadow:0 0 0 2px var(--ink) inset}
+}
+.wk:focus-visible::after{box-shadow:0 0 0 2px var(--ink) inset}
+@media (max-width:900px){
+  .wall{gap:var(--s6)}
+  .whead{flex-wrap:wrap}
+  .whead .m{margin-left:0;width:100%;text-align:left}
+}
+
+/* Панель керування стіною: єдина кнопка, вирівняна праворуч над розвіскою. */
+.wall-bar{display:flex;justify-content:flex-end;margin-bottom:var(--s3)}
+
+/* ── Українська назва довша за EPRIS MUSEUM ──────────────────────────
+   На вузькому екрані «МУЗЕЙ ФОТОГРАФІЇ ДОНЕЦЬКА» з розрядкою 4,4 px
+   не влазить у рядок і вилазить за край. Тут вона стискається і, якщо
+   потрібно, переноситься на два рядки, а не ріжеться. */
+@media (max-width:720px){
+  .wordmark{font-size:14px;letter-spacing:2px;margin-right:-2px;
+            display:inline-block;max-width:100%;white-space:normal;line-height:1.15}
+  .header .inC.topnav{flex-wrap:wrap}
+}
