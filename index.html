@@ -158,6 +158,13 @@
 за розділом зйомки: там, де точної дати немає, вона не вигадана. Оригінали
 доступні за посиланням «повний розмір» під кожним знімком.</p>
 </div>
+<script>
+/* Раніше корінь домену був порталом, і на нього лишились посилання з якорями
+   на його розділи. Тепер у корені музей, і такий якір вів би в нікуди:
+   переводимо його на /portal/ з тим самим якорем. */
+(function(){var a=["home", "atlante-city", "okupatsia", "euro2012", "materialy", "rytm", "obrazy", "tznow", "pamyat", "izolyatsia", "murzilka", "heroes", "botsad", "kolory", "lyst", "voloshkove", "heritage-project", "friends"],h=location.hash.slice(1);
+ if(h&&a.indexOf(h)>=0){location.replace("/portal/#"+h);}})();
+</script>
 <footer class="site-foot">
   <div class="in">
     <div>

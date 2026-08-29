@@ -33,6 +33,14 @@ HALL_TEXT = {
                 "і те, що в ньому ще впізнається."),
 }
 
+LEGACY_ANCHORS = """<script>
+/* Раніше корінь домену був порталом, і на нього лишились посилання з якорями
+   на його розділи. Тепер у корені музей, і такий якір вів би в нікуди:
+   переводимо його на /portal/ з тим самим якорем. */
+(function(){var a=["home", "atlante-city", "okupatsia", "euro2012", "materialy", "rytm", "obrazy", "tznow", "pamyat", "izolyatsia", "murzilka", "heroes", "botsad", "kolory", "lyst", "voloshkove", "heritage-project", "friends"],h=location.hash.slice(1);
+ if(h&&a.indexOf(h)>=0){location.replace("/portal/#"+h);}})();
+</script>"""
+
 EXHIBITIONS = [
  ("nich", "Ніч", "місто після заходу",
   r"ніч|нічн|вогн|ліхтар|вечір|захід сонця|підсвіт"),
@@ -246,6 +254,7 @@ def build_home():
   </section>
 </div>
 {CREDIT}
+{LEGACY_ANCHORS}
 {FOOT}"""
     write("/index.html", body)
     return total
