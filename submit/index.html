@@ -20,7 +20,7 @@
 <meta property="og:locale" content="uk_UA">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="https://062.dn.ua/submit/">
-<link rel="stylesheet" href="/assets/museum.css?v=1788038693">
+<link rel="stylesheet" href="/assets/museum.css?v=1788039098">
 </head>
 <body>
 <a class="skip" href="#main">До знімків</a>
@@ -57,7 +57,7 @@
     <div class="inC">
       <h1>Надіслати знімки</h1>
       <p class="pair">архів росте з чужих альбомів</p>
-      <p class="blurb">Музей майже цілком зібраний із приватних архівів — те, що
+      <p class="blurb">Музей майже цілком зібраний із приватних архівів – те, що
       висить у залах, колись лежало в чиїхось коробках і на чиїхось дисках.
       Якщо у вас є фотографії Донецька, надішліть їх сюди.</p>
       <a class="backlink" href="/#halls">← усі зали</a>
@@ -72,8 +72,9 @@
       <div class="sf-drop" id="sf-drop">
         <input type="file" name="photos" id="sf-photos" multiple
                accept="image/jpeg,image/png,image/heic,image/heif,image/tiff,image/webp">
-        <p class="sf-drop-main">Перетягніть знімки сюди<br>або <b>оберіть на пристрої</b></p>
-        <p class="sf-drop-sub">до 10 знімків за раз · кожен до 12 МБ · JPEG, PNG, HEIC, TIFF</p>
+        <p class="sf-drop-main">Перетягніть знімки сюди</p>
+        <span class="sf-drop-btn">Обрати на пристрої</span>
+        <p class="sf-drop-sub">до 10 знімків за раз, кожен до 12 МБ<br>JPEG, PNG, HEIC, TIFF</p>
       </div>
 
       <ul class="sf-list" id="sf-list"></ul>
@@ -109,7 +110,7 @@
       </div>
 
       <p class="sf-fine">Надсилаючи знімки, ви дозволяєте музею їх показати
-      з вашим підписом. Права лишаються вашими; попросите зняти — знімемо.
+      з вашим підписом. Права лишаються вашими; попросите зняти – знімемо.
       Контакт потрібен лише для відповіді й нікуди не передається.</p>
     </form>
   </div>
@@ -154,7 +155,7 @@
       var cap = document.createElement('div');
       cap.className = 'sf-cap';
       cap.innerHTML = '<b>' + f.name.replace(/[<>&]/g, '') + '</b><span>' + mb(f.size) +
-        (f.size > MAX_BYTES ? ' — завеликий' : '') + '</span>';
+        (f.size > MAX_BYTES ? ' – завеликий' : '') + '</span>';
       var del = document.createElement('button');
       del.type = 'button'; del.className = 'sf-del';
       del.setAttribute('aria-label', 'Прибрати ' + f.name);
@@ -179,7 +180,9 @@
 
   function add(files){
     Array.prototype.forEach.call(files, function(f){
-      if (!/^image\//.test(f.type) && !/\.(jpe?g|png|heic|heif|tiff?|webp)$/i.test(f.name)) return;
+      var okType = f.type.indexOf('image/') === 0;
+      var okName = /[.](jpe?g|png|heic|heif|tiff?|webp)$/i.test(f.name);
+      if (!okType && !okName) return;
       var dup = chosen.some(function(c){ return c.name === f.name && c.size === f.size; });
       if (!dup) chosen.push(f);
     });

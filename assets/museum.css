@@ -913,12 +913,17 @@ mark{background:var(--tint);color:var(--ink);box-shadow:0 1px 0 var(--ink)}
 .sf-drop:hover,.sf-drop.is-over{border-color:var(--ink);background:var(--paper)}
 .sf-drop input[type=file]{position:absolute;inset:0;width:100%;height:100%;
   opacity:0;cursor:pointer}
+/* Три рівні один під одним по центру: що зробити, чим зробити, межі.
+   Раніше «або» висіло ліворуч від кнопки й збивало вісь блоку. */
 .sf-drop-main{margin:0;font-size:var(--t-md);line-height:1.5}
-.sf-drop-main b{display:inline-block;margin-top:var(--s2);font-weight:400;
-  border:1px solid var(--ink);border-radius:40px;padding:.45em 1.2em;
-  font-size:var(--t-sm);transition:background .16s var(--ease),color .16s var(--ease)}
-.sf-drop:hover .sf-drop-main b{background:var(--ink);color:var(--paper)}
-.sf-drop-sub{margin:var(--s2) 0 0;font-size:var(--t-xs);color:var(--secondary)}
+.sf-drop-btn{display:inline-block;margin-top:var(--s3);font-weight:400;
+  border:1px solid var(--ink);border-radius:40px;padding:.5em 1.4em;
+  font-size:var(--t-sm);
+  transition:background .16s var(--ease),color .16s var(--ease)}
+.sf-drop:hover .sf-drop-btn,.sf-drop.is-over .sf-drop-btn{
+  background:var(--ink);color:var(--paper)}
+.sf-drop-sub{margin:var(--s4) 0 0;font-size:var(--t-xs);line-height:1.6;
+  color:var(--secondary)}
 
 /* Обрані кадри: прев'ю робить браузер із локального файлу, нічого
    нікуди не йде до натискання кнопки. */

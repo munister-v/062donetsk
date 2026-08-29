@@ -228,8 +228,8 @@ SUPPORT = """<section class="support" id="support">
 SUBMIT_CTA = """  <section class="row cta" id="submit">
     <div class="inA"><span class="cta-eyebrow">Поповнити архів</span></div>
     <div class="inB cta-text">
-      <p>Музей росте з чужих альбомів. Якщо у вас є фотографії Донецька —
-      свої, батьківські, скановані — надішліть їх сюди.</p>
+      <p>Музей росте з чужих альбомів. Якщо у вас є фотографії Донецька –
+      свої, батьківські, скановані – надішліть їх сюди.</p>
     </div>
     <div class="inC cta-act"><a class="pill" href="/submit/">Надіслати знімки →</a></div>
   </section>"""
@@ -699,7 +699,7 @@ def build_submit():
     <div class="inC">
       <h1>Надіслати знімки</h1>
       <p class="pair">архів росте з чужих альбомів</p>
-      <p class="blurb">Музей майже цілком зібраний із приватних архівів — те, що
+      <p class="blurb">Музей майже цілком зібраний із приватних архівів – те, що
       висить у залах, колись лежало в чиїхось коробках і на чиїхось дисках.
       Якщо у вас є фотографії Донецька, надішліть їх сюди.</p>
       <a class="backlink" href="/#halls">← усі зали</a>
@@ -714,8 +714,9 @@ def build_submit():
       <div class="sf-drop" id="sf-drop">
         <input type="file" name="photos" id="sf-photos" multiple
                accept="image/jpeg,image/png,image/heic,image/heif,image/tiff,image/webp">
-        <p class="sf-drop-main">Перетягніть знімки сюди<br>або <b>оберіть на пристрої</b></p>
-        <p class="sf-drop-sub">до 10 знімків за раз · кожен до 12 МБ · JPEG, PNG, HEIC, TIFF</p>
+        <p class="sf-drop-main">Перетягніть знімки сюди</p>
+        <span class="sf-drop-btn">Обрати на пристрої</span>
+        <p class="sf-drop-sub">до 10 знімків за раз, кожен до 12 МБ<br>JPEG, PNG, HEIC, TIFF</p>
       </div>
 
       <ul class="sf-list" id="sf-list"></ul>
@@ -751,7 +752,7 @@ def build_submit():
       </div>
 
       <p class="sf-fine">Надсилаючи знімки, ви дозволяєте музею їх показати
-      з вашим підписом. Права лишаються вашими; попросите зняти — знімемо.
+      з вашим підписом. Права лишаються вашими; попросите зняти – знімемо.
       Контакт потрібен лише для відповіді й нікуди не передається.</p>
     </form>
   </div>
@@ -796,7 +797,7 @@ def build_submit():
       var cap = document.createElement('div');
       cap.className = 'sf-cap';
       cap.innerHTML = '<b>' + f.name.replace(/[<>&]/g, '') + '</b><span>' + mb(f.size) +
-        (f.size > MAX_BYTES ? ' — завеликий' : '') + '</span>';
+        (f.size > MAX_BYTES ? ' – завеликий' : '') + '</span>';
       var del = document.createElement('button');
       del.type = 'button'; del.className = 'sf-del';
       del.setAttribute('aria-label', 'Прибрати ' + f.name);
@@ -821,7 +822,9 @@ def build_submit():
 
   function add(files){{
     Array.prototype.forEach.call(files, function(f){{
-      if (!/^image\//.test(f.type) && !/\.(jpe?g|png|heic|heif|tiff?|webp)$/i.test(f.name)) return;
+      var okType = f.type.indexOf('image/') === 0;
+      var okName = /[.](jpe?g|png|heic|heif|tiff?|webp)$/i.test(f.name);
+      if (!okType && !okName) return;
       var dup = chosen.some(function(c){{ return c.name === f.name && c.size === f.size; }});
       if (!dup) chosen.push(f);
     }});
@@ -966,6 +969,56 @@ def build_redirects():
     print(f"перенаправлень зі старих залів: {len(OLD_HALLS)}")
 
 
+def check_dashes():
+    """Довге тире (—) на сайті заборонене: тільки середнє (–).
+
+    Перевірка йде по зібраних сторінках і дивиться саме видимий текст,
+    а не вихідний код: коментар у скрипті нікому не муляє, а те саме
+    тире в підписі під знімком муляє. Правило легко порушити випадково,
+    бо редактори підставляють довге тире самі, тому воно перевіряється
+    щозбірки, а не пам'яттю.
+    """
+    from html.parser import HTMLParser
+
+    class Visible(HTMLParser):
+        def __init__(self):
+            super().__init__()
+            self.skip = 0
+            self.hits = []
+
+        def handle_starttag(self, tag, attrs):
+            if tag in ("script", "style"):
+                self.skip += 1
+
+        def handle_endtag(self, tag):
+            if tag in ("script", "style"):
+                self.skip = max(0, self.skip - 1)
+
+        def handle_data(self, data):
+            if not self.skip and "\u2014" in data:
+                self.hits.append(" ".join(data.split())[:80])
+
+    bad = []
+    for base, _dirs, files in os.walk(ROOT):
+        if any(part.startswith(".") for part in base.split(os.sep)):
+            continue
+        for name in files:
+            if name != "index.html":
+                continue
+            rel = os.path.relpath(os.path.join(base, name), ROOT)
+            if rel.startswith("portal"):        # портал це окремий сайт
+                continue
+            p = Visible()
+            p.feed(open(os.path.join(base, name), encoding="utf-8").read())
+            for hit in p.hits:
+                bad.append((rel, hit))
+    if bad:
+        print(f"УВАГА: довге тире у видимому тексті, {len(bad)} місць:")
+        for rel, hit in bad[:10]:
+            print(f"   {rel}: {hit}")
+    return len(bad)
+
+
 def main():
     total = build_home()
     halls = CAT["halls"]
@@ -982,6 +1035,7 @@ def main():
     clean_orphans()
     print(f"зібрано: головна, {len(halls)} залів, {len(EXHIBITIONS)} виставок "
           f"({ex_total} входжень), {total} карток знімків, пошук")
+    check_dashes()
 
 
 
