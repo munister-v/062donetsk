@@ -600,6 +600,12 @@ mark{background:var(--tint);color:var(--ink);box-shadow:0 1px 0 var(--ink)}
 .visit .grp:first-child{border-top:0;padding-top:0}
 .visit h3{margin:0 0 var(--s2)}
 .visit p{margin:0 0 var(--s1)}
+/* Текст «Про музей» був набраний як підпис-примітка (--secondary,
+   13px) — сірий і дрібний для двох повноцінних абзаців. Тут це
+   основний вміст розділу, тож колір і кегль звичайні, як у .blurb. */
+.visit .inB{color:var(--ink);font-size:var(--t-md);max-width:56ch;align-self:start}
+.visit .inB p{margin:0 0 var(--s4);line-height:1.6;color:var(--soft)}
+.visit .inB p:last-child{margin-bottom:0}
 
 /* ── випадкова робота ─────────────────────────────────── */
 .dice{margin-top:var(--s5)}
