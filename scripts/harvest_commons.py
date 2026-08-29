@@ -57,7 +57,14 @@ CATEGORIES = [
     "Category:Donetsk Metro",
     "Category:Transport in Donetsk",
     "Category:Road transport in Donetsk",
-]
+    # Історія міста: Юзівка, англійська колонія Хьюза, Сталіне.
+    "Category:Historical photos of Donetsk",
+    'Category:Images from "Illustrated history of Hughesovka-Stalino-Donetsk"',
+    "Category:School at the English colony of Yuzivka",
+    "Category:Cathedral Transfiguration of Jesus in Hughesovka",
+    "Category:1st Synagogue of Yuzovka (Donetsk)",
+    "Category:2nd Synagogue of Yuzovka (Donetsk)",
+] + [f"Category:{y} in Donetsk" for y in range(1923, 1941)]
 # Не фотографии города: карты, гербы, схемы, сканы, коллажи.
 # Кириллические слова тут не для красоты: в категориях Донецка лежат сканы
 # купонов, марок, банкнот, афиш и газет, и по-английски они не подписаны.
@@ -149,7 +156,12 @@ def details(titles):
 def wanted(f):
     if not f["mime"].startswith("image/") or f["mime"] == "image/svg+xml":
         return False
-    if f["w"] < MIN_WIDTH or f["h"] < 900 and f["w"] < 2000:
+    # Історичний кадр 1910 року фізично не буває на 1400 px: це скан із
+    # відбитка. Тримати для нього той самий поріг, що для цифрового знімка,
+    # означає не мати старого міста в музеї взагалі.
+    old = re.search(r"(18\d\d|19[0-5]\d)", f.get("date") or "")
+    floor = 900 if old else MIN_WIDTH
+    if f["w"] < floor or (f["h"] < 700 and f["w"] < floor + 600):
         return False
     if BAD_NAME.search(f["title"]):
         return False

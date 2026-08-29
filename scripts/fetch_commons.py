@@ -53,9 +53,17 @@ def main():
                            r"залізни|железнодорож|рейк|депо)", re.I)
     quota = int(os.environ.get("TRANSPORT_QUOTA", "60"))
     transport = [f for f in items if TRANSPORT.search(f["title"] + " " + (f.get("desc") or ""))]
-    rest = [f for f in items if f not in transport]
-    items = transport[:quota] + rest
-    print(f"транспортних кадрів у пулі: {len(transport)}, беремо до {quota}")
+
+    # Історичні кадри так само програють за розміром: скан 1910 року завжди
+    # дрібніший за цифрову панораму, тому їм теж потрібна своя квота.
+    hist_quota = int(os.environ.get("HIST_QUOTA", "70"))
+    historic = [f for f in items
+                if f.get("year", "").isdigit() and int(f["year"]) < 1961]
+    picked_ids = {id(f) for f in transport[:quota]} | {id(f) for f in historic[:hist_quota]}
+    rest = [f for f in items if id(f) not in picked_ids]
+    items = historic[:hist_quota] + transport[:quota] + rest
+    print(f"у пулі: історичних {len(historic)} (беремо {min(len(historic), hist_quota)}), "
+          f"транспортних {len(transport)} (беремо {min(len(transport), quota)})")
 
     os.makedirs(OUT, exist_ok=True)
     picked, seen_author = [], {}

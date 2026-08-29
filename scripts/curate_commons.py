@@ -20,6 +20,9 @@ HARD_DROP = re.compile(
     r"škoda|skoda|octavia|"
     r"iphone|айфон|macbook|ноутбук|laptop|"
     r"crash|accident|collision|аварі|катастроф|зіткн|зштовх|"      # аварії, не місто
+    r"stock certificate|share certificate|акци[яй]|акційн|пай\b|сертифікат|"  # цінні папери
+    r"облигац|обліга|вексел|прошени|прохання|бланк|рахунок|відомість|ведомость|"
+    r"креслен|чертеж|проект |план[уи] |генплан|"
     r"проспект реклам|рекламн\w* проспект|прейскурант|каталог товар|"  # скани друку
     r"portrait|портрет|f cks|fücks|жюри|журі|"
     r"ferrari|porsche|bmw|mercedes|lamborghini|автомобіл|автомобил|"
@@ -37,6 +40,15 @@ SOFT_DROP = re.compile(r"(drupalcamp|конференц|conference|camp\b|"
 CATEGORY_TITLE = [
     # Спершу найконкретніше: сімдесят кадрів з однаковим підписом
     # «Вулиці Донецька» це не каталог, а шпалери.
+    # Історичні сюжети йдуть першими: вони найконкретніші.
+    ("Cathedral Transfiguration of Jesus in Hughesovka", "Преображенський собор"),
+    ("Historical photos of churches", "Храми міста"),
+    ("Synagogue of Yuzovka", "Синагога Юзівки"),
+    ("School at the English colony", "Школа англійської колонії"),
+    ("Historical photos of coal mines", "Шахти"),
+    ("Historical photos of Artema Street", "Вулиця Артема"),
+    ("Voznesensky mines", "Вознесенські копальні"),
+    ("Compagnie des charbonnages", "Копальні Прохорова"),
     ("Tatra T3", "Трамвай Tatra T3"),
     ("Trams in Donetsk", "Донецький трамвай"),
     ("Tram transport", "Донецький трамвай"),
@@ -52,6 +64,15 @@ CATEGORY_TITLE = [
     ("Pushkin Boulevard", "Бульвар Пушкіна"),
     ("Artema Street", "Вулиця Артема"),
     ("Universitetska", "Університетська вулиця"),
+    # Історичні сюжети йдуть першими: вони найконкретніші.
+    ("Cathedral Transfiguration of Jesus in Hughesovka", "Преображенський собор"),
+    ("Historical photos of churches", "Храми міста"),
+    ("Synagogue of Yuzovka", "Синагога Юзівки"),
+    ("School at the English colony", "Школа англійської колонії"),
+    ("Historical photos of coal mines", "Шахти"),
+    ("Historical photos of Artema Street", "Вулиця Артема"),
+    ("Voznesensky mines", "Вознесенські копальні"),
+    ("Compagnie des charbonnages", "Копальні Прохорова"),
     ("Tatra T3", "Трамвай Tatra T3"),
     ("in transport in Donetsk", "Міський транспорт"),
     ("Donbass Arena", "Донбас Арена"),
@@ -140,6 +161,15 @@ def main():
         own_text = x["title"] + " " + x.get("desc", "")
         cat_text = " ".join(cats.get(x["title"], []))
         # Люди крупним планом і речі зі столу це не музей міста.
+        # Сторінки архітектурних журналів це креслення й плани, а музей тут
+        # фотографічний: план будинку не знімок міста.
+        # Журнальні сторінки, архівні справи, креслення й бланки: усе це
+        # папір, а музей фотографічний. Категорія тут надійніша за назву.
+        if re.search(r"(architecture of the soviet ukraine|magazines of ukraine|"
+                     r"extracted images|funds of archives|archival|manuscript|"
+                     r"documents of|letters|plans of|drawings|blueprint)", cat_text, re.I):
+            dropped.append((x["title"][:50], "папір, а не фотографія"))
+            continue
         if re.search(r"(people of donetsk|portraits|men |women |journalists|"
                      r"computers|electronics|meetings|conferences|"
                      r"shops|shopping|supermarket|retail|food|drinks|"
@@ -152,6 +182,15 @@ def main():
             dropped.append((x["title"][:50], "заборонений сюжет"))
             continue
         label = title_for(cats.get(x["title"], []))
+        # Для довоєнного кадру епоха сама по собі є сюжетом: аптека Лаче й
+        # панорама Юзівки 1909 року лежать лише в «Historical photos of
+        # Donetsk», і вимагати від них ще одної категорії означало б
+        # викинути з музею саме те, заради чого зал і робився.
+        hist_cat = re.search(r"(historical photos of donetsk|history of donetsk|"
+                             r"\d{4} in donetsk|yuzovka|hughesovka|yuzivka)", cat_text, re.I)
+        year_now = x.get("year", "")
+        if not label and hist_cat and year_now.isdigit() and int(year_now) < 1961:
+            label = "Юзівка" if int(year_now) < 1924 else "Сталіне"
         if not label:
             dropped.append((x["title"][:50], "немає зрозумілої категорії"))
             continue
@@ -166,9 +205,23 @@ def main():
             if m:
                 month = MONTHS[m.group(1)] + " " + m.group(2)
                 break
-        # Довоєнні кадри це не «вулиці», це інша епоха міста.
-        if year and year.isdigit() and int(year) < 1940:
-            label = "Донецьк на старих знімках"
+        # Місто називалось по-різному, і підпис має це поважати: Юзівка до
+        # 1924 року, Сталіне до 1961-го, далі Донецьк. Це не прикраса, це
+        # єдиний спосіб не датувати кадр назвою, якої тоді не існувало.
+        if year and year.isdigit():
+            y = int(year)
+            era = "Юзівка" if y < 1924 else ("Сталіне" if y < 1961 else "")
+            if era:
+                # Назва міста не має з'їдати сюжет: якщо категорія каже, що
+                # на кадрі собор чи шахта, лишаємо це, а епоху ставимо поруч.
+                # «Юзівка» й «Сталіне» тут теж загальні: їх міг поставити
+                # запасний варіант вище, і тоді епоха приклеїлась би вдруге.
+                generic = label in ("", "Донецьк на старих знімках", "Вулиці Донецька",
+                                    "Панорама міста", "Види Донецька", "Юзівка", "Сталіне")
+                # «Залізниця Донецька · Юзівка» — місто двічі й під різними
+                # іменами. Прибираємо топонім із сюжету, епоха його замінює.
+                subject = re.sub(r"\s+(Донецька|Донецьк|у Донецьку|міста)$", "", label).strip()
+                label = era if generic else f"{subject} · {era}"
         # І навпаки: «старий знімок», датований 2010 роком, це помилка
         # каталогу, а не знахідка. Категорія «History of Donetsk» тут бреше.
         if label == "Донецьк на старих знімках" and year.isdigit() and int(year) > 1960:

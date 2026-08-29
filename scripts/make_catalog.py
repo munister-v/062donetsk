@@ -284,9 +284,9 @@ def commons_hall(label, year):
     кадром (ім'я автора, ліцензія, посилання на файл), і це чесніше, ніж
     відгороджувати чуже стіною.
     """
-    if year.isdigit() and int(year) < 1940:
+    if year.isdigit() and int(year) < 1961:      # Юзівка і Сталіне
         return "stare-misto"
-    if "старих знімках" in label:
+    if any(k in label for k in ("старих знімках", "Юзівка", "Сталіне")):
         return "stare-misto"
     if "Арена" in label:
         return "arena"
@@ -308,8 +308,9 @@ def commons_works():
     if not os.path.exists(picked):
         return []
     out = []
+    skip = excluded_files()
     for f in json.load(open(picked, encoding="utf-8")):
-        if not os.path.exists(os.path.join(ROOT, f["file"])):
+        if not os.path.exists(os.path.join(ROOT, f["file"])) or f["file"] in skip:
             continue
         # Подпись, написанную куратором в curate_commons.py, ничем не перебиваем:
         # описание на Commons бывает поводом загрузки, а не сюжетом снимка.
