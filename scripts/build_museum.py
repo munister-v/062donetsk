@@ -382,9 +382,6 @@ def build_home():
   </a>
 </article>""")
 
-    named = sum(1 for w in CAT["works"] if w["titled_by_author"])
-    own = sum(1 for w in CAT["works"] if w["source"] == "own")
-    comm = sum(1 for w in CAT["works"] if w["source"] == "commons")
     body = f"""{head("Музей фотографії Донецька",
         f"Віртуальний музей: {total} фотографій Донецька у {len(halls)} залах, від міста до 2014 року до окупації.",
         "/", cover["id"], ld, og_card="/og/home.jpg")}
@@ -430,12 +427,11 @@ def build_home():
   <section class="row visit">
     <div class="inA"></div>
     <div class="inB sec-note">
-      <p>Це архів одного міста, зібраний людьми, які в ньому жили. {own} знімків
-      із власного архіву сайту, {comm} узяті з Wikimedia Commons за вільними
-      ліцензіями (Public Domain, CC BY, CC BY-SA): під кожним таким кадром стоїть
-      ім'я автора, тип ліцензії й посилання на джерело. Загалом {named} знімків
-      мають такий детальний підпис; решта каталогізована за розділом і роком
-      зйомки, коли точнішого опису немає.</p>
+      <p>This is an archive of one city, put together by people who lived in it.
+      Some photos come from the site's own collection; others are used under free
+      Wikimedia Commons licenses (Public Domain, CC BY, CC BY-SA), credited with
+      author, license and source link. Photos without a specific caption are
+      simply catalogued by section and year.</p>
       <p>Музей відкритий цілодобово, безкоштовно і без реєстрації.
       Оригінали доступні на сторінці кожного знімка.</p>
     </div>
