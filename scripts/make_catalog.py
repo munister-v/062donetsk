@@ -28,6 +28,7 @@ HALLS = [
     ("botanichnyi-sad", "Ботанічний сад", "оаза посеред вугілля", ["botsad", "addon"]),
     ("kolory", "Кольори міста", "світло, вода, зелень", ["new"]),
     ("okupatsiia", "Окупація 2022–2026", "що з ним зробили", ["after2022", "append2025"]),
+    ("ochyma-inshykh", "Очима інших", "знімки спільноти, з іменем автора", ["commons"]),
 ]
 FOLDER_HALL = {f: slug for slug, _, _, folders in HALLS for f in folders}
 
@@ -163,6 +164,35 @@ def drop_duplicates(works, threshold=12):
     return kept, dropped
 
 
+def commons_works():
+    """Снимки с Wikimedia Commons отдельным залом.
+
+    Они не смешиваются с авторским архивом сознательно: у этих кадров есть
+    имя автора и лицензия, и зал прямо об этом говорит. Подпись берётся из
+    описания файла, а если его нет — из имени файла, но никогда не выдумывается.
+    """
+    picked = os.path.join(ROOT, "data", "commons-picked.json")
+    if not os.path.exists(picked):
+        return []
+    out = []
+    for f in json.load(open(picked, encoding="utf-8")):
+        if not os.path.exists(os.path.join(ROOT, f["file"])):
+            continue
+        title = re.sub(r"<[^>]+>", "", f.get("desc") or "").strip()
+        if not title or len(title) > 120:
+            title = re.sub(r"[_-]+", " ", os.path.splitext(os.path.basename(f["file"]))[0])
+            title = re.sub(r"\s+", " ", title).strip()
+        out.append({
+            "id": "", "file": f["file"], "title": title[:120],
+            "titled_by_author": True, "hall": "ochyma-inshykh",
+            "year": f.get("year", ""), "note": "",
+            "source": "commons", "author": f["author_clean"],
+            "license": f["license"], "page": f["page"],
+            "w": f["w"], "h": f["h"],
+        })
+    return out
+
+
 def main():
     old = {}
     if os.path.exists(CATALOG):
@@ -189,9 +219,11 @@ def main():
             "hall": prev.get("hall") or FOLDER_HALL[folder],
             "year": prev.get("year") or YEARS.get(folder, ""),
             "note": prev.get("note", ""),
+            "source": "own", "author": "", "license": "", "page": "",
             "w": w, "h": h,
         })
 
+    works += commons_works()
     works, dropped = drop_duplicates(works)
     works = assign_ids(works)
     works.sort(key=lambda x: ([s for s, *_ in HALLS].index(x["hall"]), x["file"]))

@@ -77,7 +77,7 @@ def head(title, desc, path, og_id=None, extra_ld=""):
 <meta property="og:url" content="{url}">
 <meta property="og:type" content="website">
 <meta property="og:image" content="{og}">
-<meta property="og:site_name" content="Музей фотографії Донецька">
+<meta property="og:site_name" content="062.dn.ua">
 <meta property="og:locale" content="uk_UA">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="{url}">
@@ -88,8 +88,8 @@ def head(title, desc, path, og_id=None, extra_ld=""):
 
 
 def header(home=False):
-    mark = ('<span class="wordmark">МУЗЕЙ ФОТОГРАФІЇ ДОНЕЦЬКА</span>' if home
-            else '<a href="/"><span class="wordmark">МУЗЕЙ ФОТОГРАФІЇ ДОНЕЦЬКА</span></a>')
+    mark = ('<span class="wordmark">062.DN.UA</span>' if home
+            else '<a href="/"><span class="wordmark">062.DN.UA</span></a>')
     halls = "#halls" if home else "/#halls"
     return f"""
   <header class="row header">
@@ -109,7 +109,7 @@ def header(home=False):
 FOOT = """<footer class="site-foot">
   <div class="in">
     <div>
-      <h2>МУЗЕЙ ФОТОГРАФІЇ ДОНЕЦЬКА</h2>
+      <h2>062.DN.UA</h2>
     </div>
     <div class="right">
       <p>© 2026 062.dn.ua</p>
@@ -120,12 +120,7 @@ FOOT = """<footer class="site-foot">
 </body>
 </html>"""
 
-CREDIT = """<div class="credit">
-<p>Знімки в цьому музеї зроблені автором порталу та його друзями в Донецьку
-з 2006 по 2026 рік. Частина архіву підписана автором окремо, решта каталогізована
-за розділом зйомки: там, де точної дати немає, вона не вигадана. Оригінали
-доступні за посиланням «повний розмір» під кожним знімком.</p>
-</div>"""
+CREDIT = ""   # пояснення про архів прибрано на прохання автора
 
 
 def works_by_hall(slug):
@@ -146,16 +141,30 @@ def plate_img(w, size="s", lazy=True, sizes='(max-width:900px) 92vw, 30vw'):
             f'width="{500 if size=="s" else 1200}" height="{hh}" alt="{esc(w["title"])}">')
 
 
+def byline(w):
+    """Кто снял. У своих кадров это архив портала, у чужих — имя автора,
+    и оно должно стоять на самом видном месте подписи, а не в мелком тексте."""
+    return w.get("author") or "Донецьк"
+
+
+def provenance(w):
+    """Строка прав под снимком: лицензия и ссылка на файл-источник."""
+    if w.get("source") == "commons":
+        lic = esc(w.get("license") or "вільна ліцензія")
+        return f'{lic} · <a href="{esc(w.get("page"))}" rel="noopener">Wikimedia Commons</a>'
+    return "авторський архів"
+
+
 def figure(w):
     year = f'{esc(w["year"])} · ' if w["year"] else ""
     return f"""  <figure class="work">
     <a class="plate" href="/works/{w['id']}/" data-i="{w['_i']}" aria-label="Відкрити знімок: {esc(w['title'])}">
       {plate_img(w)}</a>
     <figcaption>
-      <span class="w-artist">Донецьк</span>
+      <span class="w-artist">{esc(byline(w))}</span>
       <span class="w-title"><i>{esc(w['title'])}</i></span>
       <span class="w-meta">{year}фотографія<br>
-        <a href="/works/{w['id']}/">картка знімка</a> · авторський архів</span>
+        <a href="/works/{w['id']}/">картка знімка</a> · {provenance(w)}</span>
     </figcaption>
   </figure>"""
 
@@ -176,7 +185,7 @@ def build_home():
     halls = CAT["halls"]
     ld = ('<script type="application/ld+json">' + json.dumps({
         "@context": "https://schema.org", "@type": "Museum",
-        "name": "Музей фотографії Донецька", "url": SITE + "/",
+        "name": "062.dn.ua", "url": SITE + "/",
         "description": f"Віртуальний музей: {total} фотографій Донецька у {len(halls)} залах.",
         "isAccessibleForFree": True, "inLanguage": "uk",
     }, ensure_ascii=False) + "</script>\n")
@@ -185,6 +194,8 @@ def build_home():
     rows = []
     for i, h in enumerate(halls, 1):
         n = len(works_by_hall(h["slug"]))
+        if not n:
+            continue
         rows.append(f"""<article class="hall">
   <a class="row hall-row" href="/halls/{h['slug']}/">
     <span class="inA n">{i:02d}</span>
@@ -205,7 +216,7 @@ def build_home():
 </article>""")
 
     named = sum(1 for w in CAT["works"] if w["titled_by_author"])
-    body = f"""{head("Музей фотографії Донецька",
+    body = f"""{head("062.dn.ua",
         f"Віртуальний музей: {total} фотографій Донецька у {len(halls)} залах, від міста до 2014 року до окупації.",
         "/", key["id"], ld)}
 <div class="stage">
@@ -259,13 +270,15 @@ def build_home():
 # ── зал ──────────────────────────────────────────────────────────────
 def build_hall(i, h, halls):
     ws = works_by_hall(h["slug"])
+    if not ws:                       # зал без знімків не будуємо і в список не ставимо
+        return False
     for k, w in enumerate(ws):
         w["_i"] = k
     key, rest = ws[0], ws[1:]
     years = sorted({w["year"] for w in ws if w["year"]})
     data = json.dumps([{"id": w["id"], "title": w["title"], "year": w["year"]} for w in ws],
                       ensure_ascii=False)
-    body = f"""{head(f"{h['title']} · Музей фотографії Донецька", HALL_TEXT[h['slug']][:150],
+    body = f"""{head(f"{h['title']} · 062.dn.ua", HALL_TEXT[h['slug']][:150],
         f"/halls/{h['slug']}/", key["id"])}
 <div class="stage">
   <div class="lines" aria-hidden="true"><i></i><i></i><i></i><i></i></div>{header()}
@@ -287,9 +300,9 @@ def build_hall(i, h, halls):
   </a>
   <div class="label">
     <span class="eyebrow">Ключовий знімок залу</span>
-    <span class="w-artist">Донецьк</span>
+    <span class="w-artist">{esc(byline(key))}</span>
     <span class="w-title"><i>{esc(key['title'])}</i></span>
-    <span class="w-meta">{esc(key['year'] or 'без дати')} · фотографія<br>авторський архів 062.dn.ua</span>
+    <span class="w-meta">{esc(key['year'] or 'без дати')} · фотографія<br>{provenance(key)}</span>
   </div>
 </div>
 <div class="gallery">
@@ -308,6 +321,7 @@ def build_hall(i, h, halls):
 <script src="/assets/museum.js?v={CSS_V}"></script>
 {FOOT}"""
     write(f"/halls/{h['slug']}/", body)
+    return True
 
 
 # ── выставка ─────────────────────────────────────────────────────────
@@ -317,7 +331,7 @@ def build_exhibition(slug, title, pair, pattern):
         w["_i"] = k
     if not ws:
         return 0
-    body = f"""{head(f"{title} · Музей фотографії Донецька", pair, f"/exhibitions/{slug}/", ws[0]["id"])}
+    body = f"""{head(f"{title} · 062.dn.ua", pair, f"/exhibitions/{slug}/", ws[0]["id"])}
 <div class="stage">
   <div class="lines" aria-hidden="true"><i></i><i></i><i></i><i></i></div>{header()}
   <section class="row hall-hero">
@@ -347,15 +361,20 @@ def build_work(w, hall, siblings):
     grid = "\n".join(f"""    <a class="sib" href="/works/{s['id']}/">
       <span class="p"><img src="/media/{s['id']}-s.webp" alt="{esc(s['title'])}"
         loading="lazy" decoding="async" width="500" height="{round(s['h']*500/s['w'])}"></span>
-      <span class="c"><b>Донецьк</b>{esc(s['title'])}</span>
+      <span class="c"><b>{esc(byline(s))}</b>{esc(s['title'])}</span>
     </a>""" for s in sibs)
-    facts = [("назва", w["title"]),
-             ("датування", w["year"] or "без точної дати"),
+    facts = [("назва", esc(w["title"])),
+             ("автор", esc(w["author"]) if w.get("author") else "архів 062.dn.ua"),
+             ("датування", esc(w["year"]) or "без точної дати"),
              ("зал", f'<a href="/halls/{hall["slug"]}/">{esc(hall["title"])}</a>'),
-             ("підпис", "авторський" if w["titled_by_author"] else "за розділом архіву"),
-             ("розмір оригіналу", f'{w["w"]} × {w["h"]} px'),
-             ("права", "авторський архів 062.dn.ua")]
-    body = f"""{head(f"{w['title']} · Музей фотографії Донецька", w["title"], f"/works/{w['id']}/", w["id"])}
+             ("розмір", f'{w["w"]} × {w["h"]} px')]
+    if w.get("source") == "commons":
+        facts += [("ліцензія", esc(w["license"])),
+                  ("джерело", f'<a href="{esc(w["page"])}" rel="noopener">файл на Wikimedia Commons</a>')]
+    else:
+        facts += [("підпис", "авторський" if w["titled_by_author"] else "за розділом архіву"),
+                  ("права", "авторський архів 062.dn.ua")]
+    body = f"""{head(f"{w['title']} · 062.dn.ua", w["title"], f"/works/{w['id']}/", w["id"])}
 <div class="stage">
   <div class="lines" aria-hidden="true"><i></i><i></i><i></i><i></i></div>{header()}
   <nav class="row crumbs">
@@ -371,7 +390,7 @@ def build_work(w, hall, siblings):
   <div class="work-label">
     <span class="eyebrow">{esc(hall['title'])}</span>
     <h1><i>{esc(w['title'])}</i></h1>
-    <span class="by">Донецьк · {esc(w['year'] or '2006–2026')}</span>
+    <span class="by">{esc(byline(w))} · {esc(w['year'] or '2006–2026')}</span>
     <div class="work-facts">
 {chr(10).join(f'<div><span class="k">{k}</span> <b>{v}</b></div>' for k, v in facts)}
     </div>
@@ -397,7 +416,7 @@ def build_search():
     idx = json.dumps([{"i": w["id"], "t": w["title"], "h": w["hall"], "y": w["year"]}
                       for w in CAT["works"]], ensure_ascii=False)
     halls = json.dumps({h["slug"]: h["title"] for h in CAT["halls"]}, ensure_ascii=False)
-    body = f"""{head("Пошук · Музей фотографії Донецька", "Пошук по всьому архіву музею.", "/search/")}
+    body = f"""{head("Пошук · 062.dn.ua", "Пошук по всьому архіву музею.", "/search/")}
 <div class="stage">
   <div class="lines" aria-hidden="true"><i></i><i></i><i></i><i></i></div>{header()}
   <section class="row hall-hero">
@@ -466,7 +485,7 @@ def main():
 def build_meta():
     """Карта сайта, robots и страница 404 в той же вёрстке."""
     urls = ["/", "/search/", "/portal/"]
-    urls += [f"/halls/{h['slug']}/" for h in CAT["halls"]]
+    urls += [f"/halls/{h['slug']}/" for h in CAT["halls"] if works_by_hall(h["slug"])]
     urls += [f"/exhibitions/{s}/" for s, *_ in EXHIBITIONS]
     urls += [f"/works/{w['id']}/" for w in CAT["works"]]
     body = "\n".join(f"  <url><loc>{SITE}{u}</loc></url>" for u in urls)
@@ -474,7 +493,7 @@ def build_meta():
           '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
           f"{body}\n</urlset>\n")
     write("/robots.txt", f"User-agent: *\nAllow: /\nSitemap: {SITE}/sitemap.xml\n")
-    write("/404.html", f"""{head("Сторінки немає · Музей фотографії Донецька",
+    write("/404.html", f"""{head("Сторінки немає · 062.dn.ua",
         "Такої сторінки в музеї немає.", "/404.html")}
 <div class="stage">
   <div class="lines" aria-hidden="true"><i></i><i></i><i></i><i></i></div>{header()}
