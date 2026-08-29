@@ -738,16 +738,29 @@ mark{background:var(--tint);color:var(--ink);box-shadow:0 1px 0 var(--ink)}
    (сериф, 400, як усі заголовки музею), дії беруть .pill і .pill-ghost,
    мікротекст іде на --t-xs. Раніше тут був заголовок вагою 700 і
    «eyebrow» звичайним кеглем, і блок читався як чужий. */
-.support{border-top:1px solid var(--hair);margin-top:clamp(48px,7vw,96px)}
+/* Відступ між блоками мусить жити всередині падінгу, а не в margin:
+   margin лягав НАД волосяною лінією, і виходило 80 px повітря згори
+   від неї та 32 px знизу — саме ця асиметрія і читалась як розбалансований
+   низ сторінки. Тепер над лінією і під нею однаково. */
+.support{border-top:1px solid var(--hair)}
 .support .in{max-width:var(--maxw,1400px);margin:0 auto;
-  padding:clamp(32px,5vw,64px) var(--edge);
+  padding:clamp(40px,6vw,64px) var(--edge);
   display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);
   gap:clamp(20px,3vw,48px);align-items:start}
 .support .sec-title{font-size:var(--t-2xl);margin:var(--s2) 0 var(--s4)}
-.support p{max-width:46ch;color:var(--soft);line-height:1.5}
+/* Верхній відступ заголовка потрібен лише під «eyebrow». Коли заголовок
+   іде першим (блок підтримки), той відступ зсував його на 8 px нижче,
+   ніж заголовки сусідніх блоків. */
+.support .sup-left>.sec-title:first-child{margin-top:0}
+/* Абзац брав браузерний 1em (15px) замість шкали сайту, і блок книги
+   дихав інакше, ніж сусідні. */
+.support p{margin:var(--s3) 0 0;max-width:46ch;color:var(--soft);line-height:1.5}
 .sup-eyebrow{display:block;font-size:var(--t-xs);letter-spacing:.16em;
   text-transform:uppercase;color:var(--secondary)}
-.sup-right .pill{margin-bottom:var(--s5)}
+/* Відступ потрібен лише тоді, коли під кнопкою ще щось є. Без :not()
+   правило чіпляло й останню кнопку блоку — і під «скопіювати» та
+   «Замовити книгу» лишалось 24 px мертвої порожнечі. */
+.sup-right .pill:not(:last-child){margin-bottom:var(--s5)}
 .sup-card{display:flex;flex-direction:column;gap:var(--s2);align-items:flex-start}
 .sup-card b{font-weight:400;font-size:var(--t-xl);letter-spacing:.06em;
   font-variant-numeric:tabular-nums}
@@ -913,7 +926,9 @@ mark{background:var(--tint);color:var(--ink);box-shadow:0 1px 0 var(--ink)}
 /* Поле-пастка для ботів: прибрано з потоку, але не display:none —
    частина ботів свідомо ігнорує саме display:none. */
 .sf-trap{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
-.submit-form .pill{justify-self:start;cursor:pointer;
+/* Форма це грід із власним gap; успадкований від .sup-right відступ
+   додавався б до нього другим шаром. */
+.submit-form .pill{justify-self:start;cursor:pointer;margin-bottom:0;
   padding:var(--s3) var(--s5);font-size:var(--t-sm)}
 .submit-form .pill[disabled]{opacity:.5;cursor:progress}
 .sf-status{margin:0;font-size:var(--t-sm);line-height:1.5;color:var(--secondary);
