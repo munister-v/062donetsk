@@ -201,7 +201,9 @@ def commons_works():
     for f in json.load(open(picked, encoding="utf-8")):
         if not os.path.exists(os.path.join(ROOT, f["file"])):
             continue
-        title = re.sub(r"<[^>]+>", "", f.get("desc") or "").strip()
+        # Подпись, написанную куратором в curate_commons.py, ничем не перебиваем:
+        # описание на Commons бывает поводом загрузки, а не сюжетом снимка.
+        title = f.get("museum_title") or re.sub(r"<[^>]+>", "", f.get("desc") or "").strip()
         if not title or len(title) > 120:
             title = re.sub(r"[_-]+", " ", os.path.splitext(os.path.basename(f["file"]))[0])
             title = re.sub(r"\s+", " ", title).strip()

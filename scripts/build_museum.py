@@ -63,9 +63,8 @@ def hall_text(h):
     return HALL_TEXT.get(h["slug"]) or h["pair"]
 
 
-MARK = ('<svg class="mark" viewBox="0 0 44 44" aria-hidden="true" focusable="false">'
-        '<circle cx="33" cy="11" r="4.4" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M2.5 33.5 C11 31 14.5 21 18.5 9.5 C22.5 21 27.5 30 35.5 33.5 Z" fill="currentColor" fill-opacity=".12" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M1 37.5 H43" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>'
-        '</svg>')
+# Герб Донецька: він стояв у фавіконі порталу, і музей носить той самий знак.
+MARK = '<img class="mark" src="/assets/gerb.png" alt="" width="192" height="192" decoding="async">'
 
 
 def esc(s):
@@ -81,7 +80,6 @@ def head(title, desc, path, og_id=None, extra_ld=""):
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>{esc(title)}</title>
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32">
 <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
@@ -265,12 +263,20 @@ def build_home():
 
     ex = []
     for i, (slug, title, pair, pat) in enumerate(EXHIBITIONS, 1):
-        n = len(exhibition_works(pat))
-        ex.append(f"""<article class="ex-row">
-  <a class="row" href="/exhibitions/{slug}/">
+        ws = exhibition_works(pat)
+        if not ws:
+            continue
+        k = ws[0]
+        ex.append(f"""<article class="hall">
+  <a class="row hall-row" href="/exhibitions/{slug}/">
     <span class="inA n">{i:02d}</span>
-    <span class="inB hall-name">{esc(title)}</span>
-    <span class="inC hall-meta"><span>{esc(pair)}</span><span class="lock">{n} знімків</span></span>
+    <span class="inB hall-name">
+      <span class="hall-thumb"><img src="/media/{k['id']}-s.webp" alt=""
+        loading="lazy" decoding="async" width="500"
+        height="{round(k['h'] * 500 / k['w'])}"></span>
+      <span class="hall-title">{esc(title)}</span>
+    </span>
+    <span class="inC hall-meta"><span>{esc(pair)}</span><span class="lock">{len(ws)} знімків</span></span>
   </a>
 </article>""")
 
@@ -285,27 +291,34 @@ def build_home():
     <div class="inB"></div>
     <div class="inC">
       <h1 class="hero-title">Місто, яке<br>можна обійти<br>лише так</h1>
-      <p class="blurb">{total} фотографій Донецька у {len(halls)} залах: від міста, яким його знали до 2014 року,
-      до кадрів з окупації. Знімки авторські, вхід вільний, вигаданих дат тут немає.</p>
+      <p class="blurb">{total} фотографій Донецька у {len(halls)} залах: від міста, яким його знали
+      до 2014 року, до кадрів з окупації. Сім залів це авторський архів, восьмий зібраний
+      із вільних джерел, і під кожним таким кадром стоїть ім'я автора.</p>
       <a class="backlink" href="#halls">увійти до залів ↓</a>
     </div>
   </section>
   <section class="row sec" id="halls">
     <div class="inA"><h2 class="sec-title">Зали</h2></div>
     <div class="inB sec-note">Кожен зал це окрема розвіска. Оберіть назву, щоб увійти.</div>
-    <div class="inC sec-count">01 / 0{len(halls)}</div>
+    <div class="inC sec-count">01 / 03</div>
     <div class="sec-rule"></div>
   </section>
 {chr(10).join(rows)}
   <section class="row sec" id="exhibitions">
     <div class="inA"><h2 class="sec-title">Виставки</h2></div>
     <div class="inB sec-note">Підбірки, що йдуть крізь зали: один сюжет, зібраний з різних років.</div>
-    <div class="inC sec-count">0{len(EXHIBITIONS)}</div>
+    <div class="inC sec-count">02 / 03</div>
     <div class="sec-rule"></div>
   </section>
 {chr(10).join(ex)}
-  <section class="row visit">
+  <section class="row sec">
     <div class="inA"><h2 class="sec-title">Про музей</h2></div>
+    <div class="inB sec-note">Хто це зібрав і за яким правилом.</div>
+    <div class="inC sec-count">03 / 03</div>
+    <div class="sec-rule"></div>
+  </section>
+  <section class="row visit">
+    <div class="inA"></div>
     <div class="inB sec-note">
       <p>Це архів одного міста, зібраний людьми, які в ньому жили. {named} знімків
       підписані автором, решта каталогізована за розділом зйомки.</p>

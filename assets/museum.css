@@ -744,7 +744,8 @@ mark{background:var(--tint);color:var(--ink);box-shadow:0 1px 0 var(--ink)}
    і в шапці, і на темному підвалі. */
 .brandbox{display:flex;align-items:center;gap:.6em}
 .brandbox .brand{display:flex;align-items:center;gap:.6em;text-decoration:none;color:inherit}
-.mark{width:1.9em;height:1.9em;flex:none;color:var(--accent);transition:transform .5s var(--ease)}
+.mark{width:1.9em;height:1.9em;flex:none;object-fit:contain;display:block;
+  transition:transform .5s var(--ease)}
 .brandbox:hover .mark{transform:translateY(-2px)}
 
 /* ── Акцент ──────────────────────────────────────────────────────────
