@@ -31,6 +31,10 @@ HALL_TEXT = {
             "Знімки без точної дати, зроблені до повномасштабної війни."),
  "okupatsiia": ("2022–2026. Місто під окупацією: те, що з нього зробили, "
                 "і те, що в ньому ще впізнається."),
+ "ochyma-inshykh": ("Знімки Донецька з Wikimedia Commons. Під кожним стоїть ім'я "
+                    "автора, ліцензія і посилання на файл-джерело: ці кадри зроблені "
+                    "не нами, і з підпису це видно. Півсотні авторів, від міських "
+                    "видів початку століття до вулиць останніх років."),
 }
 
 LEGACY_ANCHORS = """<script>
@@ -51,6 +55,12 @@ EXHIBITIONS = [
  ("doroha", "Дорога", "вокзали, трамваї, тролейбуси",
   r"трамва|тролейбус|вокзал|потяг|перон|автобус|маршрут|аеропорт"),
 ]
+
+
+def hall_text(h):
+    """Описание зала. Новый зал без текста не должен ронять сборку:
+    подставляем его же подзаголовок."""
+    return HALL_TEXT.get(h["slug"]) or h["pair"]
 
 
 def esc(s):
@@ -315,7 +325,7 @@ def build_hall(i, h, halls):
     years = sorted({w["year"] for w in ws if w["year"]})
     data = json.dumps([{"id": w["id"], "title": w["title"], "year": w["year"]} for w in ws],
                       ensure_ascii=False)
-    body = f"""{head(f"{h['title']} · 062.dn.ua", HALL_TEXT[h['slug']][:150],
+    body = f"""{head(f"{h['title']} · 062.dn.ua", hall_text(h)[:150],
         f"/halls/{h['slug']}/", key["id"])}
 <div class="stage">
   <div class="lines" aria-hidden="true"><i></i><i></i><i></i><i></i></div>{header()}
@@ -325,7 +335,7 @@ def build_hall(i, h, halls):
     <div class="inC">
       <h1>{esc(h['title'])}</h1>
       <p class="pair">{esc(h['pair'])}</p>
-      <p class="blurb">{esc(HALL_TEXT[h['slug']])}</p>
+      <p class="blurb">{esc(hall_text(h))}</p>
       <div class="hall-stats"><span>знімків <b>{len(ws)}</b></span><span>роки <b>{esc(', '.join(years) or 'без дати')}</b></span></div>
       <a class="backlink" href="/#halls">← усі зали</a>
     </div>

@@ -14,7 +14,12 @@ from PIL import Image, ImageOps
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CATALOG = os.path.join(ROOT, "data", "museum-catalog.json")
-SKIP_DIRS = {".git", "video-thumbs", "heritage", "assets", "media", "scripts", "data"}
+# Каталог обходит только свой архив. Папка commons описана отдельным файлом
+# метаданных: если пройти по ней ещё и обходом, снимок попадёт в каталог дважды
+# — как свой (без автора) и как чужой (с автором), и дедупликация оставит тот,
+# у которого имени автора нет.
+SKIP_DIRS = {".git", "video-thumbs", "heritage", "assets", "media", "scripts",
+             "data", "commons", "portal"}
 SKIP_FILES = re.compile(r"^(favicon|apple-touch|icon-)")
 
 # Залы хронологические; папка — единственный надёжный признак времени,
@@ -151,7 +156,10 @@ def drop_duplicates(works, threshold=12):
     с разными подписями, как это было на панораме с конём.
     """
     hashes = {w["file"]: dhash(w["file"]) for w in works}
-    order = sorted(works, key=lambda w: (not w["titled_by_author"], -w["w"] * w["h"],
+    # Свой архив выигрывает у Commons: если один и тот же вид снят и автором,
+    # и кем-то ещё, в музее остаётся авторский кадр.
+    order = sorted(works, key=lambda w: (w.get("source") == "commons",
+                                         not w["titled_by_author"], -w["w"] * w["h"],
                                          w["file"].endswith(".webp"), w["file"]))
     kept, dropped = [], []
     for w in order:
@@ -162,6 +170,21 @@ def drop_duplicates(works, threshold=12):
         else:
             kept.append(w)
     return kept, dropped
+
+
+def tidy_author(name):
+    """В поле Artist на Commons попадает что угодно: «Unknown authorUnknown
+    author», подпись директора компании 1910 года на пол-абзаца, ссылка на
+    профиль. Под снимком должно стоять читаемое имя, поэтому режем по первому
+    разделителю и снимаем повторы."""
+    name = re.sub(r"\s+", " ", name or "").strip()
+    if re.fullmatch(r"(unknown author|автор невідомий|неизвестен)+", name, re.I):
+        return "Автор невідомий"
+    half = len(name) // 2
+    if len(name) % 2 == 0 and name[:half] == name[half:]:   # «AA» вместо «A»
+        name = name[:half]
+    name = re.split(r"\s+[-–—]\s+|\s*\(|,\s", name)[0].strip()
+    return name[:46] or "Автор невідомий"
 
 
 def commons_works():
@@ -186,7 +209,7 @@ def commons_works():
             "id": "", "file": f["file"], "title": title[:120],
             "titled_by_author": True, "hall": "ochyma-inshykh",
             "year": f.get("year", ""), "note": "",
-            "source": "commons", "author": f["author_clean"],
+            "source": "commons", "author": tidy_author(f["author_clean"]),
             "license": f["license"], "page": f["page"],
             "w": f["w"], "h": f["h"],
         })

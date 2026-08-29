@@ -5,7 +5,7 @@
 приоритет по разрешению. Имя автора и лицензия обязательны — снимок без них
 не скачивается вовсе, потому что подписать его в музее будет нечем.
 """
-import json, os, re, sys, time, urllib.parse, urllib.request
+import hashlib, json, os, re, sys, time, urllib.parse, urllib.request
 from PIL import Image, ImageOps
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -14,6 +14,14 @@ OUT = os.path.join(ROOT, "commons")
 UA = {"User-Agent": "062.dn.ua museum/1.0 (tilandiya@gmail.com)"}
 LIMIT = int(sys.argv[1]) if len(sys.argv) > 1 else 160
 MAX_SIDE = 2200
+
+TRANSLIT = {
+    "а": "a", "б": "b", "в": "v", "г": "h", "ґ": "g", "д": "d", "е": "e", "є": "ie",
+    "ж": "zh", "з": "z", "и": "y", "і": "i", "ї": "i", "й": "i", "к": "k", "л": "l",
+    "м": "m", "н": "n", "о": "o", "п": "p", "р": "r", "с": "s", "т": "t", "у": "u",
+    "ф": "f", "х": "kh", "ц": "ts", "ч": "ch", "ш": "sh", "щ": "shch", "ю": "iu",
+    "я": "ia", "ы": "y", "э": "e", "ё": "e", "ъ": "", "ь": "",
+}
 
 
 def clean_author(raw):
@@ -47,10 +55,14 @@ def main():
         # в персональную выставку самого плодовитого загрузчика.
         if seen_author.get(f["author_clean"], 0) >= 12:
             continue
-        name = re.sub(r"[^A-Za-z0-9._-]+", "-", f["title"])[:70]
-        dst = os.path.join(OUT, name)
-        if not os.path.splitext(dst)[1].lower() in (".jpg", ".jpeg", ".png", ".webp"):
-            dst += ".jpg"
+        # Имя файла на Commons чаще всего кириллическое, и ascii-регулярка
+        # схлопывает его в «---.jpg»: снимки затирают друг друга, а подписи
+        # разъезжаются с картинками. Транслитерируем и добавляем хвост от
+        # исходного имени, чтобы столкновений не было в принципе.
+        stem = "".join(TRANSLIT.get(ch, ch) for ch in os.path.splitext(f["title"])[0].lower())
+        stem = re.sub(r"[^a-z0-9]+", "-", stem).strip("-")[:56] or "foto"
+        tail = hashlib.sha1(f["title"].encode()).hexdigest()[:6]
+        dst = os.path.join(OUT, f"{stem}-{tail}.jpg")
         if not os.path.exists(dst):
             try:
                 req = urllib.request.Request(f["url"], headers=UA)

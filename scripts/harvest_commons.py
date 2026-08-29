@@ -42,11 +42,20 @@ CATEGORIES = [
     "Category:Kalmius River",
 ]
 # Не фотографии города: карты, гербы, схемы, сканы, коллажи.
-BAD_NAME = re.compile(r"(map|карта|coat.of.arms|герб|flag|прапор|logo|scheme|схема|"
-                      r"diagram|chart|graph|montage|collage|panoramio.jpg$|stamp|"
-                      r"marker|icon|banner|poster|document|scan|passport|plan)", re.I)
+# Кириллические слова тут не для красоты: в категориях Донецка лежат сканы
+# купонов, марок, банкнот, афиш и газет, и по-английски они не подписаны.
+BAD_NAME = re.compile(
+    r"(map|карта|мапа|coat.of.arms|герб|flag|прапор|logo|scheme|схема|"
+    r"diagram|chart|graph|montage|collage|stamp|марка|марки|банкнот|купон|"
+    r"контр.марка|бона|монета|медаль|значок|"
+    r"marker|icon|banner|poster|афіш|афиш|плакат|document|документ|scan|скан|"
+    r"passport|plan|план |газет|обкладинк|обложк|титул|грамот|диплом|"
+    r"свідоцтв|удостовер|квиток|билет|конверт|листівк|открытк)", re.I)
 GOOD_LICENSE = re.compile(r"(cc[- ]by|cc0|public domain|pd-)", re.I)
 MIN_WIDTH = 1400
+# Обход вглубь дорогой: ветки уходят в людей и события, а метаданные
+# тянутся по сети пачками. Один уровень берём только там, где это оправдано.
+DEPTH = int(os.environ.get("DEPTH", "0"))
 
 
 def api(**q):
@@ -137,7 +146,7 @@ def main():
     seen_cat = set()
     for c in CATEGORIES:
         try:
-            got = files_in(c, depth=1, seen=seen_cat)
+            got = files_in(c, depth=DEPTH, seen=seen_cat)
         except Exception as exc:
             print("  категорія впала:", c, exc); continue
         print(f"  {c[9:]:52} {len(got)}")
