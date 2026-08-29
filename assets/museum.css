@@ -173,12 +173,11 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
   .row{grid-template-columns:minmax(0,1fr)}
   .inA,.inB,.inC,.wide{padding:0 var(--s5)}
 
-  /* Шапка: одна компактна смуга з вордмарком по центру й волосяною
-     лінією знизу. Вордмарк тепер повна назва музею («062.DN.UA» пішов
-     дрібною міткою в підвал), тож висота більше не фіксована — рядок
-     може перенестись, і шапка росте разом з ним. */
-  .header{display:block;padding:16px 0;border-bottom:1px solid var(--hair);text-align:center}
-  .header .inA{padding:0;display:flex;align-items:center;justify-content:center}
+  /* Шапка: знак і назва зліва, як на десктопі; висота не фіксована,
+     бо назва музею може перенестись у два-три рядки. «062.DN.UA» пішов
+     дрібною міткою в підвал. */
+  .header{display:block;padding:16px 0;border-bottom:1px solid var(--hair)}
+  .header .inA{padding:0;display:flex;align-items:center;justify-content:flex-start}
   .header .inB{display:none}
 
   .fold{padding:var(--s7) 0 var(--s8)}
@@ -727,12 +726,11 @@ mark{background:var(--tint);color:var(--ink);box-shadow:0 1px 0 var(--ink)}
 .sup-copy{cursor:pointer;font:inherit;font-size:var(--t-sm)}
 
 /* ── Мобільний ───────────────────────────────────────────────────────
-   На телефоні шапка і перший екран центруються, а назва музею під
-   адресою може займати до трьох рядків: у неї три слова і різати їх
-   переносом посеред слова не можна. */
+   Перший екран центрується, а от шапка — ні: знак і назва лишаються
+   компактним блоком зліва, як на десктопі, замість того щоб розтягуватись
+   по центру всієї смуги. */
 @media (max-width:720px){
-  .header{text-align:center}
-  .header .inA,.header .inB,.header .inC{justify-content:center;text-align:center}
+  .header .inB,.header .inC{text-align:center}
   .header .inC.topnav{display:flex;gap:1.2em;flex-wrap:wrap;justify-content:center}
   /* Вихідна тема ховає середню колонку шапки на телефоні: там був службовий
      рядок «est. 2026». У нас у ній назва музею, тому колонку повертаємо. */
