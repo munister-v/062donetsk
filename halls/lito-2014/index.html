@@ -28,7 +28,7 @@
   <header class="row header">
     <div class="inA"><a href="/"><span class="wordmark">062.DN.UA</span></a></div>
     <div class="inB micro brandstack">
-      <div class="est">засн. 2026 · 062.dn.ua</div>
+      <div class="est">Музей фотографії Донецька</div>
     </div>
     <div class="inC micro topnav">
       <a href="/search/">пошук</a>
@@ -179,6 +179,40 @@
 
 <script id="works-data" type="application/json">[{"id": "2014-1000-545-1409490664-4788-donetsk-jpg", "title": "Спалений тролейбус біля залізничного вокзалу Донецька · 2014", "year": "2014"}, {"id": "2014-150122-world-ukraine-bus-blast-9a-webp", "title": "Пошкоджений тролейбус після обстрілу · Донецьк", "year": "2014"}, {"id": "2014-28014b2c-e421-49a3-b181-0e5f01099e4b-png", "title": "Дим над житловими кварталами Донецька · 2014", "year": "2014"}, {"id": "2014-ris1-webp", "title": "Донецьк · 2014", "year": "2014"}, {"id": "2014-ris6-webp", "title": "Донецьк · 2014", "year": "2014"}, {"id": "murzilka-99955-jpg", "title": "Арт-група «Мурзилка» · Донецьк · літо 2014", "year": "2014"}, {"id": "murzilka-99956-jpg", "title": "Арт-група «Мурзилка» · сатирична фігура · Донецьк 2014", "year": "2014"}, {"id": "murzilka-99957-jpg", "title": "Арт-група «Мурзилка» · образ смерті війни · Донецьк 2014", "year": "2014"}, {"id": "murzilka-99959-jpg", "title": "Арт-група «Мурзилка» · підготовка фігури · Донецьк 2014", "year": "2014"}, {"id": "murzilka-99960-jpg", "title": "Арт-група «Мурзилка» · монтаж фігури на вулиці · Донецьк 2014", "year": "2014"}, {"id": "murzilka-99961-jpg", "title": "Арт-група «Мурзилка» · силует на вулиці · Донецьк 2014", "year": "2014"}, {"id": "murzilka-99964-jpg", "title": "Арт-група «Мурзилка» · роботизований образ окупації · Донецьк 2014", "year": "2014"}]</script>
 <script src="/assets/museum.js?v=20260829"></script>
+<section class="support" id="support">
+  <div class="in">
+    <div class="sup-left">
+      <span class="eyebrow">Без реклами й донорів</span>
+      <h2>Підтримати автора сайту</h2>
+      <p>Музей і портал зроблені однією людиною і живуть без реклами.
+      Якщо архів для вас щось важить, ви можете допомогти йому далі рости.</p>
+    </div>
+    <div class="sup-right">
+      <a class="sup-jar" href="https://send.monobank.ua/jar/5w5VyzR26W" rel="noopener" target="_blank">
+        Банка на monobank →
+      </a>
+      <div class="sup-card">
+        <span class="k">Номер картки банки</span>
+        <b id="sup-card-no">4874 1000 3947 0946</b>
+        <button type="button" class="sup-copy" data-copy="4874100039470946">скопіювати</button>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+/* Копирование номера: если буфер недоступен (старый браузер, http),
+   номер остаётся на экране и его можно выделить руками. */
+(function(){
+  var b=document.querySelector('.sup-copy'); if(!b) return;
+  b.addEventListener('click',function(){
+    var t=b.dataset.copy;
+    var done=function(){ b.textContent='скопійовано'; setTimeout(function(){b.textContent='скопіювати';},2000); };
+    if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(t).then(done,function(){}); }
+    else { var el=document.createElement('textarea'); el.value=t; document.body.appendChild(el);
+           el.select(); try{document.execCommand('copy'); done();}catch(e){} el.remove(); }
+  });
+})();
+</script>
 <footer class="site-foot">
   <div class="in">
     <div>

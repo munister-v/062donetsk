@@ -95,7 +95,7 @@ def header(home=False):
   <header class="row header">
     <div class="inA">{mark}</div>
     <div class="inB micro brandstack">
-      <div class="est">засн. 2026 · 062.dn.ua</div>
+      <div class="est">Музей фотографії Донецька</div>
     </div>
     <div class="inC micro topnav">
       <a href="/search/">пошук</a>
@@ -105,6 +105,42 @@ def header(home=False):
     </div>
   </header>"""
 
+
+
+SUPPORT = """<section class="support" id="support">
+  <div class="in">
+    <div class="sup-left">
+      <span class="eyebrow">Без реклами й донорів</span>
+      <h2>Підтримати автора сайту</h2>
+      <p>Музей і портал зроблені однією людиною і живуть без реклами.
+      Якщо архів для вас щось важить, ви можете допомогти йому далі рости.</p>
+    </div>
+    <div class="sup-right">
+      <a class="sup-jar" href="https://send.monobank.ua/jar/5w5VyzR26W" rel="noopener" target="_blank">
+        Банка на monobank →
+      </a>
+      <div class="sup-card">
+        <span class="k">Номер картки банки</span>
+        <b id="sup-card-no">4874 1000 3947 0946</b>
+        <button type="button" class="sup-copy" data-copy="4874100039470946">скопіювати</button>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+/* Копирование номера: если буфер недоступен (старый браузер, http),
+   номер остаётся на экране и его можно выделить руками. */
+(function(){
+  var b=document.querySelector('.sup-copy'); if(!b) return;
+  b.addEventListener('click',function(){
+    var t=b.dataset.copy;
+    var done=function(){ b.textContent='скопійовано'; setTimeout(function(){b.textContent='скопіювати';},2000); };
+    if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(t).then(done,function(){}); }
+    else { var el=document.createElement('textarea'); el.value=t; document.body.appendChild(el);
+           el.select(); try{document.execCommand('copy'); done();}catch(e){} el.remove(); }
+  });
+})();
+</script>"""
 
 FOOT = """<footer class="site-foot">
   <div class="in">
@@ -262,6 +298,7 @@ def build_home():
 </div>
 {CREDIT}
 {LEGACY_ANCHORS}
+{SUPPORT}
 {FOOT}"""
     write("/index.html", body)
     return total
@@ -319,6 +356,7 @@ def build_hall(i, h, halls):
 {CREDIT}
 <script id="works-data" type="application/json">{data}</script>
 <script src="/assets/museum.js?v={CSS_V}"></script>
+{SUPPORT}
 {FOOT}"""
     write(f"/halls/{h['slug']}/", body)
     return True
@@ -350,6 +388,7 @@ def build_exhibition(slug, title, pair, pattern):
 {chr(10).join(figure(w) for w in ws)}
 </div>
 {CREDIT}
+{SUPPORT}
 {FOOT}"""
     write(f"/exhibitions/{slug}/", body)
     return len(ws)
@@ -407,6 +446,7 @@ def build_work(w, hall, siblings):
   </div>
 </div>
 {CREDIT}
+{SUPPORT}
 {FOOT}"""
     write(f"/works/{w['id']}/", body)
 
@@ -438,6 +478,7 @@ def build_search():
 <script id="halls-map" type="application/json">{halls}</script>
 <script src="/assets/search.js?v={CSS_V}"></script>
 {CREDIT}
+{SUPPORT}
 {FOOT}"""
     write("/search/", body)
 
@@ -507,6 +548,7 @@ def build_meta():
     </div>
   </section>
 </div>
+{SUPPORT}
 {FOOT}""")
     print(f"карта сайту: {len(urls)} адрес")
 

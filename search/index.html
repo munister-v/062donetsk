@@ -28,7 +28,7 @@
   <header class="row header">
     <div class="inA"><a href="/"><span class="wordmark">062.DN.UA</span></a></div>
     <div class="inB micro brandstack">
-      <div class="est">засн. 2026 · 062.dn.ua</div>
+      <div class="est">Музей фотографії Донецька</div>
     </div>
     <div class="inC micro topnav">
       <a href="/search/">пошук</a>
@@ -56,6 +56,40 @@
 <script id="halls-map" type="application/json">{"misto-do-2014": "Місто до 2014", "euro-2012": "Євро-2012", "panorama": "Панорама 2012–2014", "lito-2014": "Літо 2014", "botanichnyi-sad": "Ботанічний сад", "kolory": "Кольори міста", "okupatsiia": "Окупація 2022–2026", "ochyma-inshykh": "Очима інших"}</script>
 <script src="/assets/search.js?v=20260829"></script>
 
+<section class="support" id="support">
+  <div class="in">
+    <div class="sup-left">
+      <span class="eyebrow">Без реклами й донорів</span>
+      <h2>Підтримати автора сайту</h2>
+      <p>Музей і портал зроблені однією людиною і живуть без реклами.
+      Якщо архів для вас щось важить, ви можете допомогти йому далі рости.</p>
+    </div>
+    <div class="sup-right">
+      <a class="sup-jar" href="https://send.monobank.ua/jar/5w5VyzR26W" rel="noopener" target="_blank">
+        Банка на monobank →
+      </a>
+      <div class="sup-card">
+        <span class="k">Номер картки банки</span>
+        <b id="sup-card-no">4874 1000 3947 0946</b>
+        <button type="button" class="sup-copy" data-copy="4874100039470946">скопіювати</button>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+/* Копирование номера: если буфер недоступен (старый браузер, http),
+   номер остаётся на экране и его можно выделить руками. */
+(function(){
+  var b=document.querySelector('.sup-copy'); if(!b) return;
+  b.addEventListener('click',function(){
+    var t=b.dataset.copy;
+    var done=function(){ b.textContent='скопійовано'; setTimeout(function(){b.textContent='скопіювати';},2000); };
+    if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(t).then(done,function(){}); }
+    else { var el=document.createElement('textarea'); el.value=t; document.body.appendChild(el);
+           el.select(); try{document.execCommand('copy'); done();}catch(e){} el.remove(); }
+  });
+})();
+</script>
 <footer class="site-foot">
   <div class="in">
     <div>
