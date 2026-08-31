@@ -21,7 +21,7 @@ TITLES = os.path.join(ROOT, "data", "museum-titles.json")
 # — как свой (без автора) и как чужой (с автором), и дедупликация оставит тот,
 # у которого имени автора нет.
 SKIP_DIRS = {".git", "video-thumbs", "heritage", "assets", "media", "scripts",
-             "data", "commons", "portal"}
+             "data", "commons", "portal", "readers"}
 SKIP_FILES = re.compile(r"^(favicon|apple-touch|icon-)")
 
 # Залы хронологические; папка — единственный надёжный признак времени,
@@ -341,6 +341,35 @@ def commons_works():
     return out
 
 
+def reader_works():
+    """Знімки, надіслані читачами через /submit/.
+
+    Окремим джерелом, а не поповненням власного архіву: ці кадри не наші,
+    права лишаються за автором, і зал з підписом мусить чесно про це казати.
+    Дані для кожного файла куратор виставляє руками в reader-submissions.json
+    після перегляду заявки на /museum-upload/review — ім'я, зал і назва
+    підбираються за змістом кадру й нотаткою читача, а не вгадуються.
+    """
+    src = os.path.join(ROOT, "data", "reader-submissions.json")
+    if not os.path.exists(src):
+        return []
+    skip = excluded_files()
+    out = []
+    for e in json.load(open(src, encoding="utf-8")):
+        if e["file"] in skip or not os.path.exists(os.path.join(ROOT, e["file"])):
+            continue
+        with Image.open(os.path.join(ROOT, e["file"])) as im:
+            w, h = im.size
+        out.append({
+            "id": "", "file": e["file"], "title": e["title"],
+            "titled_by_author": True, "hall": e["hall"], "year": e.get("year", ""),
+            "note": e.get("note", ""), "source": "reader",
+            "author": e.get("author") or "Читач музею", "license": "", "page": "",
+            "w": w, "h": h,
+        })
+    return out
+
+
 def main():
     skip_manual = excluded_files()
     fixed_titles = manual_titles()
@@ -390,6 +419,7 @@ def main():
         })
 
     works += commons_works()
+    works += reader_works()
     works, dropped = drop_duplicates(works)
     works = assign_ids(works)
     works.sort(key=lambda x: ([s for s, *_ in HALLS].index(x["hall"]), x["file"]))

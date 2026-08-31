@@ -86,6 +86,8 @@ EXHIBITIONS = [
  ("doroha", "Дорога", "трамваї, тролейбуси, автобуси, залізниця",
   r"\b(трамва|тролейбус|вокзал|потяг|перон|автобус|маршрут|аеропорт|"
   r"залізниц|метробуд|маршрутк|tatra|citylaz|транспорт)"),
+ ("vid-chytachiv", "Від читачів", "надіслано у /submit/, з іменем і роком автора",
+  lambda w: w.get("source") == "reader"),
 ]
 
 
@@ -341,6 +343,11 @@ def key_work(ws):
 
 
 def exhibition_works(pattern):
+    """Виставка — це або текстовий візерунок у назві (як досі), або, для
+    «Від читачів», предикат по самому знімку: джерело «reader» не написано
+    в назві, це властивість запису, а не слова в підписі."""
+    if callable(pattern):
+        return [w for w in CAT["works"] if pattern(w)]
     rx = re.compile(pattern, re.I)
     return [w for w in CAT["works"] if rx.search(w["title"])]
 
@@ -361,10 +368,15 @@ def byline(w):
 
 
 def provenance(w):
-    """Строка прав под снимком: лицензия и ссылка на файл-источник."""
+    """Строка прав под снимком: лицензия и ссылка на файл-источник.
+
+    Для читацьких кадрів «авторський архів» була б брехнею: це не наш знімок,
+    права лишаються за тим, хто його зняв і надіслав. Окремий, чесний рядок."""
     if w.get("source") == "commons":
         lic = esc(w.get("license") or "вільна ліцензія")
         return f'{lic} · <a href="{esc(w.get("page"))}" rel="noopener">Wikimedia Commons</a>'
+    if w.get("source") == "reader":
+        return "надано автором для музею"
     return "авторський архів"
 
 
@@ -571,6 +583,10 @@ def build_hall(i, h, halls):
 # ── выставка ─────────────────────────────────────────────────────────
 def build_exhibition(slug, title, pair, pattern):
     ws = exhibition_works(pattern)
+    blurb = ("Знімки, які принесли в архів самі відвідувачі сайту: під кожним "
+             "стоїть ім'я і рік того, хто його зняв і надіслав."
+             if callable(pattern) else
+             "Підбірка йде крізь усі зали: знімки зібрані за сюжетом, а не за роком.")
     for k, w in enumerate(ws):
         w["_i"] = k
     if len(ws) < 8:
@@ -584,7 +600,7 @@ def build_exhibition(slug, title, pair, pattern):
     <div class="inC">
       <h1>{esc(title)}</h1>
       <p class="pair">{esc(pair)}</p>
-      <p class="blurb">Підбірка йде крізь усі зали: знімки зібрані за сюжетом, а не за роком.</p>
+      <p class="blurb">{blurb}</p>
       <div class="hall-stats"><span>{photos_word(len(ws))}</span></div>
       <a class="backlink" href="/#exhibitions">← усі виставки</a>
     </div>
@@ -616,6 +632,9 @@ def build_work(w, hall, siblings):
     if w.get("source") == "commons":
         facts += [("ліцензія", esc(w["license"])),
                   ("джерело", f'<a href="{esc(w["page"])}" rel="noopener">файл на Wikimedia Commons</a>')]
+    elif w.get("source") == "reader":
+        facts += [("надіслано", "через форму /submit/"),
+                  ("права", "належать автору; надано для показу в музеї")]
     else:
         facts += [("підпис", "авторський" if w["titled_by_author"] else "за розділом архіву"),
                   ("права", "авторський архів 062.dn.ua")]
