@@ -1,79 +1,509 @@
 [
- {"file": "readers/20260830-061637-256957/01.jpg", "title": "Донецьк · авто на вулиці", "hall": "vulytsi", "year": "2012", "author": "Читач музею"},
-
- {"file": "readers/20260830-121837-9a5bfc/01.jpg", "title": "Донецьк · панорама з набережної", "hall": "panoramy", "year": "2017", "author": "Читач музею"},
- {"file": "readers/20260830-121837-9a5bfc/02.jpg", "title": "Донецьк · вечірня панорама з набережної", "hall": "panoramy", "year": "2017", "author": "Читач музею"},
- {"file": "readers/20260830-121837-9a5bfc/03.jpg", "title": "Донецьк · фонтан у центрі міста", "hall": "sad-i-voda", "year": "2017", "author": "Читач музею"},
- {"file": "readers/20260830-121837-9a5bfc/04.jpg", "title": "Донецьк · квітники біля філармонії", "hall": "sad-i-voda", "year": "2016", "author": "Читач музею"},
- {"file": "readers/20260830-121837-9a5bfc/05.jpg", "title": "Донецьк · фонтан у сквері", "hall": "sad-i-voda", "year": "2016", "author": "Читач музею"},
-
- {"file": "readers/20260830-130942-9b2242/01.jpg", "title": "Донбас Арена · перший офіційний матч", "hall": "arena", "year": "2009", "author": "Vadym Shamdan"},
-
- {"file": "readers/20260830-131239-b9c9a0/01.jpg", "title": "Донбас Арена · матч чемпіонату", "hall": "arena", "year": "2011–2013", "author": "Vadym Shamdan"},
- {"file": "readers/20260830-131239-b9c9a0/02.jpg", "title": "Донбас Арена · матч чемпіонату", "hall": "arena", "year": "2011–2013", "author": "Vadym Shamdan"},
- {"file": "readers/20260830-131239-b9c9a0/03.jpg", "title": "Донбас Арена · матч чемпіонату", "hall": "arena", "year": "2011–2013", "author": "Vadym Shamdan"},
- {"file": "readers/20260830-131239-b9c9a0/04.jpg", "title": "Донбас Арена · трибуни", "hall": "arena", "year": "2011–2013", "author": "Vadym Shamdan"},
- {"file": "readers/20260830-131239-b9c9a0/05.jpg", "title": "Донбас Арена · трибуни", "hall": "arena", "year": "2011–2013", "author": "Vadym Shamdan"},
- {"file": "readers/20260830-131239-b9c9a0/06.jpg", "title": "Донбас Арена · трибуни", "hall": "arena", "year": "2011–2013", "author": "Vadym Shamdan"},
- {"file": "readers/20260830-131239-b9c9a0/07.jpg", "title": "Донбас Арена · матч чемпіонату", "hall": "arena", "year": "2011–2013", "author": "Vadym Shamdan"},
- {"file": "readers/20260830-131239-b9c9a0/08.jpg", "title": "Донбас Арена · трибуни", "hall": "arena", "year": "2011–2013", "author": "Vadym Shamdan"},
- {"file": "readers/20260830-131239-b9c9a0/09.jpg", "title": "Донбас Арена · матч чемпіонату", "hall": "arena", "year": "2011–2013", "author": "Vadym Shamdan"},
- {"file": "readers/20260830-131239-b9c9a0/10.jpg", "title": "Донбас Арена · матч чемпіонату", "hall": "arena", "year": "2012", "author": "Vadym Shamdan"},
-
- {"file": "readers/20260830-131406-487189/01.jpg", "title": "Арена «Дружба» · хокейний матч", "hall": "arena", "year": "2012–2014", "author": "Vadym Shamdan"},
- {"file": "readers/20260830-131406-487189/02.jpg", "title": "Арена «Дружба» · хокейний матч", "hall": "arena", "year": "2013", "author": "Vadym Shamdan"},
- {"file": "readers/20260830-131406-487189/03.jpg", "title": "Арена «Дружба» · хокейний матч", "hall": "arena", "year": "2014", "author": "Vadym Shamdan"},
-
- {"file": "readers/20260830-143048-03328a/01.jpg", "title": "Проспект Іллїча · вид з висоти", "hall": "panoramy", "year": "2019", "author": "Катерина Зінченко"},
-
- {"file": "readers/20260830-143814-90d05e/01.jpg", "title": "Донбас Арена · матч чемпіонату", "hall": "arena", "year": "2012", "author": "Vadym Shamdan"},
- {"file": "readers/20260830-143814-90d05e/02.jpg", "title": "Донбас Арена · матч чемпіонату", "hall": "arena", "year": "2010", "author": "Vadym Shamdan"},
- {"file": "readers/20260830-143814-90d05e/03.jpg", "title": "Донбас Арена · трибуни", "hall": "arena", "year": "2012", "author": "Vadym Shamdan"},
- {"file": "readers/20260830-143814-90d05e/04.jpg", "title": "Донбас Арена · трибуни", "hall": "arena", "year": "2012", "author": "Vadym Shamdan"},
- {"file": "readers/20260830-143814-90d05e/05.jpg", "title": "Донбас Арена · матч чемпіонату", "hall": "arena", "year": "2012", "author": "Vadym Shamdan"},
- {"file": "readers/20260830-143814-90d05e/06.jpg", "title": "Донбас Арена · трибуни", "hall": "arena", "year": "2012", "author": "Vadym Shamdan"},
- {"file": "readers/20260830-143814-90d05e/07.jpg", "title": "Донбас Арена · матч чемпіонату", "hall": "arena", "year": "2012", "author": "Vadym Shamdan"},
- {"file": "readers/20260830-143814-90d05e/08.jpg", "title": "Донбас Арена · матч чемпіонату", "hall": "arena", "year": "2012", "author": "Vadym Shamdan"},
- {"file": "readers/20260830-143814-90d05e/09.jpg", "title": "Донбас Арена · трибуни", "hall": "arena", "year": "2012", "author": "Vadym Shamdan"},
- {"file": "readers/20260830-143814-90d05e/10.jpg", "title": "Донбас Арена · матч чемпіонату", "hall": "arena", "year": "2012", "author": "Vadym Shamdan"},
-
- {"file": "readers/20260830-154922-6d454a/01.jpg", "title": "Літак ТУ-104 біля палацу «Юність»", "hall": "vulytsi", "year": "", "author": "Автор невідомий", "note": "Надіслано читачем музею; за його словами, оригінал знайдено в мережі, автор кадру невідомий."},
-
- {"file": "readers/20260830-173137-dbbec2/01.jpg", "title": "Новотроїцьке · доломітовий кар'єр, вечір", "hall": "vuhillia", "year": "2020", "author": "Читач музею"},
- {"file": "readers/20260830-173137-dbbec2/02.jpg", "title": "Новотроїцьке · доломітовий кар'єр, вечір", "hall": "vuhillia", "year": "2021", "author": "Читач музею"},
- {"file": "readers/20260830-173137-dbbec2/03.jpg", "title": "Новотроїцьке · доломітовий кар'єр", "hall": "vuhillia", "year": "2021", "author": "Читач музею"},
-
- {"file": "readers/20260830-184931-47d535/01.jpg", "title": "Київський район · парк, весна", "hall": "sad-i-voda", "year": "2021", "author": "Katrin"},
- {"file": "readers/20260830-184931-47d535/02.jpg", "title": "Київський район · алея в парку", "hall": "sad-i-voda", "year": "2021", "author": "Katrin"},
- {"file": "readers/20260830-184931-47d535/03.jpg", "title": "Київський район · бузок біля дороги", "hall": "sad-i-voda", "year": "2021", "author": "Katrin"},
- {"file": "readers/20260830-184931-47d535/04.jpg", "title": "Київський район · квітуче дерево біля будинку", "hall": "sad-i-voda", "year": "2021", "author": "Katrin"},
- {"file": "readers/20260830-184931-47d535/05.jpg", "title": "Київський район · кіоск", "hall": "vulytsi", "year": "2021", "author": "Katrin"},
- {"file": "readers/20260830-184931-47d535/06.jpg", "title": "Київський район · проспект", "hall": "vulytsi", "year": "2021", "author": "Katrin"},
- {"file": "readers/20260830-184931-47d535/07.jpg", "title": "Київський район · трамвайні колії", "hall": "vulytsi", "year": "2021", "author": "Katrin"},
- {"file": "readers/20260830-184931-47d535/08.jpg", "title": "Київський район · вулиця навесні", "hall": "vulytsi", "year": "2021", "author": "Katrin"},
-
- {"file": "readers/20260830-185556-587dcc/01.jpg", "title": "Бульвар Богдана Хмельницького · цвітіння каштанів", "hall": "sad-i-voda", "year": "2021", "author": "Katrin"},
- {"file": "readers/20260830-185556-587dcc/02.jpg", "title": "Бульвар Богдана Хмельницького · алея навесні", "hall": "sad-i-voda", "year": "2021", "author": "Katrin"},
- {"file": "readers/20260830-185556-587dcc/03.jpg", "title": "Бульвар Богдана Хмельницького · цвітіння каштанів", "hall": "sad-i-voda", "year": "2021", "author": "Katrin"},
- {"file": "readers/20260830-185556-587dcc/04.jpg", "title": "Бульвар Шевченка · вечір, дощ", "hall": "sad-i-voda", "year": "2021", "author": "Katrin"},
- {"file": "readers/20260830-185556-587dcc/05.jpg", "title": "Бульвар Шевченка · алея", "hall": "sad-i-voda", "year": "2021", "author": "Katrin"},
- {"file": "readers/20260830-185556-587dcc/06.jpg", "title": "Бульвар Шевченка · вечір", "hall": "sad-i-voda", "year": "2021", "author": "Katrin"},
- {"file": "readers/20260830-185556-587dcc/07.jpg", "title": "Бульвар Шевченка · скульптура під дощем", "hall": "sad-i-voda", "year": "2021", "author": "Katrin"},
-
- {"file": "readers/20260830-190022-532a11/01.jpg", "title": "Донецьк · вечірня панорама з набережної", "hall": "panoramy", "year": "2021", "author": "Katrin"},
- {"file": "readers/20260830-190022-532a11/02.jpg", "title": "Донецьк · вечірня панорама з набережної", "hall": "panoramy", "year": "2021", "author": "Katrin"},
- {"file": "readers/20260830-190022-532a11/03.jpg", "title": "Донецьк · панорама з набережної", "hall": "panoramy", "year": "2021", "author": "Katrin"},
- {"file": "readers/20260830-190022-532a11/04.jpg", "title": "Донецьк · панорама з набережної", "hall": "panoramy", "year": "2021", "author": "Katrin"},
- {"file": "readers/20260830-190022-532a11/05.jpg", "title": "Донецьк · панорама з набережної", "hall": "panoramy", "year": "2021", "author": "Katrin"},
- {"file": "readers/20260830-190022-532a11/06.jpg", "title": "Донецьк · алея вздовж води", "hall": "panoramy", "year": "2021", "author": "Katrin"},
- {"file": "readers/20260830-190022-532a11/07.jpg", "title": "Донбас Арена · трибуни", "hall": "arena", "year": "2021", "author": "Katrin"},
- {"file": "readers/20260830-190022-532a11/08.jpg", "title": "Донбас Арена · квітучий сквер", "hall": "arena", "year": "2021", "author": "Katrin"},
-
- {"file": "readers/20260830-210205-0117aa/01.jpg", "title": "Меморіальний комплекс · зимовий туман", "hall": "viina", "year": "2021", "author": "zhurzha"},
- {"file": "readers/20260830-210205-0117aa/02.jpg", "title": "Меморіальний комплекс · алея, зима", "hall": "viina", "year": "2021", "author": "zhurzha"},
-
- {"file": "readers/20260830-210258-84a506/01.jpg", "title": "Донбас Арена · зимовий туман", "hall": "arena", "year": "2021", "author": "zhurzha"},
- {"file": "readers/20260830-210258-84a506/02.jpg", "title": "Донбас Арена · засніжений майданчик", "hall": "arena", "year": "2021", "author": "zhurzha"},
-
- {"file": "readers/20260830-210759-d1dc15/01.jpg", "title": "Зупинка «Шахта Засядько»", "hall": "vuhillia", "year": "2021", "author": "Читач музею"}
+ {
+  "file": "readers/20260830-061637-256957/01.jpg",
+  "title": "Донецьк · авто на вулиці",
+  "hall": "vulytsi",
+  "year": "2012",
+  "author": "Читач музею"
+ },
+ {
+  "file": "readers/20260830-121837-9a5bfc/01.jpg",
+  "title": "Донецьк · панорама з набережної",
+  "hall": "panoramy",
+  "year": "2017",
+  "author": "Читач музею"
+ },
+ {
+  "file": "readers/20260830-121837-9a5bfc/02.jpg",
+  "title": "Донецьк · вечірня панорама з набережної",
+  "hall": "panoramy",
+  "year": "2017",
+  "author": "Читач музею"
+ },
+ {
+  "file": "readers/20260830-121837-9a5bfc/03.jpg",
+  "title": "Донецьк · фонтан у центрі міста",
+  "hall": "sad-i-voda",
+  "year": "2017",
+  "author": "Читач музею"
+ },
+ {
+  "file": "readers/20260830-121837-9a5bfc/04.jpg",
+  "title": "Донецьк · квітники біля філармонії",
+  "hall": "sad-i-voda",
+  "year": "2016",
+  "author": "Читач музею"
+ },
+ {
+  "file": "readers/20260830-121837-9a5bfc/05.jpg",
+  "title": "Донецьк · фонтан у сквері",
+  "hall": "sad-i-voda",
+  "year": "2016",
+  "author": "Читач музею"
+ },
+ {
+  "file": "readers/20260830-130942-9b2242/01.jpg",
+  "title": "Донбас Арена · перший офіційний матч",
+  "hall": "arena",
+  "year": "2009",
+  "author": "Vadym Shamdan"
+ },
+ {
+  "file": "readers/20260830-131239-b9c9a0/01.jpg",
+  "title": "Донбас Арена · матч чемпіонату",
+  "hall": "arena",
+  "year": "2011–2013",
+  "author": "Vadym Shamdan"
+ },
+ {
+  "file": "readers/20260830-131239-b9c9a0/02.jpg",
+  "title": "Донбас Арена · матч чемпіонату",
+  "hall": "arena",
+  "year": "2011–2013",
+  "author": "Vadym Shamdan"
+ },
+ {
+  "file": "readers/20260830-131239-b9c9a0/03.jpg",
+  "title": "Донбас Арена · матч чемпіонату",
+  "hall": "arena",
+  "year": "2011–2013",
+  "author": "Vadym Shamdan"
+ },
+ {
+  "file": "readers/20260830-131239-b9c9a0/04.jpg",
+  "title": "Донбас Арена · трибуни",
+  "hall": "arena",
+  "year": "2011–2013",
+  "author": "Vadym Shamdan"
+ },
+ {
+  "file": "readers/20260830-131239-b9c9a0/05.jpg",
+  "title": "Донбас Арена · трибуни",
+  "hall": "arena",
+  "year": "2011–2013",
+  "author": "Vadym Shamdan"
+ },
+ {
+  "file": "readers/20260830-131239-b9c9a0/06.jpg",
+  "title": "Донбас Арена · трибуни",
+  "hall": "arena",
+  "year": "2011–2013",
+  "author": "Vadym Shamdan"
+ },
+ {
+  "file": "readers/20260830-131239-b9c9a0/07.jpg",
+  "title": "Донбас Арена · матч чемпіонату",
+  "hall": "arena",
+  "year": "2011–2013",
+  "author": "Vadym Shamdan"
+ },
+ {
+  "file": "readers/20260830-131239-b9c9a0/08.jpg",
+  "title": "Донбас Арена · трибуни",
+  "hall": "arena",
+  "year": "2011–2013",
+  "author": "Vadym Shamdan"
+ },
+ {
+  "file": "readers/20260830-131239-b9c9a0/09.jpg",
+  "title": "Донбас Арена · матч чемпіонату",
+  "hall": "arena",
+  "year": "2011–2013",
+  "author": "Vadym Shamdan"
+ },
+ {
+  "file": "readers/20260830-131239-b9c9a0/10.jpg",
+  "title": "Донбас Арена · матч чемпіонату",
+  "hall": "arena",
+  "year": "2012",
+  "author": "Vadym Shamdan"
+ },
+ {
+  "file": "readers/20260830-131406-487189/01.jpg",
+  "title": "Арена «Дружба» · хокейний матч",
+  "hall": "arena",
+  "year": "2012–2014",
+  "author": "Vadym Shamdan"
+ },
+ {
+  "file": "readers/20260830-131406-487189/02.jpg",
+  "title": "Арена «Дружба» · хокейний матч",
+  "hall": "arena",
+  "year": "2013",
+  "author": "Vadym Shamdan"
+ },
+ {
+  "file": "readers/20260830-131406-487189/03.jpg",
+  "title": "Арена «Дружба» · хокейний матч",
+  "hall": "arena",
+  "year": "2014",
+  "author": "Vadym Shamdan"
+ },
+ {
+  "file": "readers/20260830-143048-03328a/01.jpg",
+  "title": "Проспект Іллїча · вид з висоти",
+  "hall": "panoramy",
+  "year": "2019",
+  "author": "Катерина Зінченко"
+ },
+ {
+  "file": "readers/20260830-143814-90d05e/01.jpg",
+  "title": "Донбас Арена · матч чемпіонату",
+  "hall": "arena",
+  "year": "2012",
+  "author": "Vadym Shamdan"
+ },
+ {
+  "file": "readers/20260830-143814-90d05e/02.jpg",
+  "title": "Донбас Арена · матч чемпіонату",
+  "hall": "arena",
+  "year": "2010",
+  "author": "Vadym Shamdan"
+ },
+ {
+  "file": "readers/20260830-143814-90d05e/03.jpg",
+  "title": "Донбас Арена · трибуни",
+  "hall": "arena",
+  "year": "2012",
+  "author": "Vadym Shamdan"
+ },
+ {
+  "file": "readers/20260830-143814-90d05e/04.jpg",
+  "title": "Донбас Арена · трибуни",
+  "hall": "arena",
+  "year": "2012",
+  "author": "Vadym Shamdan"
+ },
+ {
+  "file": "readers/20260830-143814-90d05e/05.jpg",
+  "title": "Донбас Арена · матч чемпіонату",
+  "hall": "arena",
+  "year": "2012",
+  "author": "Vadym Shamdan"
+ },
+ {
+  "file": "readers/20260830-143814-90d05e/06.jpg",
+  "title": "Донбас Арена · трибуни",
+  "hall": "arena",
+  "year": "2012",
+  "author": "Vadym Shamdan"
+ },
+ {
+  "file": "readers/20260830-143814-90d05e/07.jpg",
+  "title": "Донбас Арена · матч чемпіонату",
+  "hall": "arena",
+  "year": "2012",
+  "author": "Vadym Shamdan"
+ },
+ {
+  "file": "readers/20260830-143814-90d05e/08.jpg",
+  "title": "Донбас Арена · матч чемпіонату",
+  "hall": "arena",
+  "year": "2012",
+  "author": "Vadym Shamdan"
+ },
+ {
+  "file": "readers/20260830-143814-90d05e/09.jpg",
+  "title": "Донбас Арена · трибуни",
+  "hall": "arena",
+  "year": "2012",
+  "author": "Vadym Shamdan"
+ },
+ {
+  "file": "readers/20260830-143814-90d05e/10.jpg",
+  "title": "Донбас Арена · матч чемпіонату",
+  "hall": "arena",
+  "year": "2012",
+  "author": "Vadym Shamdan"
+ },
+ {
+  "file": "readers/20260830-154922-6d454a/01.jpg",
+  "title": "Літак ТУ-104 біля палацу «Юність»",
+  "hall": "vulytsi",
+  "year": "",
+  "author": "Автор невідомий",
+  "note": "Надіслано читачем музею; за його словами, оригінал знайдено в мережі, автор кадру невідомий."
+ },
+ {
+  "file": "readers/20260830-173137-dbbec2/01.jpg",
+  "title": "Новотроїцьке · доломітовий кар'єр, вечір",
+  "hall": "vuhillia",
+  "year": "2020",
+  "author": "Читач музею"
+ },
+ {
+  "file": "readers/20260830-173137-dbbec2/02.jpg",
+  "title": "Новотроїцьке · доломітовий кар'єр, вечір",
+  "hall": "vuhillia",
+  "year": "2021",
+  "author": "Читач музею"
+ },
+ {
+  "file": "readers/20260830-173137-dbbec2/03.jpg",
+  "title": "Новотроїцьке · доломітовий кар'єр",
+  "hall": "vuhillia",
+  "year": "2021",
+  "author": "Читач музею"
+ },
+ {
+  "file": "readers/20260830-184931-47d535/01.jpg",
+  "title": "Київський район · парк, весна",
+  "hall": "sad-i-voda",
+  "year": "2021",
+  "author": "Katrin"
+ },
+ {
+  "file": "readers/20260830-184931-47d535/02.jpg",
+  "title": "Київський район · алея в парку",
+  "hall": "sad-i-voda",
+  "year": "2021",
+  "author": "Katrin"
+ },
+ {
+  "file": "readers/20260830-184931-47d535/03.jpg",
+  "title": "Київський район · бузок біля дороги",
+  "hall": "sad-i-voda",
+  "year": "2021",
+  "author": "Katrin"
+ },
+ {
+  "file": "readers/20260830-184931-47d535/04.jpg",
+  "title": "Київський район · квітуче дерево біля будинку",
+  "hall": "sad-i-voda",
+  "year": "2021",
+  "author": "Katrin"
+ },
+ {
+  "file": "readers/20260830-184931-47d535/05.jpg",
+  "title": "Київський район · кіоск",
+  "hall": "vulytsi",
+  "year": "2021",
+  "author": "Katrin"
+ },
+ {
+  "file": "readers/20260830-184931-47d535/06.jpg",
+  "title": "Київський район · проспект",
+  "hall": "vulytsi",
+  "year": "2021",
+  "author": "Katrin"
+ },
+ {
+  "file": "readers/20260830-184931-47d535/07.jpg",
+  "title": "Київський район · трамвайні колії",
+  "hall": "vulytsi",
+  "year": "2021",
+  "author": "Katrin"
+ },
+ {
+  "file": "readers/20260830-184931-47d535/08.jpg",
+  "title": "Київський район · вулиця навесні",
+  "hall": "vulytsi",
+  "year": "2021",
+  "author": "Katrin"
+ },
+ {
+  "file": "readers/20260830-185556-587dcc/01.jpg",
+  "title": "Бульвар Богдана Хмельницького · цвітіння каштанів",
+  "hall": "sad-i-voda",
+  "year": "2021",
+  "author": "Katrin"
+ },
+ {
+  "file": "readers/20260830-185556-587dcc/02.jpg",
+  "title": "Бульвар Богдана Хмельницького · алея навесні",
+  "hall": "sad-i-voda",
+  "year": "2021",
+  "author": "Katrin"
+ },
+ {
+  "file": "readers/20260830-185556-587dcc/03.jpg",
+  "title": "Бульвар Богдана Хмельницького · цвітіння каштанів",
+  "hall": "sad-i-voda",
+  "year": "2021",
+  "author": "Katrin"
+ },
+ {
+  "file": "readers/20260830-185556-587dcc/04.jpg",
+  "title": "Бульвар Шевченка · вечір, дощ",
+  "hall": "sad-i-voda",
+  "year": "2021",
+  "author": "Katrin"
+ },
+ {
+  "file": "readers/20260830-185556-587dcc/05.jpg",
+  "title": "Бульвар Шевченка · алея",
+  "hall": "sad-i-voda",
+  "year": "2021",
+  "author": "Katrin"
+ },
+ {
+  "file": "readers/20260830-185556-587dcc/06.jpg",
+  "title": "Бульвар Шевченка · вечір",
+  "hall": "sad-i-voda",
+  "year": "2021",
+  "author": "Katrin"
+ },
+ {
+  "file": "readers/20260830-185556-587dcc/07.jpg",
+  "title": "Бульвар Шевченка · скульптура під дощем",
+  "hall": "sad-i-voda",
+  "year": "2021",
+  "author": "Katrin"
+ },
+ {
+  "file": "readers/20260830-190022-532a11/01.jpg",
+  "title": "Донецьк · вечірня панорама з набережної",
+  "hall": "panoramy",
+  "year": "2021",
+  "author": "Katrin"
+ },
+ {
+  "file": "readers/20260830-190022-532a11/02.jpg",
+  "title": "Донецьк · вечірня панорама з набережної",
+  "hall": "panoramy",
+  "year": "2021",
+  "author": "Katrin"
+ },
+ {
+  "file": "readers/20260830-190022-532a11/03.jpg",
+  "title": "Донецьк · панорама з набережної",
+  "hall": "panoramy",
+  "year": "2021",
+  "author": "Katrin"
+ },
+ {
+  "file": "readers/20260830-190022-532a11/04.jpg",
+  "title": "Донецьк · панорама з набережної",
+  "hall": "panoramy",
+  "year": "2021",
+  "author": "Katrin"
+ },
+ {
+  "file": "readers/20260830-190022-532a11/05.jpg",
+  "title": "Донецьк · панорама з набережної",
+  "hall": "panoramy",
+  "year": "2021",
+  "author": "Katrin"
+ },
+ {
+  "file": "readers/20260830-190022-532a11/06.jpg",
+  "title": "Донецьк · алея вздовж води",
+  "hall": "panoramy",
+  "year": "2021",
+  "author": "Katrin"
+ },
+ {
+  "file": "readers/20260830-190022-532a11/07.jpg",
+  "title": "Донбас Арена · трибуни",
+  "hall": "arena",
+  "year": "2021",
+  "author": "Katrin"
+ },
+ {
+  "file": "readers/20260830-190022-532a11/08.jpg",
+  "title": "Донбас Арена · квітучий сквер",
+  "hall": "arena",
+  "year": "2021",
+  "author": "Katrin"
+ },
+ {
+  "file": "readers/20260830-210205-0117aa/01.jpg",
+  "title": "Меморіальний комплекс · зимовий туман",
+  "hall": "viina",
+  "year": "2021",
+  "author": "zhurzha"
+ },
+ {
+  "file": "readers/20260830-210205-0117aa/02.jpg",
+  "title": "Меморіальний комплекс · алея, зима",
+  "hall": "viina",
+  "year": "2021",
+  "author": "zhurzha"
+ },
+ {
+  "file": "readers/20260830-210258-84a506/01.jpg",
+  "title": "Донбас Арена · зимовий туман",
+  "hall": "arena",
+  "year": "2021",
+  "author": "zhurzha"
+ },
+ {
+  "file": "readers/20260830-210258-84a506/02.jpg",
+  "title": "Донбас Арена · засніжений майданчик",
+  "hall": "arena",
+  "year": "2021",
+  "author": "zhurzha"
+ },
+ {
+  "file": "readers/20260830-210759-d1dc15/01.jpg",
+  "title": "Зупинка «Шахта Засядько»",
+  "hall": "vuhillia",
+  "year": "2021",
+  "author": "Читач музею"
+ },
+ {
+  "file": "readers/20260831-113939-96afcf/01.jpg",
+  "title": "Аеропорт Сергія Прокоф'єва · зал нового терміналу",
+  "hall": "arena",
+  "year": "2012",
+  "author": "Vadym Shamdan"
+ },
+ {
+  "file": "readers/20260831-113939-96afcf/02.jpg",
+  "title": "Аеропорт Сергія Прокоф'єва · рельєф композитора над ескалаторами",
+  "hall": "arena",
+  "year": "2012",
+  "author": "Vadym Shamdan"
+ },
+ {
+  "file": "readers/20260831-114127-44757c/01.jpg",
+  "title": "Парк Щербакова · набережна вночі",
+  "hall": "sad-i-voda",
+  "year": "2012",
+  "author": "Vadym Shamdan"
+ },
+ {
+  "file": "readers/20260831-114243-54c2da/01.jpg",
+  "title": "Нью-Йорк · заправка під фенольним заводом",
+  "hall": "vuhillia",
+  "year": "2012",
+  "author": "Vadym Shamdan"
+ },
+ {
+  "file": "readers/20260831-172528-faaef5/01.jpg",
+  "title": "Кінотеатр «Донецьк» · порожній",
+  "hall": "vulytsi",
+  "year": "2011",
+  "author": "Vadym Shamdan"
+ },
+ {
+  "file": "readers/20260831-135926-857165/01.jpg",
+  "title": "Ленінський проспект · неон «Аврори» травневого вечора",
+  "hall": "vulytsi",
+  "year": "2004",
+  "author": "Сергій Colt"
+ },
+ {
+  "file": "readers/20260831-135926-857165/02.jpg",
+  "title": "«Аврора» · GARAGE, боулінг і «Якиторія» одним фасадом",
+  "hall": "vulytsi",
+  "year": "2004",
+  "author": "Сергій Colt"
+ },
+ {
+  "file": "readers/20260831-135354-97888f/01.jpg",
+  "title": "Середня школа №33 на розі Ленінського проспекту й Куйбишева",
+  "hall": "stare-misto",
+  "year": "",
+  "author": "Автор невідомий",
+  "note": "Надіслано читачем музею; авторство кадру він не заявляв, дату встановити не вдалося."
+ },
+ {
+  "file": "readers/20260831-140928-a008dc/01.jpg",
+  "title": "Вулиця Артема · центр міста",
+  "hall": "stare-misto",
+  "year": "1941",
+  "author": "Автор невідомий",
+  "note": "Надіслано читачем музею; за його словами, кадр знайдено в мережі, автор невідомий, рік (1941) вказано з його слів."
+ }
 ]
