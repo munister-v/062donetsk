@@ -258,7 +258,7 @@ BOOK = """<section class="support" id="book">
     </div>
     <div class="sup-right">
       <a class="pill" href="https://donetsk2014.github.io/" rel="noopener" target="_blank">
-        Замовити книгу →
+        Замовити книгу
       </a>
     </div>
   </div>
