@@ -342,6 +342,55 @@ def key_work(ws):
     return max(pick_from, key=lambda w: photo_hsv(w)[0])
 
 
+def strip_works(ws, n=6):
+    """Кадри для вітрини залу: не найкращі n, а n РІЗНИХ.
+
+    Шість найкращих за площею й насиченістю майже завжди приїжджають з
+    однієї зйомки: один день, одне світло, один сюжет, часто той самий двір
+    з трьох боків. Вітрина тоді показує не зал, а один його кут.
+
+    Тому спершу відсіюється те саме, що й у ключовому кадрі (будмайданчик,
+    підземка), а далі кадри беруться з РІВНИМ КРОКОМ по всьому залу: між
+    ними опиняються різні роки й різні автори. Першим іде ключовий кадр -
+    той самий, що вже стоїть обкладинкою залу, і вітрина починається з
+    обличчя, яке зал собі обрав.
+    """
+    if not ws:
+        return []
+    good = [w for w in ws if not UGLY_KEY.search(w["title"])] or ws
+    wide = [w for w in good if w["w"] >= w["h"]] or good
+    # Панорамі в рамці 4:3 не місце. «Терикон» це 5221×500: object-fit
+    # cover бере з нього вертикальний шматок посередині, і в ряду він стоїть
+    # мазаною плямою - не тому, що знімок поганий, а тому, що ми показуємо
+    # десяту його частину. Свій зал «Панорами» показує їх як належить.
+    # Відбір НЕ по площі: найбільші файли це сучасні цифрові кадри, і зал
+    # «Вулиці й площі» від такого фільтра переставав показувати вулиці.
+    normal = [w for w in wide if w["w"] / w["h"] <= 2.2]
+    if len(normal) >= n:
+        wide = normal
+    lead = key_work(ws)
+    rest = [w for w in wide if w["id"] != lead["id"]]
+    if len(rest) <= n - 1:
+        return [lead] + rest
+    step = len(rest) / (n - 1)
+    return [lead] + [rest[int(i * step)] for i in range(n - 1)]
+
+
+def hall_strip(ws, slug, n=6):
+    """Розмітка вітрини. Порожній рядок, якщо кадрів менше двох: одна
+    рамка на всю ширину це не вітрина, а збільшена мініатюра."""
+    picks = strip_works(ws, n)
+    if len(picks) < 2:
+        return ""
+    frames = "".join(
+        f'<span class="hs-f"><img src="/media/{w["id"]}-s.webp" alt="" '
+        f'loading="lazy" decoding="async" width="500" '
+        f'height="{round(w["h"] * 500 / w["w"])}"></span>'
+        for w in picks)
+    return (f'\n  <a class="hall-strip" href="{slug}" tabindex="-1" aria-hidden="true">'
+            f'{frames}</a>')
+
+
 def exhibition_works(pattern):
     """Виставка — це або текстовий візерунок у назві (як досі), або, для
     «Від читачів», предикат по самому знімку: джерело «reader» не написано
@@ -422,18 +471,15 @@ def build_home():
         n = len(works_by_hall(h["slug"]))
         if not n:
             continue
-        key = key_work(works_by_hall(h["slug"]))
+        ws = works_by_hall(h["slug"])
         rows.append(f"""<article class="hall">
   <a class="row hall-row" href="/halls/{h['slug']}/">
     <span class="inA n">{i:02d}</span>
     <span class="inB hall-name">
-      <span class="hall-thumb"><img src="/media/{key['id']}-s.webp" alt=""
-        loading="lazy" decoding="async" width="500"
-        height="{round(key['h'] * 500 / key['w'])}"></span>
       <span class="hall-title">{esc(h['title'])}</span>
     </span>
     <span class="inC hall-meta"><span>{esc(h['pair'])}</span><span class="lock">{photos_word(n)}</span></span>
-  </a>
+  </a>{hall_strip(ws, f"/halls/{h['slug']}/")}
 </article>""")
 
     ex = []
@@ -441,18 +487,14 @@ def build_home():
         ws = exhibition_works(pat)
         if len(ws) < 8:          # менше восьми кадрів це не виставка, а випадковість
             continue
-        k = key_work(ws)
         ex.append(f"""<article class="hall">
   <a class="row hall-row" href="/exhibitions/{slug}/">
     <span class="inA n">{i:02d}</span>
     <span class="inB hall-name">
-      <span class="hall-thumb"><img src="/media/{k['id']}-s.webp" alt=""
-        loading="lazy" decoding="async" width="500"
-        height="{round(k['h'] * 500 / k['w'])}"></span>
       <span class="hall-title">{esc(title)}</span>
     </span>
     <span class="inC hall-meta"><span>{esc(pair)}</span><span class="lock">{photos_word(len(ws))}</span></span>
-  </a>
+  </a>{hall_strip(ws, f"/exhibitions/{slug}/")}
 </article>""")
 
     body = f"""{head("Музей фотографії Донецька",
@@ -472,7 +514,8 @@ def build_home():
   </section>
   <figure class="fold-shot">
     <img src="/media/{cover['id']}-m.webp" alt="{esc(cover['title'])}"
-      width="1200" height="{round(cover['h'] * 1200 / cover['w'])}" decoding="async">
+      width="1200" height="{round(cover['h'] * 1200 / cover['w'])}" decoding="async"
+      fetchpriority="high">
     <figcaption>{esc(cover['title'])}</figcaption>
   </figure>
 {SUBMIT_CTA}

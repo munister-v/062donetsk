@@ -127,6 +127,31 @@ a,button,.hall-row,.plate,.wk{-webkit-tap-highlight-color:transparent}
 .lock{border:1px solid var(--hair);border-radius:40px;padding:var(--s1) var(--s3);
   font-size:var(--t-xs);letter-spacing:.04em;color:var(--secondary);white-space:nowrap}
 
+/* ── вітрина залу ─────────────────────────────────────
+   Рядок залу показував одну мініатюру завширшки з ніготь і три чверті
+   порожнього рядка: це читалось як перелік, а не як музей. Вітрина
+   повертає сенс слова «зал» - кілька кадрів звідти стоять просто під
+   назвою, і зал видно ще до входу.
+
+   Проміжок у 2px, а не в сітковий відступ: кадри мають стояти в ряд, як
+   відбитки на контрольному аркуші, а не летіти окремими картками. */
+/* z-index як у .row: вертикальні лінії сітки (.lines) позиційовані, тож
+   без цього вони малюються ПОВЕРХ знімків і кожен кадр виходить
+   перекреслений. */
+.hall-strip{position:relative;z-index:1;
+  display:flex;gap:2px;padding:0 var(--edge) var(--s5);
+  overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x proximity;
+  scrollbar-width:none;-ms-overflow-style:none}
+.hall-strip::-webkit-scrollbar{display:none}
+.hs-f{flex:1 1 0;min-width:0;aspect-ratio:4/3;overflow:hidden;
+  background:var(--tint);display:block;scroll-snap-align:start}
+.hs-f img{width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform .6s var(--ease)}
+@media (hover:hover){
+  .hall:hover .hs-f img{transform:scale(1.04)}
+}
+.hall-strip:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+
 .hall-body{display:none;padding:var(--s2) 0 var(--s7)}
 .hall[data-open="true"] .hall-body{display:grid}
 .hall-body>div{min-width:0}
@@ -883,6 +908,11 @@ mark{background:var(--tint);color:var(--ink);box-shadow:0 1px 0 var(--ink)}
   .hall-thumb{width:88px}
   .hall-title{font-size:var(--t-xl);line-height:1.1}
   .hall-meta{gap:var(--s3);margin-top:var(--s3);flex-wrap:wrap}
+  /* Шість рамок, поділених на ширину телефону, дали б смужку в палець
+     завширшки. Вітрина стає прокруткою: два з половиною кадри видно, решта
+     виглядає з-за краю і сама каже, що ряд триває. */
+  .hall-strip{padding-left:var(--s5);padding-right:var(--s5)}
+  .hs-f{flex:0 0 42%}
   .sec{padding:var(--s6) 0 0}
 }
 
