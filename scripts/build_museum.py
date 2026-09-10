@@ -241,7 +241,7 @@ SUBMIT_CTA = """  <section class="row cta" id="submit">
       <p>Музей росте з чужих альбомів. Якщо у вас є фотографії Донецька –
       свої, батьківські, скановані – надішліть їх сюди.</p>
     </div>
-    <div class="inC cta-act"><a class="pill" href="/submit/">Надіслати знімки →</a></div>
+    <div class="inC cta-act"><a class="pill" href="/submit/">Надіслати знімки</a></div>
   </section>"""
 
 
@@ -507,9 +507,11 @@ def build_home():
     <div class="inB"></div>
     <div class="inC">
       <h1 class="hero-title">Місто, яке<br>можна обійти<br>лише так</h1>
-      <p class="hero-count">{total} фото нашого міста.
-        <a class="hero-add" href="/submit/">Наступне ваше →</a></p>
-      <a class="backlink" href="#halls">увійти до залів ↓</a>
+      <p class="hero-count">{total} фото нашого міста.</p>
+      <div class="hero-cta">
+        <a class="pill" href="#halls">Увійти до залів</a>
+        <a class="pill pill-ghost" href="/submit/">Наступне ваше</a>
+      </div>
     </div>
   </section>
   <figure class="fold-shot">

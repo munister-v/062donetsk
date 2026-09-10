@@ -94,10 +94,14 @@ a,button,.hall-row,.plate,.wk{-webkit-tap-highlight-color:transparent}
   line-height:1.04;letter-spacing:-.026em;text-wrap:balance;
 }
 .hero-lead{margin:var(--s5) 0 0;max-width:46ch;font-size:var(--t-lg);line-height:1.38;letter-spacing:-.012em}
-.hero-cta{margin-top:var(--s6);display:flex;gap:var(--s2);flex-wrap:wrap}
+.hero-cta{margin-top:var(--s6);display:flex;gap:var(--s3);flex-wrap:wrap}
 .pill{display:inline-block;background:var(--pill);color:var(--pill-ink);border-radius:40px;
   padding:var(--s2) var(--s4);font-size:var(--t-sm);transition:opacity .18s var(--ease)}
-.pill-ghost{background:none;color:var(--ink);border:1px solid var(--hair)}
+/* --hair це колір волосяної лінії сітки: 1.27:1 на білому. Як межа
+   кнопки він не читається зовсім - контурна пігулка виглядала текстом,
+   що випадково стоїть у порожнечі. #949089 це 3.18:1, поріг для меж
+   елементів керування, і кнопка нарешті має край. */
+.pill-ghost{background:none;color:var(--ink);border:1px solid #949089}
 
 .band{position:relative;width:100%;height:clamp(230px,36vw,420px);background:var(--tint);overflow:hidden}
 .band canvas{display:block;width:100%;height:100%;filter:grayscale(1)}
@@ -835,7 +839,7 @@ mark{background:var(--tint);color:var(--ink);box-shadow:0 1px 0 var(--ink)}
 .hall-row:hover .hall-name,.hall-row:hover .hall-title{color:var(--accent)}
 .sup-jar{border-color:var(--accent);color:var(--accent)}
 .sup-jar:hover{background:var(--accent);color:var(--paper)}
-.fold .backlink,.hall-hero .backlink{color:var(--accent)}
+.hall-hero .backlink{color:var(--accent)}
 
 /* ── Мініатюра залу ──────────────────────────────────────────────────
    Список залів був стовпцем самого лише тексту. Кадр збоку показує,
@@ -855,15 +859,21 @@ mark{background:var(--tint);color:var(--ink);box-shadow:0 1px 0 var(--ink)}
    це факт про архів, а не рекламний рядок. */
 .hero-count{margin:var(--s4) 0 0;font-family:var(--serif);font-size:var(--t-lg);
   line-height:1.4;color:var(--secondary);letter-spacing:-.006em;max-width:24ch}
-/* Заклик іде тим самим рядком, що й лічильник: спершу факт, скільки вже
-   зібрано, і одразу за ним запрошення додати наступне. Колір цегли
-   вирізняє його з сірого рядка, не роблячи окремим блоком. */
-.hero-add{color:var(--accent);white-space:nowrap;
-  border-bottom:1px solid transparent;transition:border-color .16s var(--ease)}
-.hero-add:hover{border-bottom-color:currentColor}
-.fold .backlink{display:inline-block;margin-top:var(--s6);
-  font-size:var(--t-lg);letter-spacing:-.01em;
-  border-bottom:1px solid currentColor;padding-bottom:3px}
+/* Дії першого екрана це кнопки, а не два підкреслені рядки.
+
+   Обидві дії були текстовими посиланнями кольору цегли: «Наступне ваше»
+   стояло всередині речення про кількість фото, «увійти до залів» - окремим
+   рядком під ним. Читалось як примітка, а не як вхід у музей, і головна дія
+   сайту нічим не відрізнялась від виноски.
+
+   Форма не вигадана: та сама пігулка, якою вже говорить «Надіслати знімки»
+   нижче на сторінці. Суцільна дістається входу до залів - це те, по що
+   людина сюди прийшла; надсилання знімків іде контуром, бо на цій же
+   сторінці нижче стоїть окремий блок із поясненням і своєю кнопкою. */
+.hero-cta .pill{padding:var(--s3) var(--s5);font-size:var(--t-md);
+  letter-spacing:-.006em}
+.pill-ghost{transition:border-color .18s var(--ease),color .18s var(--ease)}
+.pill-ghost:hover{opacity:1;border-color:var(--ink)}
 
 /* Кадр під першим екраном: сторінка більше не відкривається самим лише
    текстом на білому. Знімок той самий, що йде в og:image. */
@@ -896,7 +906,6 @@ mark{background:var(--tint);color:var(--ink);box-shadow:0 1px 0 var(--ink)}
   .fold{padding:var(--s6) 0 var(--s6)}
   .fold .inA{margin-bottom:var(--s2)}
   .blurb{margin-top:var(--s4);font-size:var(--t-sm);line-height:1.5}
-  .fold .backlink{margin-top:var(--s4)}
   .fold-shot img{height:56vw}
   .fold-shot figcaption{padding-left:var(--s5);padding-right:var(--s5)}
 
