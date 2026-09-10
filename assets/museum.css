@@ -265,6 +265,59 @@ a,button,.hall-row,.plate,.wk{-webkit-tap-highlight-color:transparent}
   .visit .inB{margin-bottom:var(--s5)}
   .visit .cols{grid-template-columns:1fr;gap:var(--s5)}
 }
+
+/* ── планшет і вузьке вікно: 620-900px ────────────────
+   Тут була діра. Нижче 900px сайт віддавав розмітку телефона, і на
+   планшеті виходила сторінка, у якої вся права половина порожня, а
+   рядок залу займав три рядки замість одного: номер, назва, під ними
+   підзаголовок із лічильником.
+
+   Десктопна сітка з трьох колонок на таких ширинах не працює - колонка
+   А стає завужчою за назву музею. Тому проміжний рівень простіший: те,
+   що читають, ліворуч, те, чим орієнтуються, праворуч. Дві колонки
+   замість трьох і замість однієї. */
+@media (min-width:620px) and (max-width:900px){
+  /* Шапка стає такою, як на десктопі: знак ліворуч, навігація праворуч.
+     Виставляти її по центру мало сенс на 375px, а тут просто марнує ряд. */
+  .header{display:grid;grid-template-columns:auto 1fr;align-items:center;
+    text-align:left;padding:var(--s4) 0}
+  .header .inA{align-items:flex-start;padding:0 var(--s5)}
+  .header .inC{padding:0 var(--s5)}
+
+  /* Зал в один рядок: номер і назва ліворуч, сюжет і лічильник праворуч. */
+  .hall-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto;
+    align-items:baseline;gap:0 var(--s4);padding:var(--s5)}
+  .hall-row .n{display:inline;font-size:var(--t-lg);margin-bottom:0}
+  .hall-name{display:block;margin-top:0}
+  .hall-meta{margin-top:0;justify-content:flex-end;gap:var(--s4);flex-wrap:nowrap}
+
+  /* Лічильник розділу («01 / 03») повертається праворуч від назви,
+     а не третім рядком під нею. */
+  .sec{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:baseline}
+  .sec .inA{grid-column:1;grid-row:1}
+  .sec-note{grid-column:1;grid-row:2;margin-top:var(--s1)}
+  .sec-count{grid-column:2;grid-row:1;text-align:right;margin-top:0;padding:0 var(--s5)}
+  .sec-rule{grid-column:1 / -1}
+
+  /* Заклик поповнити архів: текст ліворуч, кнопка праворуч від нього. */
+  .cta{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:start;
+    gap:0 var(--s5)}
+  .cta .inA{grid-column:1;grid-row:1}
+  .cta-text{grid-column:1;grid-row:2}
+  .cta-act{grid-column:2;grid-row:1 / span 2;align-self:center;text-align:right}
+
+  /* «Про музей» знову у дві колонки: рядок у 90 знаків нечитабельний. */
+  .visit .cols{grid-template-columns:1fr 1fr;gap:var(--s5)}
+}
+
+/* Прокрутка вітрини потрібна лише там, де шість рамок справді не
+   вміщаються. На 700px правило «42% на кадр» давало смугу з двох з
+   половиною знімків завбільшки з галерею - при тому, що всі шість тут
+   стають у ряд по 100px і читаються як контрольний аркуш. Межа саме
+   620px: нижче неї кадр вужчий за 100px, і ряд перестає бути видимим. */
+@media (max-width:619.98px){
+  .hs-f{flex:0 0 42%}
+}
 @media (max-width:420px){
   .inA,.inB,.inC,.wide,  .hall-row,.prog-item{padding-left:16px;padding-right:16px}
   .band-cap{left:var(--s5)}
@@ -917,11 +970,7 @@ mark{background:var(--tint);color:var(--ink);box-shadow:0 1px 0 var(--ink)}
   .hall-thumb{width:88px}
   .hall-title{font-size:var(--t-xl);line-height:1.1}
   .hall-meta{gap:var(--s3);margin-top:var(--s3);flex-wrap:wrap}
-  /* Шість рамок, поділених на ширину телефону, дали б смужку в палець
-     завширшки. Вітрина стає прокруткою: два з половиною кадри видно, решта
-     виглядає з-за краю і сама каже, що ряд триває. */
   .hall-strip{padding-left:var(--s5);padding-right:var(--s5)}
-  .hs-f{flex:0 0 42%}
   .sec{padding:var(--s6) 0 0}
 }
 
