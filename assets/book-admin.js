@@ -66,7 +66,7 @@
     var c = el('article', 'ba-card'); c.dataset.status = o.status;
     var top = el('div', 'ba-top');
     top.appendChild(el('span', 'ba-name', o.name));
-    top.appendChild(el('span', 'ba-date', '№' + o.id + ' · ' + fmtDate(o.created_at)));
+    top.appendChild(el('span', 'ba-date', (o.code || '№' + o.id) + ' · ' + fmtDate(o.created_at)));
     c.appendChild(top);
 
     var g = el('div', 'ba-grid');

@@ -21,7 +21,7 @@
       d6t:'Printing', d6:'Offset printing, non-commercial edition at cost', d5t:'Photographs',
       s_order:'Order',
       o_p:'Leave your number on Viber or WhatsApp. I will write to you and we will agree on payment and delivery.',
-      o_price:'The price is the cost of printing. I will give the exact sum in the message.',
+      o_price:'The price is UAH 400 per copy. We will agree on payment and delivery in the message.', total:'Total: {n} UAH',
       l_deliv:'Delivery', c_np:'Nova Poshta', c_uz:'Ukrzaliznytsia', c_intl:'Abroad', l_region:'Region', ph_region:'Select a region',
       l_city:'Town or village', l_ptype:'Deliver to', p_branch:'Branch', p_locker:'Parcel locker', l_pnum:'Branch or locker number',
       l_pnum_uz:'Branch or station', l_country:'Country', l_city2:'City', l_addr:'Address and postcode',
@@ -45,7 +45,7 @@
       d6t:'Druk', d6:'Druk poligraficzny, wydanie niekomercyjne po kosztach', d5t:'Zdjęcia',
       s_order:'Zamów',
       o_p:'Zostaw numer w Viberze lub WhatsAppie. Napiszę do ciebie i ustalimy płatność oraz dostawę.',
-      o_price:'Cena to koszt druku. Dokładną kwotę podam w wiadomości.',
+      o_price:'Cena to 400 UAH za egzemplarz. Płatność i dostawę ustalimy w wiadomości.', total:'Razem: {n} UAH',
       l_deliv:'Dostawa', c_np:'Nova Poshta', c_uz:'Ukrzaliznycia', c_intl:'Za granicę', l_region:'Obwód', ph_region:'Wybierz obwód',
       l_city:'Miejscowość', l_ptype:'Dostarczyć do', p_branch:'Oddział', p_locker:'Paczkomat', l_pnum:'Numer oddziału lub paczkomatu',
       l_pnum_uz:'Oddział lub stacja', l_country:'Kraj', l_city2:'Miasto', l_addr:'Adres i kod pocztowy',
@@ -65,6 +65,7 @@
   var lang = 'uk', ukText = {
     e_name:'Вкажіть ім’я.', e_phone:'Вкажіть номер із кодом країни.',
     e_fail:'Не вдалося надіслати. Спробуйте ще раз трохи згодом.', e_rate:'Забагато спроб. Спробуйте пізніше.',
+    total:'Разом: {n} грн',
     e_deliv:'Оберіть спосіб доставки.', e_region:'Оберіть область і вкажіть населений пункт.',
     e_point:'Вкажіть номер відділення чи поштомата.', e_country:'Вкажіть країну й місто.', l_pnum_uz:'Відділення чи станція',
     sending:'Надсилаємо…', done_p:'Напишу вам у {m} на {phone}.', page:'Сторінка'
@@ -199,7 +200,11 @@
   var dvUa = document.getElementById('dv-ua'), dvIntl = document.getElementById('dv-intl'),
       dvType = document.getElementById('dv-type'), dvPl = document.getElementById('dv-pl');
   function carrier(){ var c = form.querySelector('input[name=carrier]:checked'); return c ? c.value : ''; }
+  var PRICE = 400, totalEl = document.getElementById('bk-total');
+  function showTotal(){ totalEl.textContent = tr('total').replace('{n}', String((parseInt(form.elements.qty.value, 10) || 1) * PRICE)); }
+  form.elements.qty.addEventListener('change', showTotal);
   function syncDelivery(){
+    showTotal();
     var c = carrier();
     dvUa.hidden = !(c === 'np' || c === 'uz');
     dvIntl.hidden = c !== 'intl';

@@ -232,3 +232,4 @@ body.bk-lock{overflow:hidden}
 /* ── доставка ────────────────────────────────────────── */
 .bk-deliv{display:grid;gap:var(--s5)}
 .bk-qty{max-width:12rem}
+.bk-qty .bk-total{display:block;margin-top:var(--s2);color:var(--ink);font-size:var(--t-md);letter-spacing:0;text-transform:none}
