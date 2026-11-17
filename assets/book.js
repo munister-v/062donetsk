@@ -22,7 +22,12 @@
       s_order:'Order',
       o_p:'Leave your number on Viber or WhatsApp. I will write to you and we will agree on payment and delivery.',
       o_price:'The price is the cost of printing. I will give the exact sum in the message.',
-      l_name:'Name', l_phone:'Phone', l_msg:'Where to write to you', l_qty:'Copies', l_place:'Country and city', l_note:'Comment',
+      l_deliv:'Delivery', c_np:'Nova Poshta', c_uz:'Ukrzaliznytsia', c_intl:'Abroad', l_region:'Region', ph_region:'Select a region',
+      l_city:'Town or village', l_ptype:'Deliver to', p_branch:'Branch', p_locker:'Parcel locker', l_pnum:'Branch or locker number',
+      l_pnum_uz:'Branch or station', l_country:'Country', l_city2:'City', l_addr:'Address and postcode',
+      e_deliv:'Choose a delivery method.', e_region:'Select a region and enter the town or village.',
+      e_point:'Enter the branch or locker number.', e_country:'Enter the country and city.',
+      l_name:'Name', l_phone:'Phone', l_msg:'Where to write to you', l_qty:'Copies', l_note:'Comment',
       send:'Send the request', fine:'Your number is used only to reply and is not passed on.',
       e_name:'Enter your name.', e_phone:'Enter your number with the country code.',
       e_fail:'Could not send. Please try again a little later.', e_rate:'Too many attempts. Please try later.',
@@ -41,7 +46,12 @@
       s_order:'Zamów',
       o_p:'Zostaw numer w Viberze lub WhatsAppie. Napiszę do ciebie i ustalimy płatność oraz dostawę.',
       o_price:'Cena to koszt druku. Dokładną kwotę podam w wiadomości.',
-      l_name:'Imię', l_phone:'Telefon', l_msg:'Gdzie do ciebie pisać', l_qty:'Liczba egzemplarzy', l_place:'Kraj i miasto', l_note:'Komentarz',
+      l_deliv:'Dostawa', c_np:'Nova Poshta', c_uz:'Ukrzaliznycia', c_intl:'Za granicę', l_region:'Obwód', ph_region:'Wybierz obwód',
+      l_city:'Miejscowość', l_ptype:'Dostarczyć do', p_branch:'Oddział', p_locker:'Paczkomat', l_pnum:'Numer oddziału lub paczkomatu',
+      l_pnum_uz:'Oddział lub stacja', l_country:'Kraj', l_city2:'Miasto', l_addr:'Adres i kod pocztowy',
+      e_deliv:'Wybierz sposób dostawy.', e_region:'Wybierz obwód i wpisz miejscowość.',
+      e_point:'Podaj numer oddziału lub paczkomatu.', e_country:'Podaj kraj i miasto.',
+      l_name:'Imię', l_phone:'Telefon', l_msg:'Gdzie do ciebie pisać', l_qty:'Liczba egzemplarzy', l_note:'Komentarz',
       send:'Wyślij zgłoszenie', fine:'Numer służy tylko do odpowiedzi i nie jest nikomu przekazywany.',
       e_name:'Podaj imię.', e_phone:'Podaj numer z kodem kraju.',
       e_fail:'Nie udało się wysłać. Spróbuj ponownie za chwilę.', e_rate:'Za dużo prób. Spróbuj później.',
@@ -55,6 +65,8 @@
   var lang = 'uk', ukText = {
     e_name:'Вкажіть ім’я.', e_phone:'Вкажіть номер із кодом країни.',
     e_fail:'Не вдалося надіслати. Спробуйте ще раз трохи згодом.', e_rate:'Забагато спроб. Спробуйте пізніше.',
+    e_deliv:'Оберіть спосіб доставки.', e_region:'Оберіть область і вкажіть населений пункт.',
+    e_point:'Вкажіть номер відділення чи поштомата.', e_country:'Вкажіть країну й місто.', l_pnum_uz:'Відділення чи станція',
     sending:'Надсилаємо…', done_p:'Напишу вам у {m} на {phone}.', page:'Сторінка'
   };
 
@@ -92,6 +104,7 @@
       b.setAttribute('aria-pressed', b.dataset.lang === lang ? 'true' : 'false');
     });
     if (lbOpen) lbShow(lbIdx, true);
+    syncDelivery();
     store('book-lang', lang);
   }
   Array.prototype.forEach.call(document.querySelectorAll('.lang button'), function(b){
@@ -182,6 +195,19 @@
   function mark(input, bad){ if (bad) input.setAttribute('aria-invalid', 'true'); else input.removeAttribute('aria-invalid'); }
   form.addEventListener('input', function(e){ mark(e.target, false); say(''); });
 
+  /* ── доставка: область й населений пункт окремо, відділення чи поштомат ── */
+  var dvUa = document.getElementById('dv-ua'), dvIntl = document.getElementById('dv-intl'),
+      dvType = document.getElementById('dv-type'), dvPl = document.getElementById('dv-pl');
+  function carrier(){ var c = form.querySelector('input[name=carrier]:checked'); return c ? c.value : ''; }
+  function syncDelivery(){
+    var c = carrier();
+    dvUa.hidden = !(c === 'np' || c === 'uz');
+    dvIntl.hidden = c !== 'intl';
+    dvType.hidden = c !== 'np';
+    dvPl.textContent = tr(c === 'uz' ? 'l_pnum_uz' : 'l_pnum');
+  }
+  Array.prototype.forEach.call(form.querySelectorAll('input[name=carrier]'), function(r){ r.addEventListener('change', syncDelivery); });
+
   form.addEventListener('submit', function(e){
     e.preventDefault();
     var f = form.elements;
@@ -190,9 +216,21 @@
     if (!name){ mark(f.name, true); f.name.focus(); return say(tr('e_name'), true); }
     if (digits.length < 7 || digits.length > 15){ mark(f.phone, true); f.phone.focus(); return say(tr('e_phone'), true); }
     var messenger = form.querySelector('input[name=messenger]:checked').value;
+    var c = carrier(), dv = { carrier: c, region: '', city: '', point_type: '', point: '' };
+    if (!c) return say(tr('e_deliv'), true);
+    if (c === 'intl'){
+      dv.region = f.country.value.trim(); dv.city = f.city2.value.trim(); dv.point = f.addr.value.trim();
+      if (!dv.region || !dv.city){ (dv.region ? f.city2 : f.country).focus(); return say(tr('e_country'), true); }
+    } else {
+      dv.region = f.region.value; dv.city = f.city.value.trim(); dv.point = f.point.value.trim();
+      dv.point_type = c === 'np' ? form.querySelector('input[name=point_type]:checked').value : '';
+      if (!dv.region || !dv.city){ (dv.region ? f.city : f.region).focus(); return say(tr('e_region'), true); }
+      if (!dv.point){ f.point.focus(); return say(tr('e_point'), true); }
+    }
     var payload = {
       name: name, phone: '+' + digits, messenger: messenger, qty: parseInt(f.qty.value, 10) || 1,
-      place: f.place.value.trim(), note: f.note.value.trim(), website: f.website.value, lang: lang
+      carrier: dv.carrier, region: dv.region, city: dv.city, point_type: dv.point_type, point: dv.point,
+      note: f.note.value.trim(), website: f.website.value, lang: lang
     };
     go.disabled = true; say(tr('sending'));
     fetch(API + '/order', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
@@ -201,11 +239,12 @@
         go.disabled = false;
         if (res.s === 429) return say(tr('e_rate'), true);
         if (res.s === 400 && res.j.error === 'phone'){ mark(f.phone, true); f.phone.focus(); return say(tr('e_phone'), true); }
+        if (res.s === 400 && res.j.error === 'delivery') return say(tr('e_region'), true);
         if (res.s === 400 && res.j.error === 'name'){ mark(f.name, true); f.name.focus(); return say(tr('e_name'), true); }
         if (res.s !== 200) return say(tr('e_fail'), true);
         donep.textContent = tr('done_p').replace('{m}', messenger === 'viber' ? 'Viber' : 'WhatsApp').replace('{phone}', payload.phone);
         form.hidden = true; done.hidden = false; done.focus();
-        form.reset(); say('');
+        form.reset(); syncDelivery(); say('');
       })
       .catch(function(){ go.disabled = false; say(tr('e_fail'), true); });
   });

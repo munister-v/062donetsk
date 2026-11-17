@@ -24,7 +24,7 @@
 <link rel="canonical" href="https://062.dn.ua/book.html">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Донецьку, я люблю тебе","author":{"@type":"Person","name":"В’ячеслав Муністер"},"inLanguage":"uk","numberOfPages":32,"url":"https://062.dn.ua/book.html","image":"https://062.dn.ua/og/book.jpg","publisher":{"@type":"Organization","name":"062.dn.ua"}}</script>
 <link rel="stylesheet" href="/assets/museum.css?v=1789032388">
-<link rel="stylesheet" href="/assets/book.css?v=2">
+<link rel="stylesheet" href="/assets/book.css?v=3">
 </head>
 <body class="bk">
 <a class="skip" href="#order" data-i18n="skip">До замовлення</a>
@@ -138,11 +138,42 @@
               <label><input type="radio" name="messenger" value="whatsapp"><span>WhatsApp</span></label>
             </div>
           </fieldset>
-          <div class="sf-fields">
-            <label class="sf-field"><span data-i18n="l_qty">Кількість</span>
-              <select name="qty"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select></label>
-            <label class="sf-field"><span data-i18n="l_place">Країна й місто</span>
-              <input type="text" name="place" maxlength="160" autocomplete="address-level2"></label>
+          <label class="sf-field bk-qty"><span data-i18n="l_qty">Кількість</span>
+            <select name="qty"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select></label>
+          <fieldset>
+            <legend data-i18n="l_deliv">Доставка</legend>
+            <div class="bk-choice">
+              <label><input type="radio" name="carrier" value="np"><span data-i18n="c_np">Нова пошта</span></label>
+              <label><input type="radio" name="carrier" value="uz"><span data-i18n="c_uz">Укрзалізниця</span></label>
+              <label><input type="radio" name="carrier" value="intl"><span data-i18n="c_intl">За кордон</span></label>
+            </div>
+          </fieldset>
+          <div class="bk-deliv" id="dv-ua" hidden>
+            <div class="sf-fields">
+              <label class="sf-field"><span data-i18n="l_region">Область</span>
+                <select name="region" autocomplete="address-level1"><option value="" data-i18n="ph_region">Оберіть область</option><option>Вінницька</option><option>Волинська</option><option>Дніпропетровська</option><option>Донецька</option><option>Житомирська</option><option>Закарпатська</option><option>Запорізька</option><option>Івано-Франківська</option><option>Київська</option><option>м. Київ</option><option>Кіровоградська</option><option>Луганська</option><option>Львівська</option><option>Миколаївська</option><option>Одеська</option><option>Полтавська</option><option>Рівненська</option><option>Сумська</option><option>Тернопільська</option><option>Харківська</option><option>Херсонська</option><option>Хмельницька</option><option>Черкаська</option><option>Чернівецька</option><option>Чернігівська</option><option>АР Крим</option><option>Севастополь</option></select></label>
+              <label class="sf-field"><span data-i18n="l_city">Населений пункт</span>
+                <input type="text" name="city" maxlength="120" autocomplete="address-level2"></label>
+            </div>
+            <fieldset id="dv-type">
+              <legend data-i18n="l_ptype">Куди доставити</legend>
+              <div class="bk-choice">
+                <label><input type="radio" name="point_type" value="branch" checked><span data-i18n="p_branch">Відділення</span></label>
+                <label><input type="radio" name="point_type" value="locker"><span data-i18n="p_locker">Поштомат</span></label>
+              </div>
+            </fieldset>
+            <label class="sf-field"><span id="dv-pl" data-i18n="l_pnum">Номер відділення чи поштомата</span>
+              <input type="text" name="point" maxlength="160" inputmode="text"></label>
+          </div>
+          <div class="bk-deliv" id="dv-intl" hidden>
+            <div class="sf-fields">
+              <label class="sf-field"><span data-i18n="l_country">Країна</span>
+                <input type="text" name="country" maxlength="80" autocomplete="country-name"></label>
+              <label class="sf-field"><span data-i18n="l_city2">Місто</span>
+                <input type="text" name="city2" maxlength="120" autocomplete="address-level2"></label>
+            </div>
+            <label class="sf-field"><span data-i18n="l_addr">Адреса й індекс</span>
+              <input type="text" name="addr" maxlength="160" autocomplete="street-address"></label>
           </div>
           <label class="sf-field"><span data-i18n="l_note">Коментар</span>
             <textarea name="note" maxlength="1000" rows="3"></textarea></label>
@@ -186,6 +217,6 @@
     </div>
   </div>
 </footer>
-<script src="/assets/book.js?v=2" defer></script>
+<script src="/assets/book.js?v=3" defer></script>
 </body>
 </html>

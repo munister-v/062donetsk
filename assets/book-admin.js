@@ -73,7 +73,7 @@
     g.appendChild(field('Телефон', o.phone));
     g.appendChild(field('Месенджер', o.messenger === 'viber' ? 'Viber' : 'WhatsApp'));
     g.appendChild(field('Кількість', String(o.qty)));
-    g.appendChild(field('Куди', o.place));
+    g.appendChild(field('Доставка', o.place));
     g.appendChild(field('Мова сторінки', o.lang));
     c.appendChild(g);
     if (o.note){ c.appendChild(el('p', 'ba-note', o.note)); }

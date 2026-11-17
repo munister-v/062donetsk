@@ -228,3 +228,7 @@ body.bk-lock{overflow:hidden}
 .bk-dl dd[lang=en]{font-size:var(--t-sm);line-height:1.6;color:var(--soft)}
 @media (max-width:900px){.bk-gal.bk-pg{grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s3)}}
 @media (min-width:901px) and (max-width:1100px){.bk-gal.bk-pg{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+/* ── доставка ────────────────────────────────────────── */
+.bk-deliv{display:grid;gap:var(--s5)}
+.bk-qty{max-width:12rem}
