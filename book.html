@@ -24,7 +24,7 @@
 <link rel="canonical" href="https://062.dn.ua/book.html">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Донецьку, я люблю тебе","author":{"@type":"Person","name":"В’ячеслав Муністер"},"inLanguage":"uk","numberOfPages":32,"url":"https://062.dn.ua/book.html","image":"https://062.dn.ua/og/book.jpg","publisher":{"@type":"Organization","name":"062.dn.ua"}}</script>
 <link rel="stylesheet" href="/assets/museum.css?v=1789032388">
-<link rel="stylesheet" href="/assets/book.css?v=5">
+<link rel="stylesheet" href="/assets/book.css?v=7">
 </head>
 <body class="bk">
 <a class="skip" href="#order" data-i18n="skip">До замовлення</a>
@@ -106,12 +106,24 @@
     <div class="bk-rule"></div>
     <div class="bk-in">
       <dl class="bk-dl">
-        <dt data-i18n="d2t">Формат</dt><dd data-i18n="d2">A4, 210 × 297 мм</dd>
+        <dt data-i18n="d1t">Тип</dt><dd data-i18n="d1">Журнал</dd>
+        <dt data-i18n="d2t">Розмір книги</dt><dd data-i18n="d2">Великий, A4, 205 × 290 мм</dd>
         <dt data-i18n="d3t">Обсяг</dt><dd data-i18n="d3">32 сторінки, 177 фотографій</dd>
-        <dt data-i18n="d7t">Папір</dt><dd data-i18n="d7">120 г/м²</dd>
-        <dt data-i18n="d6t">Друк</dt><dd data-i18n="d6">Поліграфічний друк, некомерційне видання за собівартістю</dd>
+        <dt data-i18n="d7t">Папір блоку</dt><dd data-i18n="d7">Білий папір 120 г/м²</dd>
+        <dt data-i18n="d8t">Колір блоку</dt><dd data-i18n="d8">Колір, лазерний друк</dd>
+        <dt data-i18n="d9t">Ламінація</dt><dd data-i18n="d9">Глянцева</dd>
+        <dt data-i18n="d6t">Видання</dt><dd data-i18n="d6">Некомерційне, за собівартістю</dd>
         <dt data-i18n="d5t">Фотографії</dt><dd lang="en">Wikimedia Commons: Andreas Kontokanis (CC BY-SA 2.0); Andrey Butko (CC BY-SA 3.0); Brücke-Osteuropa (Public domain); MOs810 (CC BY-SA 3.0); Maxim Karpinskiy (CC BY-SA 3.0); Meesix (CC BY 3.0); Peter Collins (CC BY-SA 2.0); Rokun Illia (CC BY-SA 3.0); Sigismund von Dobschütz (Public domain); Sigors (Public domain); Spaniel (Public domain); Vizu (CC BY-SA 3.0); Olya Usova (CC BY 3.0); jonni29 (CC BY 3.0); skhakirov (CC BY-SA 2.0); Александр Ильин (CC BY-SA 3.0); Валерий Дед (CC BY 3.0).</dd>
       </dl>
+    </div>
+  </section>
+
+  <section class="bk-sec" id="sponsors">
+    <div class="bk-sec-head"><h2 class="sec-title" data-i18n="s_sp">Спонсори проєкту</h2></div>
+    <div class="bk-rule"></div>
+    <div class="bk-in">
+      <p data-i18n="sp_p" style="margin-top:0">Надішліть донат на банку від будь-якої суми, і ви потрапите до списку спонсорів проєкту.</p>
+      <p><a class="pill" href="https://send.monobank.ua/jar/6jSDXeeQbB" target="_blank" rel="noopener" data-i18n="sp_btn" style="display:inline-block;text-decoration:none;padding:var(--s3) var(--s6);font-size:var(--t-md)">Підтримати проєкт</a></p>
     </div>
   </section>
 
@@ -120,14 +132,17 @@
     <div class="bk-rule"></div>
     <div class="bk-in bk-order">
       <div>
-        <p data-i18n="o_p" style="margin-top:0">Залиште номер у Viber або WhatsApp – я напишу вам, і ми домовимось про оплату та доставку.</p>
-        <p class="price" data-i18n="o_price">Ціна – 400 грн за примірник. Оплату й доставку узгодимо в повідомленні.</p>
+        <p data-i18n="o_p" style="margin-top:0">Залиште номер у Viber або WhatsApp – з вами зв’яжуться, і ви домовитесь про оплату та доставку.</p>
+        <p class="price" data-i18n="o_dead" style="font-weight:600">Замовлення на тираж приймаємо до 12 грудня, далі друк і відправлення.</p>
+        <p class="price" data-i18n="o_price">Ціна – 400 грн за примірник. Доставка за рахунок отримувача.</p>
       </div>
       <div>
         <form class="bk-form" id="order-form" novalidate>
           <div class="sf-fields">
+            <label class="sf-field"><span><span data-i18n="l_surname">Прізвище</span> <b>*</b></span>
+              <input type="text" name="surname" maxlength="60" autocomplete="family-name" required></label>
             <label class="sf-field"><span><span data-i18n="l_name">Ім’я</span> <b>*</b></span>
-              <input type="text" name="name" maxlength="80" autocomplete="name" required></label>
+              <input type="text" name="name" maxlength="60" autocomplete="given-name" required></label>
             <label class="sf-field"><span><span data-i18n="l_phone">Телефон</span> <b>*</b></span>
               <input type="tel" name="phone" maxlength="24" inputmode="tel" autocomplete="tel" placeholder="+380 …" required></label>
           </div>
@@ -145,7 +160,6 @@
             <legend data-i18n="l_deliv">Доставка</legend>
             <div class="bk-choice">
               <label><input type="radio" name="carrier" value="np"><span data-i18n="c_np">Нова пошта</span></label>
-              <label><input type="radio" name="carrier" value="uz"><span data-i18n="c_uz">Укрзалізниця</span></label>
               <label><input type="radio" name="carrier" value="intl"><span data-i18n="c_intl">За кордон</span></label>
             </div>
           </fieldset>
@@ -218,6 +232,6 @@
     </div>
   </div>
 </footer>
-<script src="/assets/book.js?v=5" defer></script>
+<script src="/assets/book.js?v=7" defer></script>
 </body>
 </html>

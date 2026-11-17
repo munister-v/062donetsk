@@ -233,3 +233,9 @@ body.bk-lock{overflow:hidden}
 .bk-deliv{display:grid;gap:var(--s5)}
 .bk-qty{max-width:12rem}
 .bk-qty .bk-total{display:block;margin-top:var(--s2);color:var(--ink);font-size:var(--t-md);letter-spacing:0;text-transform:none}
+
+/* album/ — файли */
+.bk .bk-files{list-style:none;margin:var(--s6) 0 0;padding:0;display:grid;gap:var(--s4)}
+.bk .bk-files li{display:grid;gap:var(--s2);justify-items:start}
+.bk .bk-files .pill{display:inline-block;text-decoration:none;padding:var(--s3) var(--s6);font-size:var(--t-md)}
+.bk .bk-files span{color:#5a5650}
