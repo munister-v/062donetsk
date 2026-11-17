@@ -8,13 +8,6 @@
 .bk section{position:relative;z-index:1}
 .bk [lang=uk]{hyphens:manual}
 
-/* ── шапка: мова ─────────────────────────────────────── */
-.bk .topnav .lang{display:inline-flex;gap:var(--s2);margin-left:var(--s3);padding-left:var(--s4);border-left:1px solid var(--hair)}
-.bk .lang button{color:var(--secondary);font-size:var(--t-xs);letter-spacing:.08em;padding:var(--s1) 2px;min-width:24px;
-  transition:color .16s var(--ease)}
-.bk .lang button[aria-pressed=true]{color:var(--ink);border-bottom:1px solid var(--ink)}
-.bk .lang button:hover{color:var(--ink)}
-
 /* ── перший екран ────────────────────────────────────── */
 .bk-hero{padding:var(--s8) 0 var(--s9);align-items:start}
 .bk-eyebrow{display:block;font-size:var(--t-xs);letter-spacing:.16em;text-transform:uppercase;color:var(--secondary);
@@ -175,7 +168,6 @@ body.bk-lock{overflow:hidden}
   .bk-form .sf-fields{grid-template-columns:1fr}
   .bk-lb-stage{padding:var(--s4) 0 0}
   .bk-lb .pv,.bk-lb .nx{top:auto;bottom:calc(64px + env(safe-area-inset-bottom));margin-top:0}
-  .bk .topnav .lang{margin-left:0;padding-left:var(--s3)}
   .bk-sticky{position:fixed;left:var(--s4);right:var(--s4);bottom:calc(var(--s4) + env(safe-area-inset-bottom));z-index:40;display:block;text-align:center;
     padding:var(--s3) var(--s5);font-size:var(--t-md);box-shadow:0 10px 30px -10px rgba(18,18,18,.6);
     transform:translateY(160%);transition:transform .3s var(--ease)}
@@ -225,7 +217,7 @@ body.bk-lock{overflow:hidden}
 .bk-gal.bk-pg{columns:auto;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--s4)}
 .bk-pg button{margin:0;box-shadow:0 1px 0 rgba(18,18,18,.06),0 14px 30px -22px rgba(18,18,18,.5)}
 .bk-pg img{aspect-ratio:480/674;object-fit:cover}
-.bk-dl dd[lang=en]{font-size:var(--t-sm);line-height:1.6;color:var(--soft)}
+.bk-dl dd.bk-credits{font-size:var(--t-sm);line-height:1.6;color:var(--soft)}
 @media (max-width:900px){.bk-gal.bk-pg{grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s3)}}
 @media (min-width:901px) and (max-width:1100px){.bk-gal.bk-pg{grid-template-columns:repeat(3,minmax(0,1fr))}}
 
