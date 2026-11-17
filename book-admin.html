@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="color-scheme" content="light">
+<title>Заявки на альбом · 062.dn.ua</title>
+<link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="stylesheet" href="/assets/museum.css?v=1789032388">
+<link rel="stylesheet" href="/assets/book.css?v=1">
+</head>
+<body class="bk">
+<main class="ba" id="app">
+  <h1>Заявки на альбом</h1>
+
+  <form class="ba-login" id="login">
+    <label class="sf-field"><span>Пароль</span>
+      <input type="password" id="pw" autocomplete="current-password" style="font:inherit;font-size:16px;border:1px solid #949089;border-radius:3px;padding:.7em .8em;min-height:46px;width:100%"></label>
+    <button type="submit" class="pill" style="justify-self:start;cursor:pointer;padding:var(--s3) var(--s6);font-size:var(--t-md)">Увійти</button>
+    <p class="ba-msg" id="login-msg" role="status" aria-live="polite"></p>
+  </form>
+
+  <div id="panel" hidden>
+    <div class="ba-bar" id="chips" role="group" aria-label="Фільтр за статусом"></div>
+    <div class="ba-bar" style="margin-top:0">
+      <button type="button" class="ba-chip" id="refresh">Оновити</button>
+      <button type="button" class="ba-chip" id="csv">Завантажити CSV</button>
+      <span class="ba-spacer"></span>
+      <button type="button" class="ba-chip" id="logout">Вийти</button>
+    </div>
+    <p class="ba-msg" id="msg" role="status" aria-live="polite"></p>
+    <div class="ba-list" id="list"></div>
+  </div>
+</main>
+<script src="/assets/book-admin.js?v=1" defer></script>
+</body>
+</html>
