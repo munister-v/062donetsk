@@ -104,7 +104,7 @@
   min-height:46px;transition:border-color .16s var(--ease),box-shadow .16s var(--ease)}
 .bk-form .sf-field textarea{resize:vertical;line-height:1.5;min-height:92px}
 .bk-form .sf-field :is(input,textarea,select):focus{outline:none;border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}
-.bk-form .sf-field input[aria-invalid=true]{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.bk-form .sf-field :is(input,select)[aria-invalid=true]{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
 .bk-form fieldset{border:0;margin:0;padding:0;min-width:0}
 .bk-form legend{padding:0;margin-bottom:var(--s2);font-size:var(--t-xs);letter-spacing:.14em;text-transform:uppercase;color:var(--secondary)}
 .bk-choice{display:flex;gap:var(--s2);flex-wrap:wrap}

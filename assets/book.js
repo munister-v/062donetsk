@@ -189,12 +189,15 @@
   sticky.setAttribute('tabindex', '-1');
 
   /* ── заявка ────────────────────────────────────────── */
+  var t0 = Date.now();
+  function normPhone(d){ return (d.length === 10 && d.charAt(0) === '0') ? '38' + d : d; }
   var form = document.getElementById('order-form'), done = document.getElementById('of-done'),
       donep = document.getElementById('of-done-p'), go = document.getElementById('of-go'),
       status = document.getElementById('of-status');
   function say(t, bad){ status.textContent = t || ''; status.className = 'sf-status' + (bad ? ' is-bad' : ''); }
   function mark(input, bad){ if (bad) input.setAttribute('aria-invalid', 'true'); else input.removeAttribute('aria-invalid'); }
   form.addEventListener('input', function(e){ mark(e.target, false); say(''); });
+  form.addEventListener('change', function(e){ mark(e.target, false); });
 
   /* ── доставка: область й населений пункт окремо, відділення чи поштомат ── */
   var dvUa = document.getElementById('dv-ua'), dvIntl = document.getElementById('dv-intl'),
@@ -216,7 +219,7 @@
   form.addEventListener('submit', function(e){
     e.preventDefault();
     var f = form.elements;
-    var name = f.name.value.trim(), digits = f.phone.value.replace(/\D/g, '');
+    var name = f.name.value.trim(), digits = normPhone(f.phone.value.replace(/\D/g, ''));
     mark(f.name, false); mark(f.phone, false);
     if (!name){ mark(f.name, true); f.name.focus(); return say(tr('e_name'), true); }
     if (digits.length < 7 || digits.length > 15){ mark(f.phone, true); f.phone.focus(); return say(tr('e_phone'), true); }
@@ -225,17 +228,17 @@
     if (!c) return say(tr('e_deliv'), true);
     if (c === 'intl'){
       dv.region = f.country.value.trim(); dv.city = f.city2.value.trim(); dv.point = f.addr.value.trim();
-      if (!dv.region || !dv.city){ (dv.region ? f.city2 : f.country).focus(); return say(tr('e_country'), true); }
+      if (!dv.region || !dv.city){ var b1 = dv.region ? f.city2 : f.country; mark(b1, true); b1.focus(); return say(tr('e_country'), true); }
     } else {
       dv.region = f.region.value; dv.city = f.city.value.trim(); dv.point = f.point.value.trim();
       dv.point_type = c === 'np' ? form.querySelector('input[name=point_type]:checked').value : '';
-      if (!dv.region || !dv.city){ (dv.region ? f.city : f.region).focus(); return say(tr('e_region'), true); }
-      if (!dv.point){ f.point.focus(); return say(tr('e_point'), true); }
+      if (!dv.region || !dv.city){ var b2 = dv.region ? f.city : f.region; mark(b2, true); b2.focus(); return say(tr('e_region'), true); }
+      if (!dv.point){ mark(f.point, true); f.point.focus(); return say(tr('e_point'), true); }
     }
     var payload = {
       name: name, phone: '+' + digits, messenger: messenger, qty: parseInt(f.qty.value, 10) || 1,
       carrier: dv.carrier, region: dv.region, city: dv.city, point_type: dv.point_type, point: dv.point,
-      note: f.note.value.trim(), website: f.website.value, lang: lang
+      note: f.note.value.trim(), hp: f.hp.value, elapsed: Date.now() - t0, lang: lang
     };
     go.disabled = true; say(tr('sending'));
     fetch(API + '/order', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
@@ -247,7 +250,7 @@
         if (res.s === 400 && res.j.error === 'delivery') return say(tr('e_region'), true);
         if (res.s === 400 && res.j.error === 'name'){ mark(f.name, true); f.name.focus(); return say(tr('e_name'), true); }
         if (res.s !== 200) return say(tr('e_fail'), true);
-        donep.textContent = tr('done_p').replace('{m}', messenger === 'viber' ? 'Viber' : 'WhatsApp').replace('{phone}', payload.phone);
+        donep.textContent = tr('done_p').replace('{m}', messenger === 'viber' ? 'Viber' : 'WhatsApp').replace('{phone}', payload.phone) + (res.j.code ? '  ' + res.j.code : '');
         form.hidden = true; done.hidden = false; done.focus();
         form.reset(); syncDelivery(); say('');
       })
