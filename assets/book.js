@@ -9,23 +9,16 @@
     var qa = (location.search.match(/[?&]api=([^&]+)/) || [])[1];
     if (qa) API = decodeURIComponent(qa);
   }
-  var CREDIT = 'В’ячеслав Муністер · архів 062.dn.ua';
 
   var T = {
     en: {
-      skip:'Skip to the order', nav_inside:'Inside', nav_frames:'Frames', nav_order:'Order',
-      eyebrow:'Photo album · 2009–2014', h1:'Donetsk,<br>I love you',
-      lead:'The city we had. 177 photographs in five halls.',
+      skip:'Skip to the order', nav_inside:'Inside', nav_order:'Order',
+      eyebrow:'Photo album', h1:'To Donetsk,<br>I love you', lead:'177 photographs of Donetsk.',
       cta_order:'Order', cta_look:'Look inside', facts_al:'About the book',
-      f1:'photographs', f2:'halls', f3:'pages', f4:'format',
-      s_letter:'From the book', s_halls:'Contents', halls_cnt:'five halls', hall:'Hall',
-      h_1:'City', h_2:'Arena', h_3:'Stands', h_4:'Summer 2012', h_5:'Home',
-      s_frames:'A few frames', frames_cnt:'16 of 177', frames_more:'The rest you will see in the book.',
-      s_inside:'Inside', inside_cnt:'pages from the book', pages_al:'Pages from the book',
-      s_ed:'Edition', d1t:'Language', d1:'Ukrainian', d2t:'Format', d2:'A4, 210 × 297 mm',
-      d3t:'Extent', d3:'32 pages, 177 photographs', d7t:'Paper', d7:'120 g/m²', d4t:'Author',
-      d5t:'More photographs', d5:'Vadym Shamdan (with the author’s permission), Brücke-Osteuropa and dasjo (Wikimedia Commons)',
-      d6t:'Edition', d6:'Offset printing, non-commercial edition at cost',
+      f1:'photographs', f3:'pages', f4:'format', f5:'g/m², paper',
+      s_inside:'Inside', inside_cnt:'12 pages of 32', s_ed:'Edition',
+      d2t:'Format', d2:'A4, 210 × 297 mm', d3t:'Extent', d3:'32 pages, 177 photographs', d7t:'Paper', d7:'120 g/m²',
+      d6t:'Printing', d6:'Offset printing, non-commercial edition at cost', d5t:'Photographs',
       s_order:'Order',
       o_p:'Leave your number on Viber or WhatsApp. I will write to you and we will agree on payment and delivery.',
       o_price:'The price is the cost of printing. I will give the exact sum in the message.',
@@ -34,33 +27,17 @@
       e_name:'Enter your name.', e_phone:'Enter your number with the country code.',
       e_fail:'Could not send. Please try again a little later.', e_rate:'Too many attempts. Please try later.',
       sending:'Sending…', done_h:'Thank you.', done_p:'I will write to you on {m} at {phone}.',
-      lb_al:'Photo viewer', close:'Close', prev:'Previous', next:'Next',
-      cover_alt:'Cover of the album “Donetsk, I love you”',
-      pg_cover:'Cover', pg_letter:'A letter to Donetsk', pg_toc:'Contents', pg_h1:'Hall I · City', pg_p5:'A million roses',
-      pg_p6:'The house with the globe', pg_p7:'Golden hour', pg_p10:'The frozen Kalmius', pg_p11:'The frozen river',
-      pg_p59:'The road home', pg_p61:'Your Donetsk: a page for your photo', pg_p62:'A ticket home',
-      c_cathedral:'Cathedral and spoil tip, 2012', c_artema:'Artema Street in the evening, 2012', 'c_euro-fans':'Fans celebrating, Euro 2012',
-      c_globe:'The house with the globe, 2012', 'c_kalmius-bridge':'Bridge over the frozen Kalmius, 2012',
-      'c_euro-police':'Spanish police in Donetsk, Euro 2012', 'c_night-panorama':'Night panorama of Donetsk, 2012',
-      'c_center-sunset':'Summer sunset over the centre', 'c_euro-spanish':'A Spanish fan, Euro 2012', 'c_neon-winter':'Winter Donetsk, neon, 2012',
-      c_station:'The railway station at sunset', 'c_euro-park':'The park by the arena on match day, 2012',
-      'c_dusk-water':'Dusk over the water', 'c_euro-arena-day':'By the arena on match day, Euro 2012',
-      'c_winter-sunset':'Winter sunset', c_steppe:'The steppe outside the city'
+      lb_al:'Page viewer', close:'Close', prev:'Previous', next:'Next', page:'Page',
+      cover_alt:'Cover of the album “To Donetsk, I love you”'
     },
     pl: {
-      skip:'Przejdź do zamówienia', nav_inside:'W środku', nav_frames:'Kadry', nav_order:'Zamów',
-      eyebrow:'Album fotograficzny · 2009–2014', h1:'Donieck,<br>kocham cię',
-      lead:'Miasto, które mieliśmy. 177 fotografii w pięciu salach.',
+      skip:'Przejdź do zamówienia', nav_inside:'W środku', nav_order:'Zamów',
+      eyebrow:'Album fotograficzny', h1:'Do Doniecka,<br>kocham cię', lead:'177 fotografii Doniecka.',
       cta_order:'Zamów', cta_look:'Zajrzyj do środka', facts_al:'O książce',
-      f1:'fotografii', f2:'sal', f3:'strony', f4:'format',
-      s_letter:'Z książki', s_halls:'Spis treści', halls_cnt:'pięć sal', hall:'Sala',
-      h_1:'Miasto', h_2:'Arena', h_3:'Trybuny', h_4:'Lato 2012', h_5:'Dom',
-      s_frames:'Kilka kadrów', frames_cnt:'16 ze 177', frames_more:'Resztę zobaczysz w książce.',
-      s_inside:'W środku', inside_cnt:'strony z książki', pages_al:'Strony z książki',
-      s_ed:'Wydanie', d1t:'Język', d1:'Ukraiński', d2t:'Format', d2:'A4, 210 × 297 mm',
-      d3t:'Objętość', d3:'32 strony, 177 fotografii', d7t:'Papier', d7:'120 g/m²', d4t:'Autor',
-      d5t:'Także zdjęcia', d5:'Wadym Szamdan (za zgodą autora), Brücke-Osteuropa i dasjo (Wikimedia Commons)',
-      d6t:'Wydanie', d6:'Druk poligraficzny, wydanie niekomercyjne po kosztach',
+      f1:'fotografii', f3:'strony', f4:'format', f5:'g/m², papier',
+      s_inside:'W środku', inside_cnt:'12 stron z 32', s_ed:'Wydanie',
+      d2t:'Format', d2:'A4, 210 × 297 mm', d3t:'Objętość', d3:'32 strony, 177 fotografii', d7t:'Papier', d7:'120 g/m²',
+      d6t:'Druk', d6:'Druk poligraficzny, wydanie niekomercyjne po kosztach', d5t:'Zdjęcia',
       s_order:'Zamów',
       o_p:'Zostaw numer w Viberze lub WhatsAppie. Napiszę do ciebie i ustalimy płatność oraz dostawę.',
       o_price:'Cena to koszt druku. Dokładną kwotę podam w wiadomości.',
@@ -69,18 +46,8 @@
       e_name:'Podaj imię.', e_phone:'Podaj numer z kodem kraju.',
       e_fail:'Nie udało się wysłać. Spróbuj ponownie za chwilę.', e_rate:'Za dużo prób. Spróbuj później.',
       sending:'Wysyłamy…', done_h:'Dziękuję.', done_p:'Napiszę do ciebie w {m} na numer {phone}.',
-      lb_al:'Podgląd zdjęcia', close:'Zamknij', prev:'Poprzednie', next:'Następne',
-      cover_alt:'Okładka albumu „Donieck, kocham cię”',
-      pg_cover:'Okładka', pg_letter:'List do Doniecka', pg_toc:'Spis treści', pg_h1:'Sala I · Miasto', pg_p5:'Milion róż',
-      pg_p6:'Dom z globusem', pg_p7:'Złota godzina', pg_p10:'Zamarznięty Kalmius', pg_p11:'Zamarznięta rzeka',
-      pg_p59:'Droga do domu', pg_p61:'Twój Donieck: strona na twoje zdjęcie', pg_p62:'Bilet do domu',
-      c_cathedral:'Sobór i hałda, 2012', c_artema:'Ulica Artema wieczorem, 2012', 'c_euro-fans':'Kibice świętują, Euro 2012',
-      c_globe:'Dom z globusem, 2012', 'c_kalmius-bridge':'Most nad zamarzniętym Kalmiusem, 2012',
-      'c_euro-police':'Hiszpańska policja w Doniecku, Euro 2012', 'c_night-panorama':'Nocna panorama Doniecka, 2012',
-      'c_center-sunset':'Letni zachód nad centrum', 'c_euro-spanish':'Hiszpański kibic, Euro 2012', 'c_neon-winter':'Zimowy Donieck, neony, 2012',
-      c_station:'Dworzec kolejowy o zachodzie słońca', 'c_euro-park':'Park przed areną w dniu meczu, 2012',
-      'c_dusk-water':'Zmierzch nad wodą', 'c_euro-arena-day':'Przy arenie w dniu meczu, Euro 2012',
-      'c_winter-sunset':'Zimowy zachód słońca', c_steppe:'Step za miastem'
+      lb_al:'Podgląd strony', close:'Zamknij', prev:'Poprzednia', next:'Następna', page:'Strona',
+      cover_alt:'Okładka albumu „Do Doniecka, kocham cię”'
     }
   };
   /* українські підписи кадрів беруться з alt у розмітці; повідомлення
@@ -88,7 +55,7 @@
   var lang = 'uk', ukText = {
     e_name:'Вкажіть ім’я.', e_phone:'Вкажіть номер із кодом країни.',
     e_fail:'Не вдалося надіслати. Спробуйте ще раз трохи згодом.', e_rate:'Забагато спроб. Спробуйте пізніше.',
-    sending:'Надсилаємо…', done_p:'Напишу вам у {m} на {phone}.'
+    sending:'Надсилаємо…', done_p:'Напишу вам у {m} на {phone}.', page:'Сторінка'
   };
 
   function store(k, v){ try { localStorage.setItem(k, v); } catch (e) {} }
@@ -107,8 +74,7 @@
     ukText[p[1]] = el.getAttribute(p[0]);
   });
   var galBtns = Array.prototype.slice.call(document.querySelectorAll('#gal button'));
-  galBtns.forEach(function(b){ ukText['c_' + b.dataset.img] = b.querySelector('img').alt; });
-
+  
   function applyLang(l){
     lang = (l === 'en' || l === 'pl') ? l : 'uk';
     document.documentElement.lang = lang;
@@ -121,7 +87,7 @@
       var p = el.dataset.i18nAttr.split(':');
       el.setAttribute(p[0], tr(p[1]));
     });
-    galBtns.forEach(function(b){ b.querySelector('img').alt = tr('c_' + b.dataset.img); });
+    galBtns.forEach(function(b){ b.querySelector('img').alt = tr('page') + ' ' + parseInt(b.dataset.p, 10); });
     Array.prototype.forEach.call(document.querySelectorAll('.lang button'), function(b){
       b.setAttribute('aria-pressed', b.dataset.lang === lang ? 'true' : 'false');
     });
@@ -140,18 +106,16 @@
   function lbShow(i, keep){
     var n = galBtns.length;
     lbIdx = (i + n) % n;
-    var b = galBtns[lbIdx], name = b.dataset.img;
+    var name = galBtns[lbIdx].dataset.p;
     if (!keep || lbImg.dataset.name !== name){
       lbImg.dataset.name = name;
-      lbImg.src = '/media/book/g/' + name + '-1600.webp';
+      lbImg.src = '/media/book/p/' + name + '-L.webp';
     }
-    lbImg.alt = tr('c_' + name);
-    lbCap.innerHTML = '';
-    lbCap.appendChild(document.createTextNode(tr('c_' + name)));
-    var s = document.createElement('small'); s.textContent = CREDIT; lbCap.appendChild(s);
+    var label = tr('page') + ' ' + parseInt(name, 10);
+    lbImg.alt = label;
+    lbCap.textContent = label;
     lbCnt.textContent = (lbIdx + 1) + ' / ' + n;
-    var nb = galBtns[(lbIdx + 1) % n].dataset.img;
-    new Image().src = '/media/book/g/' + nb + '-1600.webp';
+    new Image().src = '/media/book/p/' + galBtns[(lbIdx + 1) % n].dataset.p + '-L.webp';
   }
   function openLb(i, from){
     lastFocus = from || document.activeElement;
@@ -198,26 +162,6 @@
     var dx = e.changedTouches[0].clientX - tx; tx = null;
     if (Math.abs(dx) > 50) lbShow(lbIdx + (dx < 0 ? 1 : -1));
   });
-
-  /* ── стрічка сторінок ──────────────────────────────── */
-  var strip = document.getElementById('pages'), pp = document.getElementById('pg-prev'), pn = document.getElementById('pg-next');
-  function stripState(){
-    pp.disabled = strip.scrollLeft < 4;
-    pn.disabled = strip.scrollLeft + strip.clientWidth >= strip.scrollWidth - 4;
-  }
-  function stripGo(d){
-    var step = Math.max(200, strip.clientWidth * 0.8);
-    strip.scrollBy({ left: d * step, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
-  }
-  pp.addEventListener('click', function(){ stripGo(-1); });
-  pn.addEventListener('click', function(){ stripGo(1); });
-  strip.addEventListener('scroll', stripState, { passive: true });
-  strip.addEventListener('keydown', function(e){
-    if (e.key === 'ArrowRight'){ e.preventDefault(); stripGo(1); }
-    if (e.key === 'ArrowLeft'){ e.preventDefault(); stripGo(-1); }
-  });
-  window.addEventListener('resize', stripState);
-  stripState();
 
   /* ── плаваюча кнопка (телефон) ─────────────────────── */
   var sticky = document.getElementById('sticky');

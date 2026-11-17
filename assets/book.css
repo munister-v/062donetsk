@@ -220,3 +220,11 @@ body.bk-lock{overflow:hidden}
 .ba-msg{min-height:1.5em;font-size:var(--t-sm);color:var(--secondary)}
 .ba-msg.bad{color:var(--accent)}
 .ba-empty{padding:var(--s7) 0;color:var(--secondary)}
+
+/* ── сторінки альбому ────────────────────────────────── */
+.bk-gal.bk-pg{columns:auto;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--s4)}
+.bk-pg button{margin:0;box-shadow:0 1px 0 rgba(18,18,18,.06),0 14px 30px -22px rgba(18,18,18,.5)}
+.bk-pg img{aspect-ratio:480/674;object-fit:cover}
+.bk-dl dd[lang=en]{font-size:var(--t-sm);line-height:1.6;color:var(--soft)}
+@media (max-width:900px){.bk-gal.bk-pg{grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s3)}}
+@media (min-width:901px) and (max-width:1100px){.bk-gal.bk-pg{grid-template-columns:repeat(3,minmax(0,1fr))}}
